@@ -12,10 +12,10 @@ var app = {
             return app.data.contextPath+"/time/now";
         },
         checkLoginUrl: function () {
-            return app.data.contextPath+"/account/api/login";
+            return app.data.contextPath+"/user/api/login";
         },
         logoutUrl: function () {
-            return app.data.contextPath+"/account/logout";
+            return app.data.contextPath+"/user/logout";
         },
         homeUrl: function () {
             return app.data.contextPath+"/";
@@ -32,11 +32,11 @@ var app = {
         contestDetailUrl: function () {
             return app.data.contextPath+"/contest/";
         },
-        updateAccountUrl: function () {
-            return app.data.contextPath+"/account/api/updateAccount";
+        updateUserUrl: function () {
+            return app.data.contextPath+"/user/api/updateUser";
         },
         updatePasswordUrl: function () {
-            return app.data.contextPath+"/account/api/updatePassword";
+            return app.data.contextPath+"/user/api/updatePassword";
         },
         submitGradeUrl: function () {
             return app.data.contextPath+"/grade/api/submitContest"
@@ -60,13 +60,13 @@ var app = {
             return app.data.contextPath+"/reply/api/addReply";
         },
         myDiscussPostUrl: function () {
-            return app.data.contextPath+"/account/myDiscussPost";
+            return app.data.contextPath+"/user/myDiscussPost";
         },
         myExamUrl: function () {
-            return app.data.contextPath+"/account/myExam";
+            return app.data.contextPath+"/user/myExam";
         },
         uploadAvatarUrl: function () {
-            return app.data.contextPath+'/account/api/uploadAvatar' ;
+            return app.data.contextPath+'/user/api/uploadAvatar' ;
         },
         uploadImageUrl: function () {
             return app.data.contextPath+'/upload/images/';
@@ -179,8 +179,8 @@ var app = {
      * 登录模态框显示
      */
     showLogin: function() {
-        var username = $.cookie('penguinUsername');
-        var password = $.cookie('penguinPassword');
+        var username = $.cookie('examUsername');
+        var password = $.cookie('examPassword');
         $('#username').val(username);
         $('#password').val(password);
         $('#loginModal').modal({
@@ -220,6 +220,7 @@ var app = {
     checkLogin: function () {
         var username = $('#username').val();
         var password = $('#password').val();
+        alert(username);
         if (app.checkUsernameAndPassword(username, password)) {
             //调用后端API
             $.post(app.URL.checkLoginUrl(), {
@@ -228,12 +229,12 @@ var app = {
             }, function (result) {
                 // console.log("result.success = " + result.success);
                 // console.log("result.success = " + result['success']);
-                // console.log(result);
+                console.log(result);
                 if (result && result['success']) {
                     if ($('#rememberMe').is(":checked")) {
                         // 把账号信息记入cookie
-                        $.cookie('penguinUsername', username, {expires: 7, path: '/'});
-                        $.cookie('penguinPassword', password, {expires: 7, path: '/'});
+                        $.cookie('examUsername', username, {expires: 7, path: '/'});
+                        $.cookie('examPassword', password, {expires: 7, path: '/'});
                     }
                     // 验证通过 刷新页面
                     window.location.reload();

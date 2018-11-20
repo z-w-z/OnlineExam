@@ -15,7 +15,7 @@ import com.exam.web.model.User;
 import com.exam.web.service.UserService;
 import com.github.pagehelper.PageHelper;
 
-@Service("UserService")
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired

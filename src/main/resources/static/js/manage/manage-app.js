@@ -12,10 +12,10 @@ var app = {
             return app.data.contextPath+"/time/now";
         },
         checkLoginUrl: function () {
-            return app.data.contextPath+"/account/api/login";
+            return app.data.contextPath+"/user/api/login";
         },
         logoutUrl: function () {
-            return app.data.contextPath+"/account/logout";
+            return app.data.contextPath+"/user/logout";
         },
         homeUrl: function () {
             return app.data.contextPath+"/";
@@ -23,11 +23,11 @@ var app = {
         problemsetUrl: function () {
             return app.data.contextPath+"/problemset/list";
         },
-        updateAccountUrl: function () {
-            return app.data.contextPath+"/account/api/updateAccount";
+        updateUserUrl: function () {
+            return app.data.contextPath+"/user/api/updateUser";
         },
         updatePasswordUrl: function () {
-            return app.data.contextPath+"/account/api/updatePassword";
+            return app.data.contextPath+"/user/api/updatePassword";
         },
         manageContestListUrl: function () {
             return app.data.contextPath+"/manage/contest/list";
@@ -65,23 +65,23 @@ var app = {
         finishGradeUrl: function () {
             return app.data.contextPath+"/grade/api/finishGrade"
         },
-        manageAccountListUrl: function () {
-            return app.data.contextPath+"/manage/account/list";
+        manageUserListUrl: function () {
+            return app.data.contextPath+"/manage/user/list";
         },
-        addAccountUrl: function () {
-            return app.data.contextPath+"/account/api/addAccount";
+        addUserUrl: function () {
+            return app.data.contextPath+"/user/api/addUser";
         },
-        updateAccountUrl: function () {
-            return app.data.contextPath+"/account/api/updateManegeAccount";
+        updateUserUrl: function () {
+            return app.data.contextPath+"/user/api/updateManegeUser";
         },
-        deleteAccountUrl: function () {
-            return app.data.contextPath+"/account/api/deleteAccount/";
+        deleteUserUrl: function () {
+            return app.data.contextPath+"/user/api/deleteUser/";
         },
-        abledAccountUrl: function () {
-            return app.data.contextPath+"/account/api/abledAccount/";
+        abledUserUrl: function () {
+            return app.data.contextPath+"/user/api/abledUser/";
         },
-        disabledAccountUrl: function () {
-            return app.data.contextPath+"/account/api/disabledAccount/";
+        disabledUserUrl: function () {
+            return app.data.contextPath+"/user/api/disabledUser/";
         },
         manageSubjectListUrl: function () {
             return app.data.contextPath+"/manage/subject/list"

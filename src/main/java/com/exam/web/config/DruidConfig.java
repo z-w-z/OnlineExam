@@ -22,47 +22,56 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
 
+/**
+ * @描述  整合 阿里巴巴Druid数据源
+ * @标题 DruidConfig.java
+ * @Package com.exam.web.config
+ * @版本 v1.0
+ * @作者 HungKuei
+ * @日期 2018年11月19日 下午1:57:40
+ * @Copyright: 2018 by hungkuei All rights reserved.
+ */
 
 @Configuration
 public class DruidConfig {
 	
 	 private Logger logger = LoggerFactory.getLogger(DruidConfig.class);
 
-	    @Value("${spring.datasource.url:#{null}}")
-	    private String dbUrl;
-	    @Value("${spring.datasource.username: #{null}}")
+	    @Value("${spring.datasource.url}")
+	    private String url;
+	    @Value("${spring.datasource.username}")
 	    private String username;
-	    @Value("${spring.datasource.password:#{null}}")
+	    @Value("${spring.datasource.password}")
 	    private String password;
-	    @Value("${spring.datasource.driverClassName:#{null}}")
+	    @Value("${spring.datasource.driverClassName}")
 	    private String driverClassName;
-	    @Value("${spring.datasource.initialSize:#{null}}")
+	    @Value("${spring.datasource.initialSize}")
 	    private Integer initialSize;
-	    @Value("${spring.datasource.minIdle:#{null}}")
+	    @Value("${spring.datasource.minIdle}")
 	    private Integer minIdle;
-	    @Value("${spring.datasource.maxActive:#{null}}")
+	    @Value("${spring.datasource.maxActive}")
 	    private Integer maxActive;
-	    @Value("${spring.datasource.maxWait:#{null}}")
+	    @Value("${spring.datasource.maxWait}")
 	    private Integer maxWait;
-	    @Value("${spring.datasource.timeBetweenEvictionRunsMillis:#{null}}")
+	    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
 	    private Integer timeBetweenEvictionRunsMillis;
-	    @Value("${spring.datasource.minEvictableIdleTimeMillis:#{null}}")
+	    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
 	    private Integer minEvictableIdleTimeMillis;
-	    @Value("${spring.datasource.validationQuery:#{null}}")
+	    @Value("${spring.datasource.validationQuery}")
 	    private String validationQuery;
-	    @Value("${spring.datasource.testWhileIdle:#{null}}")
+	    @Value("${spring.datasource.testWhileIdle}")
 	    private Boolean testWhileIdle;
-	    @Value("${spring.datasource.testOnBorrow:#{null}}")
+	    @Value("${spring.datasource.testOnBorrow}")
 	    private Boolean testOnBorrow;
-	    @Value("${spring.datasource.testOnReturn:#{null}}")
+	    @Value("${spring.datasource.testOnReturn}")
 	    private Boolean testOnReturn;
-	    @Value("${spring.datasource.poolPreparedStatements:#{null}}")
+	    @Value("${spring.datasource.poolPreparedStatements}")
 	    private Boolean poolPreparedStatements;
-	    @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize:#{null}}")
+	    @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
 	    private Integer maxPoolPreparedStatementPerConnectionSize;
-	    @Value("${spring.datasource.filters:#{null}}")
+	    @Value("${spring.datasource.filters}")
 	    private String filters;
-	    @Value("{spring.datasource.connectionProperties:#{null}}")
+	    @Value("{spring.datasource.connectionProperties}")
 	    private String connectionProperties;
 
 	    @Bean
@@ -70,7 +79,7 @@ public class DruidConfig {
 	    public DataSource dataSource(){
 	        DruidDataSource datasource = new DruidDataSource();
 
-	        datasource.setUrl(this.dbUrl);
+	        datasource.setUrl(this.url);
 	        datasource.setUsername(username);
 	        datasource.setPassword(password);
 	        datasource.setDriverClassName(driverClassName);

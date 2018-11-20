@@ -2,16 +2,18 @@ package com.exam.web.util;
 
 import java.security.MessageDigest;
 
-/**
- * MD5 加密类
- * 
- * @描述：密码加密
- *
+/** 
+ * @描述 MD5密码加密类
+ * @标题 MD5.java
+ * @Package com.exam.web.util
+ * @版本 v1.0
+ * @作者 HungKuei
+ * @日期 2018年11月19日 下午1:56:05
+ * @Copyright: 2018 by hungkuei All rights reserved.
  */
 public final class MD5 {
 	/**
 	 * Md5加密
-	 * 
 	 * @param s
 	 * @return
 	 */

@@ -28,14 +28,14 @@
     <a th:href="@{/discuss}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:onclick="'app.showLogin()'"  class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'"  class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
+            <a class="item" th:href="@{/user/profile}">
                 <i class="user icon"></i>我的主页
             </a>
             <a class="item" id="logout">
@@ -87,8 +87,8 @@
             </span></td>
             <td>
                 <a th:if="${item.state == 0}" class="small disabled positive ui button">进入考试</a>
-                <a th:if="${item.state == 1 and current_account == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
-                <a th:if="${item.state == 1 and current_account != null}" th:onclick="'contestIndexPage.startToContestAction('+${item.id}+')'" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_user == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_user != null}" th:onclick="'contestIndexPage.startToContestAction('+${item.id}+')'" class="small positive ui button">进入考试</a>
                 <a th:if="${item.state == 2 or item.state == 3}" class="small disabled grey ui button">进入考试</a>
             </td>
         </tr>

@@ -16,7 +16,7 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id,`name`,username,password,qq,phone,email,description,avatar_img_url,state,`level`,create_time
+        id,name,username,password,qq,phone,email,description,avatar_img_url,state,level,create_time
     </sql>
 
     <insert id="insertUser" parameterType="com.exam.web.model.User" >

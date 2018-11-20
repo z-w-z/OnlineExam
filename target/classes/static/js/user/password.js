@@ -39,7 +39,7 @@ var passwordPage = {
          */
         $('#updatePasswordErrorMessage,.close').on('click', function() {
             $(this).closest('#updatePasswordErrorMessage').transition('fade');
-            //$('#updateAccountErrorMessage').addClass('hidden');
+            //$('#updateUserErrorMessage').addClass('hidden');
         });
     },
     /**

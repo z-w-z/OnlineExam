@@ -31,7 +31,7 @@ import com.exam.web.service.UserService;
 import com.exam.web.util.MD5;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/user")
 public class UserController {
 	private static Log LOG = LogFactory.getLog(UserController.class);
 
@@ -41,15 +41,16 @@ public class UserController {
 	/**
 	 * 个人信息页面
 	 */
+	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String profile(HttpServletRequest request, Model model) {
-		User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_ACCOUNT);
+		User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_USER);
 		// TODO::拦截器过滤处理
 		if (currentUser == null) {
 			// 用户未登录直接返回首页面
 			return "redirect:/";
 		}
-		model.addAttribute(ExamConst.CURRENT_ACCOUNT, currentUser);
+		model.addAttribute(ExamConst.CURRENT_USER, currentUser);
 		return "/user/profile";
 	}
 
@@ -58,13 +59,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/password", method = RequestMethod.GET)
 	public String password(HttpServletRequest request, Model model) {
-		User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_ACCOUNT);
+		User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_USER);
 		// TODO::拦截器过滤处理
 		if (currentUser == null) {
 			// 用户未登录直接返回首页面
 			return "redirect:/";
 		}
-		model.addAttribute(ExamConst.CURRENT_ACCOUNT, currentUser);
+		model.addAttribute(ExamConst.CURRENT_USER, currentUser);
 		return "/user/password";
 	}
 
@@ -85,7 +86,7 @@ public class UserController {
 					&& !newPassword.equals(confirmNewPassword)) {
 				return AjaxResult.fixedError(ExamWebError.NOT_EQUALS_CONFIRM_PASSWORD);
 			}
-			User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_ACCOUNT);
+			User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_USER);
 			if (!currentUser.getPassword().equals(md5OldPassword)) {
 				return AjaxResult.fixedError(ExamWebError.WRONG_PASSWORD);
 			}
@@ -113,7 +114,7 @@ public class UserController {
             String description = request.getParameter("description");
             String avatarImgUrl = request.getParameter("avatarImgUrl");
 
-            User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_ACCOUNT);
+            User currentUser = (User) request.getSession().getAttribute(ExamConst.CURRENT_USER);
             currentUser.setPhone(phone);
             currentUser.setQq(qq);
             currentUser.setEmail(email);
@@ -138,13 +139,14 @@ public class UserController {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
+            System.out.println(username + " : " + password);
             User current_user = userService.getUserByUsername(username);
             if(current_user != null) {
                 String pwd = MD5.md5(ExamConst.MD5_SALT+password);
                 if(pwd.equals(current_user.getPassword())) {
 					// 设置单位为秒，设置为-1永不过期
                     //request.getSession().setMaxInactiveInterval(180*60);    //3小时
-                    request.getSession().setAttribute(ExamConst.CURRENT_ACCOUNT,current_user);
+                    request.getSession().setAttribute(ExamConst.CURRENT_USER,current_user);
                     ajaxResult.setData(current_user);
                 } else {
                     return AjaxResult.fixedError(ExamWebError.WRONG_PASSWORD);
@@ -166,7 +168,7 @@ public class UserController {
      */
     @RequestMapping(value = "/logout", method= RequestMethod.GET)
     public String logout(HttpServletRequest request) {
-        request.getSession().setAttribute(ExamConst.CURRENT_ACCOUNT,null);
+        request.getSession().setAttribute(ExamConst.CURRENT_USER,null);
         String url=request.getHeader("Referer");
         LOG.info("url = " + url);
         return "redirect:"+url;
@@ -208,17 +210,17 @@ public class UserController {
     /**
      * API:添加用户
      */
-    @RequestMapping(value="/api/addAccount", method= RequestMethod.POST)
+    @RequestMapping(value="/api/addUser", method= RequestMethod.POST)
     @ResponseBody
-    public AjaxResult addAccount(@RequestBody User account) {
+    public AjaxResult addUser(@RequestBody User user) {
         AjaxResult ajaxResult = new AjaxResult();
-        User existAccount = userService.getUserByUsername(account.getUsername());
-        if(existAccount == null) {//检测该用户是否已经注册
-            account.setPassword(MD5.md5(ExamConst.MD5_SALT+account.getPassword()));
-            account.setAvatarImgUrl(ExamConst.DEFAULT_AVATAR_IMG_URL);
-            account.setDescription("");
-            int accountId = userService.addUser(account);
-            return new AjaxResult().setData(accountId);
+        User existUser = userService.getUserByUsername(user.getUsername());
+        if(existUser == null) {//检测该用户是否已经注册
+            user.setPassword(MD5.md5(ExamConst.MD5_SALT+user.getPassword()));
+            user.setAvatarImgUrl(ExamConst.DEFAULT_AVATAR_IMG_URL);
+            user.setDescription("");
+            int userId = userService.addUser(user);
+            return ajaxResult.setData(userId);
         }
         return AjaxResult.fixedError(ExamWebError.AREADY_EXIST_USERNAME);
     }
@@ -226,46 +228,46 @@ public class UserController {
     /**
      * API:更新用户
      */
-    @RequestMapping(value="/api/updateManegeAccount", method= RequestMethod.POST)
+    @RequestMapping(value="/api/updateManegeUser", method= RequestMethod.POST)
     @ResponseBody
-    public AjaxResult updateAccount(@RequestBody User user) {
+    public AjaxResult updateUser(@RequestBody User user) {
         AjaxResult ajaxResult = new AjaxResult();
         user.setPassword(MD5.md5(ExamConst.MD5_SALT+user.getPassword()));
         boolean result = userService.updateUser(user);
-        return new AjaxResult().setData(result);
+        return ajaxResult.setData(result);
     }
 
     /**
      * API:删除用户
      */
-    @DeleteMapping("/api/deleteAccount/{id}")
+    @DeleteMapping("/api/deleteUser/{id}")
     @ResponseBody
-    public AjaxResult deleteAccount(@PathVariable int id) {
+    public AjaxResult deleteUser(@PathVariable int id) {
         AjaxResult ajaxResult = new AjaxResult();
         boolean result = userService.deleteUser(id);
-        return new AjaxResult().setData(result);
+        return ajaxResult.setData(result);
     }
 
     /**
      * API:禁用账号
      */
-    @RequestMapping(value="/api/disabledAccount/{id}", method= RequestMethod.POST)
+    @RequestMapping(value="/api/disabledUser/{id}", method= RequestMethod.POST)
     @ResponseBody
-    public AjaxResult disabledAccount(@PathVariable int id) {
+    public AjaxResult disabledUser(@PathVariable int id) {
         AjaxResult ajaxResult = new AjaxResult();
         boolean result = userService.disabledUser(id);
-        return new AjaxResult().setData(result);
+        return ajaxResult.setData(result);
     }
 
 	/**
 	 * API:解禁账号
 	 */
-    @RequestMapping(value="/api/abledAccount/{id}", method= RequestMethod.POST)
+    @RequestMapping(value="/api/abledUser/{id}", method= RequestMethod.POST)
     @ResponseBody
-    public AjaxResult abledAccount(@PathVariable int id) {
+    public AjaxResult abledUser(@PathVariable int id) {
         AjaxResult ajaxResult = new AjaxResult();
         boolean result = userService.abledUser(id);
-        return new AjaxResult().setData(result);
+        return ajaxResult.setData(result);
     }
 
 }

@@ -27,14 +27,14 @@
     <a th:href="@{/discuss}" class="active item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
+            <a class="item" th:href="@{/user/profile}">
                 <i class="user icon"></i>我的主页
             </a>
             <a class="item" id="logout">
@@ -75,8 +75,8 @@
                 <a class="item">最热</a>
                 <a class="item">精华</a>
                 <div class="right item">
-                    <a th:if="${current_account != null}" th:href="@{/discuss/post}" class="positive ui button"><i class="write icon"></i>我要发布</a>
-                    <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" class="positive ui button"><i class="write icon"></i>我要发布</a>
+                    <a th:if="${current_user != null}" th:href="@{/discuss/post}" class="positive ui button"><i class="write icon"></i>我要发布</a>
+                    <a th:if="${current_user == null}" th:onclick="'app.showLogin()'" class="positive ui button"><i class="write icon"></i>我要发布</a>
                 </div>
             </div>
             <div class="ui divided items">
@@ -109,7 +109,7 @@
                 <!--
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -134,7 +134,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -159,7 +159,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -184,7 +184,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -209,7 +209,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -234,7 +234,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">
@@ -259,7 +259,7 @@
                 </div>
                 <div class="item">
                     <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <a href="#" class="header" style="font-size: 15px;">

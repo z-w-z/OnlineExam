@@ -28,14 +28,14 @@
     <a th:href="@{/discuss}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
+            <a class="item" th:href="@{/user/profile}">
                 <i class="user icon"></i>我的主页
             </a>
             <a class="item" id="logout">
@@ -66,8 +66,8 @@
                 <div class="content">
                     <div class="header">
                         <!-- TODO::跳转处理 -->
-                        <a th:if="${current_account != null}" th:href="@{'/problemset/'+${item.id}+'/problems'}" th:text="${item.name}">计算机组成原理</a>
-                        <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" th:text="${item.name}">计算机组成原理</a>
+                        <a th:if="${current_user != null}" th:href="@{'/problemset/'+${item.id}+'/problems'}" th:text="${item.name}">计算机组成原理</a>
+                        <a th:if="${current_user == null}" th:onclick="'app.showLogin()'" th:text="${item.name}">计算机组成原理</a>
                     </div>
                     <p class="meta">
                         <i class="user icon"></i>
