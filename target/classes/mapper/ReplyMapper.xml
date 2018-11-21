@@ -15,7 +15,7 @@
     </sql>
 
     <insert id="insertReply" parameterType="com.exam.web.model.Reply" >
-        insert into t_penguin_reply
+        insert into exam_reply
         (user_id, atuser_id, post_id, comment_id, content)
         values (#{reply.userId}, #{reply.atuserId},
         #{reply.postId}, #{reply.commentId}, #{reply.content})

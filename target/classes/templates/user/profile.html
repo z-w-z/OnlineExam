@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+                        <img th:src="@{'data/upload/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <div class="header" th:text="${current_user.name}"></div>
@@ -138,7 +138,7 @@
                             <div class="column">
                                 <div class="ui fluid card">
                                     <div class="image">
-                                        <img id="avatarImgPreview" class="ui tiny image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+                                        <img id="avatarImgPreview" class="ui tiny image" th:src="@{'data/upload/'+${current_user.avatarImgUrl}}" />
                                     </div>
                                 </div>
                             </div>

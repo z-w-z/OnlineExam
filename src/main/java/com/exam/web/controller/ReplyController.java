@@ -28,6 +28,6 @@ public class ReplyController {
 	public AjaxResult addReply(@RequestBody Reply reply) {
 		AjaxResult ajaxResult = new AjaxResult();
 		int replyId = replyService.addReply(reply);
-		return new AjaxResult().setData(replyId);
+		return ajaxResult.setData(replyId);
 	}
 }

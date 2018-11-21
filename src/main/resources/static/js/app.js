@@ -69,7 +69,8 @@ var app = {
             return app.data.contextPath+'/user/api/uploadAvatar' ;
         },
         uploadImageUrl: function () {
-            return app.data.contextPath+'/upload/images/';
+        	alert(app.data.contextPath+'data/upload/');
+            return app.data.contextPath+'data/upload/';
         },
     },
     /**

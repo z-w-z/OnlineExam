@@ -11,7 +11,7 @@ body {
 
 .pg_page_container{
     width: 100% !important;
-    height: 100% !important;
+    height: 60% !important;
 }
 .ui.menu{
     margin: 0 !important;
@@ -19,7 +19,7 @@ body {
 #main_background{
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    height: 100%;
+    height: 60%;
 }
 .logo_panel{
     width: 700px;
@@ -28,5 +28,10 @@ body {
     top:15%;
     margin: 0 auto;
     text-align: center;
+}
+.item{
+	background-color:red;
+	color:#333;
+	font-weight:blod;
 }
 

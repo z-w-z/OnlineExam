@@ -46,7 +46,6 @@ import com.exam.web.service.UserService;
 public class IndexController {
 
 	private static Log LOG = LogFactory.getLog(IndexController.class);
-
 	@Autowired
 	private UserService userService;
 	@Autowired

@@ -16,7 +16,6 @@
 <body>
 <div class="ui fixed inverted menu">
     <a th:href="@{/}" class="header item">
-        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
     <a th:href="@{/contest/index}" href="#" class="active item">
@@ -76,15 +75,17 @@
                 <span th:if="${item.state == 0}" class="ui yellow ribbon label">未开始</span>
                 <span th:if="${item.state == 1}" class="ui green ribbon label">进行中</span>
                 <span th:if="${item.state == 2 or item.state == 3}" class="ui red ribbon label">已结束</span>
-                <span class="ui header" th:text="${item.title}">
-                    广东财经大学2017年数据库原理与应用考试试题
-                </span>
+                <span class="ui header" th:text="${item.title}"></span>
             </td>
-            <td><span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 09:00:00</span></td>
-            <td><span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 11:00:00</span></td>
-            <td><span th:text="${item.subjectName}">
-                数据库原理与应用
-            </span></td>
+            <td>
+            	<span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+            </td>
+            <td>
+            	<span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+            </td>
+            <td>
+            	<span th:text="${item.subjectName}"></span>
+            </td>
             <td>
                 <a th:if="${item.state == 0}" class="small disabled positive ui button">进入考试</a>
                 <a th:if="${item.state == 1 and current_user == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
@@ -92,114 +93,13 @@
                 <a th:if="${item.state == 2 or item.state == 3}" class="small disabled grey ui button">进入考试</a>
             </td>
         </tr>
-        <!--
-        <tr>
-            <td>
-                <span class="ui green ribbon label">进行中</span>
-                <span class="ui header">
-                    广东财经大学2017年数据库原理与应用考试试题
-                </span>
-            </td>
-            <td><span>2018-1-11 09:00:00</span></td>
-            <td><span>2018-1-11 11:00:00</span></td>
-            <td><span>
-                数据库原理与应用
-            </span></td>
-            <td><a class="small positive ui button">进入考试</a></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="ui green ribbon label">进行中</span>
-                <span class="ui header">
-                    广东财经大学2017年数据库原理与应用考试试题
-                </span>
-            </td>
-            <td><span>2018-1-11 09:00:00</span></td>
-            <td><span>2018-1-11 11:00:00</span></td>
-            <td><span>
-                数据库原理与应用
-            </span></td>
-            <td><a class="small positive ui button">进入考试</a></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="ui yellow ribbon label">未开始</span>
-                <span class="ui header">
-                    广东财经大学2017年数据库原理与应用考试试题
-                </span>
-            </td>
-            <td><span>2018-1-11 09:00:00</span></td>
-            <td><span>2018-1-11 11:00:00</span></td>
-            <td><span>
-                数据库原理与应用
-            </span></td>
-            <td><a class="small disabled positive ui button">进入考试</a></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="ui red ribbon label">已结束</span>
-                <span class="ui header">
-                    广东财经大学2017年数据库原理与应用考试试题
-                </span>
-            </td>
-            <td><span>2018-1-11 09:00:00</span></td>
-            <td><span>2018-1-11 11:00:00</span></td>
-            <td><span>
-                数据库原理与应用
-            </span></td>
-            <td>
-                <a class="small disabled grey ui button">进入考试</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="9" style="padding: 0px;"><div class="ui icon message" style="margin: 0px; box-shadow: none;"><i class="info circle icon"></i><div class="content"><p>当前还没有考试呢！_(:зゝ∠)_</p></div></div></td>
-        </tr>
-        -->
         </tbody>
     </table>
 </div>
 <!-- 分页 -->
 <div class="ui subPage container">
     <div class="ui pagination menu" id="subPageMenu">
-        <!--
-        <a class="item">
-            首页
-        </a>
-        <a class="item">
-            上一页
-        </a>
-        <a class="active item">
-            1
-        </a>
-        <a class="item">
-            2
-        </a>
-        <a class="item">
-            3
-        </a>
-        <a class="item">
-            4
-        </a>
-        <a class="item">
-            5
-        </a>
-        <a class="item">
-            6
-        </a>
-        <a class="item">
-            7
-        </a>
-        <a class="item">
-            8
-        </a>
-        <a class="item">
-            下一页
-        </a>
-        <a class="item">
-            末页
-        </a>
-        -->
-    </div>
+</div>
 </div>
 <!-- 不可抗力元素 -->
 <div class="second-footer">
@@ -225,13 +125,14 @@
                 <br />
                 网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
                 服务器时间：<span id="current_server_timer"></span>
-                <br />
+                 <br />
+                 <!--
                 站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
-                <!--
+                
                 TODO::pv,uv统计
+                 -->
                 <span id='cnzz_stat_icon_1261763113'></span>
                 <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
-                -->
             </div>
         </div>
     </div>
@@ -242,10 +143,6 @@
     <div class="content">
         <form class="ui form" id="loginModalForm">
             <div class="ui hidden negative message" id="loginModalErrorMessage">
-                <!--
-                <div class="header">错误提示</div>
-                <p></p>
-                -->
             </div>
             <div class="field required">
                 <label>账号</label>
@@ -274,12 +171,12 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var pageNum = /*[[${data['pageNum']}]]*/;
-    var pageSize = /*[[${data['pageSize']}]]*/;
-    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
-    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
-    var contests = /*[[${data['contests']}]]*/;
-    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+    var pageNum = [[${data['pageNum']}]];
+    var pageSize = [[${data['pageSize']}]];
+    var totalPageNum = [[${data['totalPageNum']}]];
+    var totalPageSize = [[${data['totalPageSize']}]];
+    var contests = [[${data['contests']}]];
+    var contextPath = [[${#httpServletRequest.getContextPath()}]];
 
     $(function(){
         app.init(contextPath);
