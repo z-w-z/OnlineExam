@@ -189,7 +189,7 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+    var contextPath = [[${#httpServletRequest.getContextPath()}]];
 
     $(function(){
         app.init(contextPath);

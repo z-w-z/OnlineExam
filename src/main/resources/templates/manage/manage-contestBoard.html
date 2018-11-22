@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>GDUFE在线考试系统控制台-考试管理</title>
+    <title>在线考试系统控制台-考试管理</title>
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
     <!--<link th:href="@{https://cdn.bootcss.com/bootstrap/3.0.0/css/bootstrap.min.css}" rel="stylesheet" />-->
     <link th:href="@{https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet" />
@@ -27,7 +27,7 @@
 
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style = "background-color:#4F94CD">
     <div class="container-fluid">
         <div class="navbar-header">
         <!--
@@ -38,8 +38,8 @@
         <span class="icon-bar"></span>
         </button>
         -->
-        <a class="navbar-brand" href="#"><img style="width: 32px;height: 32px;" th:src="@{/img/manage-logo.png}" /></a>
-        <a class="navbar-brand" href="#">GDUFE在线考试系统控制台</a>
+        <a class="navbar-brand" href="#"><img style="weight:156px; height:32px;margin-left:20px" th:src="@{/img/logo.png}" /></a>
+        <a class="navbar-brand" href="#" style = "margin-left:20px;font-size:26px;color:#fff; font-weight:bold;margin-top:8px">欢迎来到在线考试系统管理后台</a>
         <!--
         <div class="row">
         <div class="col-md-6">
@@ -55,7 +55,7 @@
         <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <img class="img-circle" style="width: 32px;height: 32px;" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />&nbsp;&nbsp;<span th:text="${current_user.name}"></span>
+        <img class="img-circle" style="width: 32px;height: 32px;" th:src="@{/data/updload/+${current_user.avatarImgUrl}}" />&nbsp;&nbsp;<span th:text="${current_user.name}"></span>
         <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">

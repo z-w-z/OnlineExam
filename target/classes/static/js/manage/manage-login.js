@@ -7,8 +7,8 @@ var adminLoginPage = {
      */
     init: function () {
         toastr.options.positionClass = 'toast-top-center';
-        var username = $.cookie('penguinUsername');
-        var password = $.cookie('penguinPassword');
+        var username = $.cookie('examUsername');
+        var password = $.cookie('examPassword');
         $('#username').val(username);
         $('#password').val(password);
     },
@@ -47,8 +47,8 @@ var adminLoginPage = {
                 if (result && result['success']) {
                     if ($('#rememberMe').is(":checked")) {
                         // 把账号信息记入cookie
-                        $.cookie('penguinUsername', username, {expires: 7, path: '/'});
-                        $.cookie('penguinPassword', password, {expires: 7, path: '/'});
+                        $.cookie('examUsername', username, {expires: 7, path: '/'});
+                        $.cookie('examPassword', password, {expires: 7, path: '/'});
                     }
                     // 验证通过 刷新页面
                     window.location.reload();
