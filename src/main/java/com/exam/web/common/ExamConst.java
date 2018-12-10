@@ -5,8 +5,8 @@ public class ExamConst {
 	// Session
 	public final static String CURRENT_USER = "current_user";
 	 //本地服务器-文件,图片所在位置,图片上传位置
-    public static final String UPLOAD_FILE_PATH = "file: D:/eclipse_workspace/OnlineExam/data/";
-    public static final String UPLOAD_FILE_IMAGE_PATH = "D:/eclipse_workspace/OnlineExam/data/upload/";
+    public static final String UPLOAD_FILE_PATH = "classpath:/upload/";
+    public static final String UPLOAD_FILE_IMAGE_PATH = "classpath:/upload/images/";
 
 	// 云服务器-文件,图片所在位置,图片上传位置
 	//public static final String UPLOAD_FILE_PATH = "file:/usr/java/data/online-exam/upload/";
