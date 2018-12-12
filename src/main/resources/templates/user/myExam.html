@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/user/myExam.css}" />
@@ -14,7 +15,6 @@
 <body>
 <div class="ui fixed inverted menu">
     <a th:href="@{/}" class="header item">
-        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
     <a th:href="@{/contest/index}" href="#" class="item">
@@ -40,8 +40,6 @@
                         <div class="ui dimmer">
                             <div class="content">
                                 <div class="center">
-                                    <!--<div class="ui inverted button">Call to Action</div>-->
-                                    <!-- TODO::上传图片 -->
                                     <a th:href="@{/user/profile}" data-inverted="" data-tooltip="更换头像" data-position="bottom center"><i class="huge photo icon"></i></a>
                                 </div>
                             </div>
@@ -49,14 +47,13 @@
                         <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
-                        <div class="header">曾庆熙</div>
+                        <div class="header"></div>
                         <div class="meta">
-                            <!--<a class="group">信息学院</a>-->
                             <div class="group">
-                                <i class="student icon"></i>信息学院
+                                <i class="student icon">计算机科学与工程学院</i>
                             </div>
                         </div>
-                        <div class="description">某工地的程序员</div>
+                        <div class="description"></div>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -30,7 +31,7 @@
         <i class="sign in icon"></i>登录
     </a>
     <div class="ui simple dropdown right item" th:if="${current_user != null}">
-        <img class="ui avatar image" th:src="@{'data/upload/'+${current_user.avatarImgUrl}}" />
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
         <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
             <a class="item" th:href="@{/user/profile}">
