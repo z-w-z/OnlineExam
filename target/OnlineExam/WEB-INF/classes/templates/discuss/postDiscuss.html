@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/discuss/postDiscuss.css}" />
@@ -28,14 +29,14 @@
     <a th:href="@{/discuss}" class="active item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
+            <a class="item" th:href="@{/user/profile}">
                 <i class="user icon"></i>我的主页
             </a>
             <a class="item" id="logout">
@@ -106,12 +107,13 @@
                 网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
                 服务器时间：<span id="current_server_timer"></span>
                 <br />
-                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
                 <!--
+                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
+                
                 TODO::pv,uv统计
-                <span id='cnzz_stat_icon_1261763113'></span>
+                <span id='cnzz_stat_icon_1261763113'></span>-->
                 <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
-                -->
+                
             </div>
         </div>
     </div>
@@ -122,10 +124,6 @@
     <div class="content">
         <form class="ui form" id="loginModalForm">
             <div class="ui hidden negative message" id="loginModalErrorMessage">
-                <!--
-                <div class="header">错误提示</div>
-                <p></p>
-                -->
             </div>
             <div class="field required">
                 <label>账号</label>

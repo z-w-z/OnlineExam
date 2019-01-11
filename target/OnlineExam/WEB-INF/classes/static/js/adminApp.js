@@ -11,10 +11,10 @@ var app = {
             return "/time/now";
         },
         checkLoginUrl: function () {
-            return "/account/api/login";
+            return "/user/api/login";
         },
         logoutUrl: function () {
-            return "/account/logout";
+            return "/user/logout";
         },
         homeUrl: function () {
             return "/";
@@ -22,11 +22,11 @@ var app = {
         problemsetUrl: function () {
             return "/problemset/list";
         },
-        updateAccountUrl: function () {
-            return "/account/api/updateAccount";
+        updateUserUrl: function () {
+            return "/user/api/updateUser";
         },
         updatePasswordUrl: function () {
-            return "/account/api/updatePassword";
+            return "/user/api/updatePassword";
         },
     },
     /**

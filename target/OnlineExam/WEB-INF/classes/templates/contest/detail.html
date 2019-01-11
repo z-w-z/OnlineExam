@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/contest/detail.css}" />
@@ -57,11 +58,11 @@
                     <tbody>
                     <tr>
                         <td><span style="font-weight: bolder;">考生学号:</span></td>
-                        <td><span th:text="${current_account.username}"></span></td>
+                        <td><span th:text="${current_user.username}"></span></td>
                     </tr>
                     <tr>
                         <td><span style="font-weight: bolder;">当前考生:</span></td>
-                        <td><span th:text="${current_account.name}"></span></td>
+                        <td><span th:text="${current_user.name}"></span></td>
                     </tr>
                     <tr>
                         <td><span style="font-weight: bolder;">剩余时间:</span></td>

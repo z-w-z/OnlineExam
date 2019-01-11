@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/user/myDiscussPost.css}" />
@@ -42,11 +43,11 @@
                                 <div class="center">
                                     <!--<div class="ui inverted button">Call to Action</div>-->
                                     <!-- TODO::上传图片 -->
-                                    <a th:href="@{/account/profile}" data-inverted="" data-tooltip="更换头像" data-position="bottom center"><i class="huge photo icon"></i></a>
+                                    <a th:href="@{/user/profile}" data-inverted="" data-tooltip="更换头像" data-position="bottom center"><i class="huge photo icon"></i></a>
                                 </div>
                             </div>
                         </div>
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        <img th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                     </div>
                     <div class="content">
                         <div class="header">曾庆熙</div>
@@ -63,22 +64,22 @@
             <div class="row" style="margin-top: 1em;">
                 <div class="ui card">
                     <div class="content">
-                        <a th:href="@{/account/profile}">
+                        <a th:href="@{/user/profile}">
                             <i class="user icon"></i>个人信息
                         </a>
                     </div>
                     <div class="content">
-                        <a th:href="@{/account/password}">
+                        <a th:href="@{/user/password}">
                             <i class="edit icon"></i>更改密码
                         </a>
                     </div>
                     <div class="content">
-                        <a th:href="@{/account/myExam}">
+                        <a th:href="@{/user/myExam}">
                             <i class="history icon"></i>考试记录
                         </a>
                     </div>
                     <div class="content">
-                        <a th:href="@{/account/myDiscussPost}">
+                        <a th:href="@{/user/myDiscussPost}">
                             <i class="talk icon"></i>我的发帖
                         </a>
                         <i class="pointing left icon"></i>

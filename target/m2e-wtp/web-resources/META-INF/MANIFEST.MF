@@ -6,5 +6,4 @@ Implementation-Vendor-Id: com.oe
 Build-Jdk: 1.8.0_181
 Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: Pivotal Software, Inc.
 

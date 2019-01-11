@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.exam.web.dao.PostMapper" >
+<mapper namespace="com.exam.web.mapper.PostMapper" >
     <resultMap id="BaseResultMap" type="com.exam.web.model.Post" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="author_id" property="authorId" jdbcType="INTEGER" />

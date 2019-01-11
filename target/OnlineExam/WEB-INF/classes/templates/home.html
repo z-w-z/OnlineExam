@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -15,8 +16,7 @@
 <body>
 <div class="ui fixed inverted menu">
     <a th:href="@{/}" class="header item">
-        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
-        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
+        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="宁夏理工学院在线考试教学辅助系统" />
     </a>
     <a th:href="@{/contest/index}" class="item">
         <i class="desktop icon"></i>在线考试
@@ -30,7 +30,7 @@
     <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
         <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
         <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -43,20 +43,18 @@
         </div>
     </div>
 </div>
+
 <div class="pg_page_container">
     <div id="main_background" th:style="'background-image: url('+${#httpServletRequest.getContextPath()}+'/img/bg.jpg);'">
         <div class="logo_panel">
             <br/><br/><br/><br/><br/><br/>
-            <!--<img th:src="@{/img/logo_flat.png}" style="max-height: 80px; height:80px;" /><br />-->
-            <!--<span style="font-size: 1.2em; font-weight: 500; letter-spacing: 0.5em; line-height: 3.2em; color: #fff;">在线考试教学辅助系统1.0</span>-->
             <span style="font-size: 1.8em; font-weight: 500; letter-spacing: 0.5em; line-height: 3.2em; color: #fff;">宁夏理工学院在线考试教学辅助系统1.0</span>
             <br />
         </div>
     </div>
 </div>
-<div class="ui container">
+<div class="ui container" style="margin-top:-23rem;">
     <div align="center" style="margin-bottom: 5rem;">
-        <!--<h1>在线考试系统 2.0<br/><small>遇见更好的你</small></h1>-->
         <h1>功能特性</h1>
     </div>
     <div class="ui four columns stackable grid">
@@ -80,6 +78,7 @@
     </div>
     <br /><br />
 </div>
+
 <div id="footer">
     <div class="ui container">
         <div class="ui stackable two columns grid">
@@ -92,7 +91,7 @@
                     <div class="column">
                         <h3>联系我们</h3>
                         如有问题请发邮件到
-                        zzqnxx@foxmail.com
+                        hungkuei@163.com
                     </div>
                 </div>
             </div>
@@ -102,12 +101,14 @@
                 网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
                 服务器时间：<span id="current_server_timer"></span>
                 <br />
+                 <!--
                 站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
-                <!--
+               
                 TODO::pv,uv统计
+                -->
                 <span id='cnzz_stat_icon_1261763113'></span>
                 <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
-                -->
+                
             </div>
         </div>
     </div>
@@ -118,10 +119,6 @@
     <div class="content">
         <form class="ui form" id="loginModalForm">
             <div class="ui hidden negative message" id="loginModalErrorMessage">
-                <!--
-                <div class="header">错误提示</div>
-                <p></p>
-                -->
             </div>
             <div class="field required">
                 <label>账号</label>

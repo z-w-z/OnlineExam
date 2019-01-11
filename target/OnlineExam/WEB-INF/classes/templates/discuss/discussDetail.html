@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>宁夏理工学院在线考试教学辅助系统</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/discuss/discussDetail.css}" />
@@ -27,14 +28,14 @@
     <a th:href="@{/discuss}" class="active item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
+            <a class="item" th:href="@{/user/profile}">
                 <i class="user icon"></i>我的主页
             </a>
             <a class="item" id="logout">
@@ -169,7 +170,7 @@
                     <!--
                     <div class="comment">
                         <a class="avatar">
-                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                         </a>
                         <div class="content">
                             <a class="author">Matt</a>
@@ -184,7 +185,7 @@
                     </div>
                     <div class="comment">
                         <a class="avatar">
-                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                         </a>
                         <div class="content">
                             <a class="author">Elliot Fu</a>
@@ -201,7 +202,7 @@
                         <div class="comments">
                             <div class="comment">
                                 <a class="avatar">
-                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                                 </a>
                                 <div class="content">
                                     <a class="author">Jenny Hess</a>
@@ -216,7 +217,7 @@
                             </div>
                             <div class="comment">
                                 <a class="avatar">
-                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                                 </a>
                                 <div class="content">
                                     <a class="author">Jenny Hess</a>
@@ -237,7 +238,7 @@
                     </div>
                     <div class="comment">
                         <a class="avatar">
-                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />
                         </a>
                         <div class="content">
                             <a class="author">Joe Henderson</a>

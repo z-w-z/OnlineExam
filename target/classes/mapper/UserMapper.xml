@@ -1,115 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.exam.web.mapper.UserMapper" >
-    <resultMap id="BaseResultMap" type="com.exam.web.model.User" >
+    <mapper namespace="com.exam.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.exam.model.User" >
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
+        <id column="user_id" property="userId" jdbcType="VARCHAR" />
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
-        <result column="qq" property="qq" jdbcType="VARCHAR" />
-        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="salt" property="salt" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
-        <result column="description" property="description" jdbcType="VARCHAR" />
-        <result column="avatar_img_url" property="avatarImgUrl" jdbcType="VARCHAR" />
-        <result column="state" property="state" jdbcType="INTEGER" />
-        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="INTEGER" />
+        <result column="age" property="age" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="INTEGER" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id,name,username,password,qq,phone,email,description,avatar_img_url,state,level,create_time
+        id, user_id, username, password, salt, email, phone, sex, age, status,
+        create_time, update_time, last_login_time
     </sql>
 
-    <insert id="insertUser" parameterType="com.exam.web.model.User" >
-        insert into exam_user
-        (name, username, password, qq, phone, email, description,
-        avatar_img_url, level)
-        values (#{user.name}, #{user.username}, #{user.password},
-        #{user.qq}, #{user.phone}, #{user.email}, #{user.description},
-        #{user.avatarImgUrl}, #{user.level})
-    </insert>
-    
-    <update id="updateUserById" parameterType="com.exam.web.model.User">
-        UPDATE exam_user
-        SET
-        password = #{user.password}, qq = #{user.qq}, phone = #{user.phone},
-        email = #{user.email}, description = #{user.description},
-        avatar_img_url = #{user.avatarImgUrl}
-        WHERE
-        id = #{user.id}
-    </update>
-
-    <update id="updateAvatarImgUrlById">
-        UPDATE exam_user
-        SET
-        avatar_img_url = #{avatarImgUrl}
-        WHERE
-        id = #{id}
-    </update>
-
-    <!--根据账号查询账号信息-->
-    <select id="getUserByUsername" resultMap="BaseResultMap" parameterType="String" >
-        select
-        <include refid="Base_Column_List" />
-        from exam_user
-        where username = #{username}
-    </select>
-
-    <select id="getUsersByIds" resultMap="BaseResultMap">
-        SELECT
-         *
-        FROM exam_user
-        WHERE 1 = 1
-        <if test="studentIds != null and studentIds.size > 0">
-            AND id IN
-            <foreach collection="studentIds" item="studentId" open="(" separator="," close=")">
-                #{studentId}
-            </foreach>
+    <select id="selectUsers" resultMap="BaseResultMap" parameterType="com.exam.model.User">
+        SELECT <include refid="Base_Column_List"/> FROM user
+        WHERE status=1
+        <if test="username !=null and username != ''">
+            AND username like concat('%', #{username}, '%')
+        </if>
+        <if test="email !=null and email != ''">
+            AND email like concat('%', #{email}, '%')
+        </if>
+        <if test="phone !=null and phone != ''">
+            AND phone like concat('%', #{phone}, '%')
         </if>
     </select>
 
-    <select id="getCount" resultType="int">
-        SELECT
-        COUNT(1)
-        FROM exam_user
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM user WHERE username = #{username,jdbcType=VARCHAR}
     </select>
 
-    <select id="getUsers" resultMap="BaseResultMap" >
-        SELECT
-        *
-        FROM exam_user
-        ORDER BY create_time DESC
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM user WHERE user_id = #{userId,jdbcType=VARCHAR}
     </select>
 
-    <delete id="deleteUser" parameterType="int" >
-        delete from exam_user
-        where id = #{id}
-    </delete>
-
-    <update id="updateState" >
-        update exam_user set
-        state = #{state}
-        where id = #{id}
+    <update id="updateLastLoginTime" parameterType="com.exam.model.User">
+        update user SET last_login_time = now() where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="getUsersByIdSets" resultMap="BaseResultMap">
-        SELECT
-        *
-        FROM exam_user
-        WHERE 1 = 1
-        <if test="ids != null and ids.size > 0">
-            AND id IN
-            <foreach collection="ids" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </if>
+    <update id="updateByUserId" parameterType="com.exam.model.User">
+        update user SET email=#{email},phone=#{phone},sex=#{sex},age=#{age},update_time = now() where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateStatusBatch" parameterType="map">
+        UPDATE
+        user
+        SET
+        status=#{status}, update_time=now()
+        where
+        user_id in
+        <foreach collection="userIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <select id="findByRoleId" resultMap="BaseResultMap">
+        SELECT a.id, a.user_id, a.username, a.password, a.salt, a.email, a.phone, a.sex, a.age, a.status,
+        a.create_time, a.update_time, a.last_login_time FROM user a INNER JOIN user_role b ON a.user_id = b.user_id WHERE b.role_id = #{roleId,jdbcType=VARCHAR}
     </select>
 
-    <!--根据主键ID查询账号信息-->
-    <select id="getUserById" resultMap="BaseResultMap" parameterType="int" >
-        select
-        *
-        from exam_user
-        where id = #{id}
+    <select id="findByRoleIds" resultMap="BaseResultMap">
+        SELECT a.id, a.user_id, a.username, a.password, a.salt, a.email, a.phone, a.sex, a.age, a.status,
+        a.create_time, a.update_time, a.last_login_time FROM user a INNER JOIN user_role b ON a.user_id = b.user_id
+        WHERE b.role_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
-
 </mapper>

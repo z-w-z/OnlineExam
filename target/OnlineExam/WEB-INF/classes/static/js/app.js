@@ -32,8 +32,8 @@ var app = {
         contestDetailUrl: function () {
             return app.data.contextPath+"/contest/";
         },
-        updateAccountUrl: function () {
-            return app.data.contextPath+"/user/api/updateAccount";
+        updateUserUrl: function () {
+            return app.data.contextPath+"/user/api/updateUser";
         },
         updatePasswordUrl: function () {
             return app.data.contextPath+"/user/api/updatePassword";
@@ -60,13 +60,13 @@ var app = {
             return app.data.contextPath+"/reply/api/addReply";
         },
         myDiscussPostUrl: function () {
-            return app.data.contextPath+"/account/myDiscussPost";
+            return app.data.contextPath+"/user/myDiscussPost";
         },
         myExamUrl: function () {
             return app.data.contextPath+"/user/myExam";
         },
         uploadAvatarUrl: function () {
-            return app.data.contextPath+'/account/api/uploadAvatar' ;
+            return app.data.contextPath+'/user/api/uploadAvatar' ;
         },
         uploadImageUrl: function () {
             return app.data.contextPath+'/upload/images/';
@@ -229,7 +229,7 @@ var app = {
             }, function (result) {
                 // console.log("result.success = " + result.success);
                 // console.log("result.success = " + result['success']);
-                // console.log(result);
+                console.log(result);
                 if (result && result['success']) {
                     if ($('#rememberMe').is(":checked")) {
                         // 把账号信息记入cookie

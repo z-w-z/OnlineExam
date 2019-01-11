@@ -7,7 +7,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>GDUFE在线考试系统控制台-考试管理-查看试题</title>
+    <title>宁夏理工学院在线考试教学辅助系统管理后台-考试管理-查看试题</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
     <link th:href="@{https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet" />
     <link th:href="@{/css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css}" rel="stylesheet" />
@@ -23,17 +24,17 @@
 
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" style = "background-color:#4F94CD">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img style="width: 32px;height: 32px;" th:src="@{/img/manage-logo.png}" /></a>
-            <a class="navbar-brand" href="#">GDUFE在线考试系统控制台</a>
+            <a class="navbar-brand" href="#"><img style="weight:156px; height:32px;margin-left:20px" th:src="@{/img/logo.png}" /></a>
+        	<a class="navbar-brand" href="#" style = "margin-left:20px;font-size:26px;color:#fff; font-weight:bold;margin-top:8px">欢迎来到在线考试系统管理后台</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="img-circle" style="width: 32px;height: 32px;" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />&nbsp;&nbsp;<span th:text="${current_account.name}"></span>
+                        <img class="img-circle" style="width: 32px;height: 32px;" th:src="@{'/upload/images/'+${current_user.avatarImgUrl}}" />&nbsp;&nbsp;<span th:text="${current_user.name}"></span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -54,7 +55,7 @@
                 <li><a th:href="@{/manage/question/list}"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;题目管理</a></li>
                 <li><a th:href="@{/manage/subject/list}"><span class="glyphicon glyphicon-book"></span>&nbsp;课程管理</a></li>
                 <li><a th:href="@{/manage/result/contest/list}"><span class="glyphicon glyphicon-signal"></span>&nbsp;成绩管理</a></li>
-                <li><a th:href="@{/manage/account/list}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+                <li><a th:href="@{/manage/user/list}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
                 <li><a th:href="@{/manage/post/list}"><i class="fa fa-paper-plane"></i>&nbsp;帖子管理</a></li>
                 <li><a th:href="@{/manage/comment/list}"><i class="fa fa-commenting-o"></i>&nbsp;评论管理</a></li>
             </ul>
@@ -378,4 +379,3 @@
 </script>
 </body>
 </html>
-

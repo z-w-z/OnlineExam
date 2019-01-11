@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.exam.web.dao.ReplyMapper" >
+<mapper namespace="com.exam.web.mapper.ReplyMapper" >
     <resultMap id="BaseResultMap" type="com.exam.web.model.Reply" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -15,7 +15,7 @@
     </sql>
 
     <insert id="insertReply" parameterType="com.exam.web.model.Reply" >
-        insert into t_penguin_reply
+        insert into exam_reply
         (user_id, atuser_id, post_id, comment_id, content)
         values (#{reply.userId}, #{reply.atuserId},
         #{reply.postId}, #{reply.commentId}, #{reply.content})
