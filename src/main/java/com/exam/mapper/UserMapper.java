@@ -2,20 +2,12 @@ package com.exam.mapper;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import com.exam.model.User;
 import com.exam.util.MapperUtil;
 
-@Component
-@Mapper
 public interface UserMapper extends MapperUtil<User> {
-
-	/**
+    /**
      * 根据user参数查询用户列表
      * @param user
      * @return list

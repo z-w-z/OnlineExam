@@ -18,7 +18,6 @@ import com.exam.vo.UserSessionVo;
 import com.exam.vo.base.PageResultVo;
 import com.exam.vo.base.ResponseVo;
 
-
 @Controller
 @RequestMapping("/online/user")
 public class OnlineUserController {

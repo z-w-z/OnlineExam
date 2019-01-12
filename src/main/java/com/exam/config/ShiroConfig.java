@@ -74,7 +74,7 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean  = new ShiroFilterFactoryBean();
-        // 必须设置 SecurityManager
+        // 设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 登录url
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -87,8 +87,8 @@ public class ShiroConfig {
         //限制同一帐号同时在线的个数。
         filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
-        //拦截器.
-        Map<String,String> filterChainDefinitionMap = shiroService.loadFilterChainDefinitions();
+        //过滤链
+        Map<String, String> filterChainDefinitionMap = shiroService.loadFilterChainDefinitions();
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -234,6 +234,4 @@ public class ShiroConfig {
         kickoutSessionControlFilter.setKickoutUrl("/kickout");
         return kickoutSessionControlFilter;
     }
-
-
 }

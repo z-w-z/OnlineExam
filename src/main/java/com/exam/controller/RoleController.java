@@ -31,10 +31,9 @@ import com.exam.vo.base.ResponseVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController{
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
     @Autowired
     private RoleService roleService;
@@ -46,7 +45,7 @@ public class RoleController {
     /*角色列表数据*/
     @PostMapping("/list")
     @ResponseBody
-    public PageResultVo pageRoles(Role role, Integer limit, Integer offset) {
+    public PageResultVo pageRoles(Role role,Integer limit,Integer offset) {
         try {
             PageHelper.startPage(PageUtil.getPageNo(limit, offset),limit);
             List<Role> roleList = roleService.selectRoles(role);
@@ -101,7 +100,7 @@ public class RoleController {
         if(roleService.findByRoleIds(roleIdsList).size()>0){
             return ResultUtil.error("删除失败,选择的角色下存在用户");
         }
-        int a = roleService.updateStatusBatch(roleIdsList, CoreConst.STATUS_INVALID);
+        int a = roleService.updateStatusBatch(roleIdsList,CoreConst.STATUS_INVALID);
         if (a > 0) {
             return ResultUtil.success("删除角色成功");
         } else {

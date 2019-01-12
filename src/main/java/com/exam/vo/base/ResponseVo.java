@@ -29,6 +29,11 @@ public class ResponseVo<T> {
         this.data = data;
     }
 
+    public ResponseVo(Integer status, String msg) {
+        this.status = status;
+        this.msg = msg;
+    }
+
     public ResponseVo(Integer status, String msg, T data) {
         this.status = status;
         this.msg = msg;

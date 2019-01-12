@@ -27,18 +27,9 @@ import com.exam.model.User;
 
 public class KickoutSessionControlFilter extends AccessControlFilter {
 
-    /**
-     * 踢出后到的地址
-     */
-    private String kickoutUrl;
-    /**
-     * 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-     */
-    private boolean kickoutAfter = false;
-    /**
-     * 同一个帐号最大会话数 默认5
-     */
-    private int maxSession = 5;
+    private String kickoutUrl; //踢出后到的地址
+    private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
+    private int maxSession = 5; //同一个帐号最大会话数 默认5
 
     private SessionManager sessionManager;
     private Cache<String, Deque<Serializable>> cache;
@@ -58,7 +49,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     public void setSessionManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
-
+    //设置Cache的key的前缀
     public void setCacheManager(CacheManager cacheManager) {
         this.cache = cacheManager.getCache("shiro_redis_cache");
     }
@@ -102,8 +93,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         //如果队列里的sessionId数超出最大会话数，开始踢人
         while(deque.size() > maxSession) {
             Serializable kickoutSessionId = null;
-            //如果踢出后者
-            if(kickoutAfter) {
+            if(kickoutAfter) { //如果踢出后者
                 kickoutSessionId = deque.removeFirst();
                 //踢出后再更新下缓存队列
                 cache.put(username, deque);
@@ -136,7 +126,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
             }
             saveRequest(request);
             
-            Map<String, String> resultMap = new HashMap<String, String>(2);
+            Map<String, String> resultMap = new HashMap<String, String>();
 			//判断是不是Ajax请求
 			if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
 				resultMap.put("user_status", "300");

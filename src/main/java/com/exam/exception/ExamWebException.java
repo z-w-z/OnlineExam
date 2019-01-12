@@ -1,6 +1,6 @@
 package com.exam.exception;
 
-public class ExamWebException extends Exception {
+public class ExamWebException extends ExamException {
 	
 	public final ExamWebError examWebError;
 

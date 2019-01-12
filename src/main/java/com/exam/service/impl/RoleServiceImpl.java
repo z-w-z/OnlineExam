@@ -22,7 +22,6 @@ import com.exam.util.ResultUtil;
 import com.exam.util.UUIDUtil;
 import com.exam.vo.base.ResponseVo;
 
-
 @Service
 public class RoleServiceImpl implements RoleService {
 

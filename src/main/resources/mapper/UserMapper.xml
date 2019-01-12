@@ -7,31 +7,41 @@
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="salt" property="salt" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
         <result column="phone" property="phone" jdbcType="VARCHAR" />
         <result column="sex" property="sex" jdbcType="INTEGER" />
         <result column="age" property="age" jdbcType="INTEGER" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="INTEGER" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+        <collection property="roles" column="role_id" javaType="ArrayList" ofType="com.exam.model.Role">
+            <result property="roleId" jdbcType="INTEGER" column="role_id"/>
+            <result property="name" jdbcType="VARCHAR" column="role_name"/>
+            <result property="description" jdbcType="VARCHAR" column="role_description"/>
+        </collection>
     </resultMap>
     <sql id="Base_Column_List" >
-        id, user_id, username, password, salt, email, phone, sex, age, status,
+        id, user_id, username, password, salt, nickname, email, phone, sex, age, img, status,
         create_time, update_time, last_login_time
     </sql>
 
     <select id="selectUsers" resultMap="BaseResultMap" parameterType="com.exam.model.User">
-        SELECT <include refid="Base_Column_List"/> FROM user
-        WHERE status=1
+        SELECT a.*,c.role_id AS role_id,c.name AS role_name,c.description AS  role_description
+        FROM user a
+        left join user_role b on a.user_id = b.user_id
+        left join role c on b.role_id = c.role_id
+        WHERE a.status=1
         <if test="username !=null and username != ''">
-            AND username like concat('%', #{username}, '%')
+            AND a.username like concat('%', #{username}, '%')
         </if>
         <if test="email !=null and email != ''">
-            AND email like concat('%', #{email}, '%')
+            AND a.email like concat('%', #{email}, '%')
         </if>
         <if test="phone !=null and phone != ''">
-            AND phone like concat('%', #{phone}, '%')
+            AND a.phone like concat('%', #{phone}, '%')
         </if>
     </select>
 
@@ -75,4 +85,5 @@
             #{item}
         </foreach>
     </select>
+
 </mapper>

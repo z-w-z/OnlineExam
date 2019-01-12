@@ -8,7 +8,6 @@ import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.vo.base.ResponseVo;
 
-
 public interface RoleService {
 
     /**

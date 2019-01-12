@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="com.exam.model.SysConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sys_key" jdbcType="VARCHAR" property="sysKey" />
+    <result column="sys_value" jdbcType="VARCHAR" property="sysValue" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sys_key, sys_value, status, remark
+  </sql>
+</mapper>

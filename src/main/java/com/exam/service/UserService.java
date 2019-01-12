@@ -8,8 +8,8 @@ import com.exam.vo.UserOnlineVo;
 import com.exam.vo.base.ResponseVo;
 
 public interface UserService {
-	
-	/**
+
+    /**
      * 根据用户名查询用户
      * @param username
      * @return user
@@ -73,17 +73,10 @@ public interface UserService {
      */
     int updateUserByPrimaryKey(User user);
 
-    /**
-     * 查询在线用户
-     * @param userOnlineVo
-     * @return list
-     */
+
     List<UserOnlineVo> selectOnlineUsers(UserOnlineVo userOnlineVo);
 
-    /**
-     * 踢出用户
-     * @param sessionId 会话id
-     * @param username 用户名
-     */
+
     void kickout(Serializable sessionId, String username);
+
 }

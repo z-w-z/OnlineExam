@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.exam.enmus.ResponseStatus;
+import com.exam.exception.ExamException;
 
 
 @ControllerAdvice
 public class ExceptionHandleController {
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandleController.class);
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(ExamException.class)
     public String handleZb(Exception e, HttpServletRequest request) {
         request.setAttribute("javax.servlet.error.status_code",ResponseStatus.ERROR.getCode());
         Map<String,Object> map = new HashMap<>(2);
