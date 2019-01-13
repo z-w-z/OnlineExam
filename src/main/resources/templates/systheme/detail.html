@@ -1,0 +1,46 @@
+<form class="form-horizontal" id="themeDetailForm">
+    <input name="id" type="hidden" th:value="${theme.id}">
+    <div class="box-body">
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">主题名称 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${theme.name}" name="name" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">主题描述 :</label>
+            <div class="col-sm-8">
+                <input th:value="${theme.description}" name="description" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">主题图片 :</label>
+            <div class="col-sm-8">
+                <input th:value="${theme.img}" name="img" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="pull-right">
+            <button type="button" id="saveDetailTheme" class="btn btn-info">确定</button>
+            <button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#saveDetailTheme").on('click', function () {
+            if (doValidForm("#themeDetailForm")) {
+                Core.mask("#saveDetailTheme");
+                Core.postAjax("/theme/edit",$("#themeDetailForm").serialize(),function (data) {
+                    if (data.status == 200) {
+                        Core.unmask("#saveDetailTheme");
+                        $("#themeDetailModal").modal("hide");
+                        Core.refreshTable("#table",true);
+                    }
+                    layer.msg(data.msg);
+                })
+            }
+        });
+    });
+</script>

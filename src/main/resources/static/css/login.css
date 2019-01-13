@@ -55,6 +55,10 @@ button {
     padding: 5px 0;
     height: 54px;
 }
+.logo-text{
+	margin-top:0;
+	line-height:45px;
+}
 
 .logo-a img {
     height: 100%;
@@ -151,140 +155,8 @@ button {
     font-size: 30px;
 }
 
-/*-------footer-start------*/
-.footer-section {
-    padding-top: 30px;
-    background: #313131;
-}
 
-.footer-section h5 {
-    color: #cccccc;
-    font-size: 14px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    font-weight: bold;
-    position: relative;
-}
-
-.footer-section h5:after {
-    content: "";
-    display: block;
-    margin-top: 20px;
-    width: 25px;
-    height: 4px;
-    background: #ff6400;
-}
-
-.footer-section p {
-    color: #999999;
-    font-size: 14px;
-}
-
-.footer-section .footer-nav li {
-    line-height: 24px;
-}
-
-.footer-section .footer-nav li.active a {
-    color: #ff6400;
-}
-
-.footer-section .footer-nav li a {
-    font-size: 14px;
-    line-height: 2;
-    color: #999999;
-    text-decoration: none;
-}
-
-.footer-section .footer-nav li a:hover {
-    color: #ff6400;
-}
-
-.footer-section .contacts-list i {
-    min-width: 20px;
-    margin-right: 5px;
-}
-
-.footer-section .contacts-list p {
-    margin-bottom: 0;
-}
-
-.footer-section .contacts-list a {
-    color: #999;
-    text-decoration: none;
-}
-
-.footer-section .form-control {
-    border-color: #333333;
-}
-
-.footer-section .form-control:focus, .footer-section .form-control:active {
-    border-color: #ddd;
-}
-
-.footer-section .form-control-feedback {
-    color: #999;
-    top: 16px;
-    font-size: 15px;
-}
-
-.footer-section ul {
-    margin: 0;
-    padding: 0;
-}
-
-.footer-section .form-control {
-    background: none;
-    box-shadow: none !important;
-    outline: none;
-    border: none;
-    border-bottom: 1px solid #999;
-    border-radius: 0;
-    font-size: 14px;
-    padding-left: 0;
-    height: 50px;
-    color: #999;
-}
-
-.footer-content {
-    margin-bottom: 30px;
-}
-
-.copyright-section {
-    padding: 30px 0;
-    text-align: center;
-}
-.copyright-section p {
-    margin-bottom: 0;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-family: 'Montserrat', sans-serif;
-}
-.copyright-dark.copyright-section {
-    background: #313131;
-    border-top: 1px solid #545252;
-}
-
-.copyright-dark.copyright-section p {
-    color: #999;
-}
-
-.copyright-dark.copyright-section p span {
-    color: #ccc;
-}
-.copyright-light.copyright-section {
-    background: #fff;
-    border-top: 1px solid #c7c6c6;
-}
-
-.copyright-light.copyright-section p {
-    color: #6c6b6b;
-}
-
-.copyright-light.copyright-section p span {
-    color: #6c6b6b;
-}
-
-/*swipper*/
+/*swiper*/
 .swiper-button-next {
     background-image: none;
     font-size: 28px;
@@ -303,7 +175,7 @@ button {
     opacity: 1
 }
 
-/*login内容开始*/
+/*login鍐呭寮�濮�*/
 input{
     -webkit-appearance: none;
 }

@@ -1,11 +1,13 @@
 package com.exam.config;
 
-import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.google.code.kaptcha.util.Config;
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.util.Properties;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.code.kaptcha.util.Config;
+
 
 @Component  
 public class KaptchaConfig {  
@@ -24,5 +26,5 @@ public class KaptchaConfig {
         Config config = new Config(properties);  
         defaultKaptcha.setConfig(config);  
         return defaultKaptcha;
-    }  
+    }
 }  

@@ -1,6 +1,7 @@
 package com.exam.exception;
 
 
+
 public class ExamException extends RuntimeException {
     /**
      * Constructs a new runtime exception with {@code null} as its

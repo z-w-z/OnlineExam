@@ -41,6 +41,7 @@ function doValidForm(formId,language) {
     var dataDigitalAlphabetChineseBlank="只能输入数字、字母、中文和空格"
     var dataLength = "字符串长度必须为"
     var dataMoney = "请出入正确的金额"
+    var dataDomain="域名必须以http(https)//开头"
 
     if("en" == language){
         dataRequire = "This is required";
@@ -62,6 +63,8 @@ function doValidForm(formId,language) {
         dataDigitalAlphabetChinese="Only numbers, letters and Chinese can be entered"
         dataDigitalAlphabetChineseBlank="Only numbers, letters, Chinese and spaces can be entered"
         dataLength = "String length must be "
+        dataMoney = "Please enter the correct money"
+        dataDomain="domain must start with http(https)//"
     }
     var flag = true;
     /*必填*/
@@ -403,6 +406,18 @@ function doValidForm(formId,language) {
             $(this).after('<span  class="active promimg fa fa-exclamation-circle '+position+'" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="'+messageRequire+'"></span>');
         }
 
+    });
+    /*域名校验*/
+    $(formId).find("input[domain]:visible").each(function () {
+        position = setPosition(this);
+        var messageDomain=(typeof($(this).attr("data-domain")) != "undefined") ? $(this).attr("data-domain") : dataDomain;
+        var alp = $(this).val().trim();
+        if (alp.substring(0,4)!="http") {
+            $(this).addClass("error");
+            flag = false;
+            $(this).addClass("prominput");
+            $(this).after('<span  class="active promimg fa fa-exclamation-circle '+position+'" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="'+ messageDomain +'"></span>');
+        }
     });
 
     /*****************************************************************************************************  常用分界线  ***************************************************************************************************************/

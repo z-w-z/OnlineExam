@@ -7,40 +7,67 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class RolePermission implements Serializable {
-	
-	//主键
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Id;
-	
-	//角色Id
-	private String roleId;
-	
-	//权限Id
-	private String permissionId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Integer getId() {
-		return Id;
-	}
+    /**
+     * 角色id
+     */
+    private String roleId;
 
-	public void setId(Integer id) {
-		Id = id;
-	}
+    /**
+     * 权限id
+     */
+    private String permissionId;
 
-	public String getRoleId() {
-		return roleId;
-	}
+    /**
+     * @return id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId == null ? null : roleId.trim();
-	}
+    /**
+     * @param id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getPermissionId() {
-		return permissionId;
-	}
+    /**
+     * 获取角色id
+     *
+     * @return role_id - 角色id
+     */
+    public String getRoleId() {
+        return roleId;
+    }
 
-	public void setPermissionId(String permissionId) {
-		this.permissionId = permissionId == null ? null : permissionId.trim();
-	}
-	
+    /**
+     * 设置角色id
+     *
+     * @param roleId 角色id
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
+    }
+
+    /**
+     * 获取权限id
+     *
+     * @return permission_id - 权限id
+     */
+    public String getPermissionId() {
+        return permissionId;
+    }
+
+    /**
+     * 设置权限id
+     *
+     * @param permissionId 权限id
+     */
+    public void setPermissionId(String permissionId) {
+        this.permissionId = permissionId == null ? null : permissionId.trim();
+    }
 }

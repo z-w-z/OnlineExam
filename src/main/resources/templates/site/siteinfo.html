@@ -1,0 +1,79 @@
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">网站管理</a></li>
+        <li class="active">基础设置</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="jax-box">
+        <form id="siteForm" class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group col-sm-11">
+                    <label for="BAIDU_PUSH_URL" class="col-lg-2 col-sm-3 control-label">百度推送地址：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <input th:value="${siteinfo.BAIDU_PUSH_URL}" type="text" class="form-control" id="BAIDU_PUSH_URL" name="BAIDU_PUSH_URL" require="">
+                    </div>
+                </div>
+                <div class="form-group col-sm-11">
+                    <label for="SITE_NAME" class="col-lg-2 col-sm-3 control-label">网站名称：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <input th:value="${siteinfo.SITE_NAME}" type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" require="">
+                    </div>
+                </div>
+                <div class="form-group  col-sm-11">
+                    <label for="SITE_KWD" class="col-lg-2 col-sm-3 control-label">网站关键字：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <textarea th:text="${siteinfo.SITE_KWD}" rows="2" type="text" class="form-control" id="SITE_KWD" name="SITE_KWD" require="">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group  col-sm-11">
+                    <label for="SITE_DESC" class="col-lg-2 col-sm-3 control-label">网站描述：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <textarea th:text="${siteinfo.SITE_DESC}" rows="2" type="text" class="form-control" id="SITE_DESC" name="SITE_DESC" require="">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group  col-sm-11">
+                    <label for="SITE_PERSON_PIC" class="col-lg-2 col-sm-3 control-label">站长LOGO：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <input th:value="${siteinfo.SITE_PERSON_PIC}" type="text" class="form-control" id="SITE_PERSON_PIC" name="SITE_PERSON_PIC" require="">
+                    </div>
+                </div>
+                <div class="form-group  col-sm-11">
+                    <label for="SITE_PERSON_NAME" class="col-lg-2 col-sm-3 control-label">站长名称：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <input th:value="${siteinfo.SITE_PERSON_NAME}" type="text" class="form-control" id="SITE_PERSON_NAME" name="SITE_PERSON_NAME" require="">
+                    </div>
+                </div>
+                <div class="form-group  col-sm-11">
+                    <label for="SITE_PERSON_DESC" class="col-lg-2 col-sm-3 control-label">站长描述：</label>
+                    <div class="col-lg-6 col-sm-8">
+                        <input th:value="${siteinfo.SITE_PERSON_DESC}" type="text" class="form-control" id="SITE_PERSON_DESC" name="SITE_PERSON_DESC" require="">
+                    </div>
+                </div>
+                <shiro:hasPermission name="siteinfo:edit">
+                <div class="col-xs-12">
+                    <button type="button" id="btn_save" class="btn btn-info">保存</button>
+                </div>
+                </shiro:hasPermission>
+            </div>
+        </form>
+    </div>
+
+</section>
+<script>
+    $(function () {
+        $("#btn_save").click(function () {
+            if(doValidForm("#siteForm")){
+                Core.mask("#btn_save");
+                Core.postAjax("/siteinfo/edit",$("#siteForm").serialize(),function (data) {
+                    Core.unmask("#btn_save");
+                    layer.msg(data.msg);
+                })
+            }
+        })
+    })
+</script>

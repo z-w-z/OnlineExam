@@ -8,7 +8,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="jax-box">
-        <form id="formSearch" class="form-horizontal">
+        <form id="formSearch" class="form-horizontal form-search">
             <div class="form-group">
                 <div class="col-md-5 col-xs-8">
                     <label class="control-label  col-xs-4" for="roleName">角色名称:</label>
@@ -169,7 +169,9 @@
     //树-初始化设置
     var treeSetting = {
         check: {
-            enable: true
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "ps", "N": "s" }
         },
         data: {
             simpleData: {

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" th:content="${article.keywords}">
+		<meta name="description" th:content="${article.description}">
+		<title th:text="${article.title}"></title>
+		<link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{/libs/font-icon/icon.css}"/>
+		<link rel="stylesheet" th:href="@{/libs/markdown/simplemde.min.css}">
+		<link rel="stylesheet" th:href="@{/libs/markdown/github-markdown.min.css}">
+		<link rel="stylesheet" th:href="@{/libs/markdown/highlight.min.css}">
+		<link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-common.css}" />
+		<link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-blog.css}" />
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/libs/bootstrap/bootstrap.min.js}"></script>
+		<script th:src="@{/libs/markdown/highlight.min.js}"></script>
+		<script th:src="@{/libs/markdown/simplemde.min.js}"></script>
+		<script th:src="@{/libs/layer/layer.js}"></script>
+		<script th:src="@{/js/hc-sticky.js}"></script>
+		<script th:src="@{/js/core.js}"></script>
+		<script th:src="@{/libs/theme/zblog/js/zb-blog.js}"></script>
+	</head>
+	<body>
+		<header id="header">
+			<div th:replace="home/fragments/navbar :: navbar"></div>
+		</header>
+		<div class="zb-container zb-content">
+			<div class="zb-main">
+				<div class="article-main">
+					<h3 th:text="${article.title}" class="article-title"></h3>
+					<span th:text="${article.original==1 ? '原创' : '转载'}" class="article-original"></span>
+					<div class="article-meta">发布于 <span th:text="${#dates.format(article.createTime,'yyyy-MM-dd')}"></span> &nbsp;|&nbsp; <span th:text="${article.bizCategory.name}"></span> &nbsp;|&nbsp; 浏览（<span th:text="${article.lookCount}? ${article.lookCount} : 0"></span>） &nbsp;|&nbsp; 评论（<span th:text="${article.commentCount}? ${article.commentCount} : 0"></span>）</div>
+					<hr class="hr0" />
+					<div th:utext="${article.content}" class="article-body markdown-body editor-preview-active-side">
+					</div>
+					<!--<div class="article-zan-shang">
+						<span class="article-zan"><i class="fa fa-thumbs-o-up"></i>点赞</span> <span>打赏</span>
+					</div>-->
+					<div class="thumbs-content">
+						<span class="thumbs-button fa fa-thumbs-up"> 点赞 <span id="loveCount" th:text="${article.loveCount}"></span></span>
+						<span class="reward-button fa fa-money"> 打赏
+						<p class="reward-content">
+							<span class="reward-img"><img src="/libs/theme/zblog/img/weixin.jpg"><br>微信赞赏</span>
+							<span class="reward-img"><img src="/libs/theme/zblog/img/zhifubao.jpg"><br>支付宝赞赏</span></p>
+						<span class="reward-bottom"></span>
+						<span class="reward-bottom-top"></span>
+						</span>
+					</div>
+				</div>
+				<div th:if="${article.comment==1}" id="comment" class="comment comment-main">
+					<div class="comment-title">发表评论</div>
+					<form id="comment-form" class="form-horizontal mt-10">
+						<input id="articleId" name="sid" type="hidden" th:value="${article.id}">
+						<div id="user-name-content" class="user-name-content">欢迎您：<b id="user-name"></b></div>
+						<div class="form-group" id="user-info" style="display: none">
+							<div class="col-sm-4">
+								<input id="nickname" type="text" class="form-control"  name="nickname" placeholder="昵称(必填)">
+							</div>
+							<div class="col-sm-4">
+								<input id="qq" type="text" class="form-control"  name="qq" placeholder="QQ（可获取头像和昵称）">
+							</div>
+							<div class="col-sm-4">
+								<input id="email" type="text" class="form-control"  name="email" placeholder="邮箱">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<textarea name="content" id="comment-textarea"></textarea>
+							</div>
+						</div>
+						<div><button id="submitCommentBtn" type="button" class="btn btn-pri">发表评论</button></div>
+					</form>
+					<hr class="hr0 mt-15"/>
+					<ul id="comment-ul" class="comment">
+					</ul>
+				</div>
+			</div>
+			<div th:replace="home/fragments/sidebar :: sidebar"></div>
+		</div>
+		<div th:replace="home/fragments/footer :: copyrightDark"></div>
+		<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+		<script>
+			var sid=[[${article.id}]];
+			Core.postAjax("/blog/api/article/look",{"articleId":sid})
+			$(function () {
+				$(".thumbs-button").click(function () {
+                    Core.postAjax("/blog/api/love",{"bizId":sid,"bizType":1},function (data) {
+                        if(data.status==200){
+                            $("#loveCount").text(parseInt($("#loveCount").text())+1);
+                        }
+                    });
+                })
+            })
+		</script>
+		<script  th:if="${article.comment==1}" th:src="@{/js/comment.js}"></script>
+	</body>
+
+</html>

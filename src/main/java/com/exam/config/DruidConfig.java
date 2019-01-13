@@ -10,15 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 
-/**
- * @描述  整合 阿里巴巴Druid数据源
- * @标题 DruidConfig.java
- * @Package com.exam.config
- * @版本 v1.0
- * @作者 HungKuei
- * @日期 2018年11月19日 下午1:57:40
- * @Copyright: 2018 by hungkuei All rights reserved.
- */
 
 @Configuration
 public class DruidConfig {

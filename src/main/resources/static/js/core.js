@@ -1,4 +1,71 @@
 /*Core*/
+
+(function ($) {
+
+    /**
+     *
+     * @param selector jQuery选择器
+     * @param options
+     */
+    $.initBootstrapTable = function (selector, options) {
+
+        var defaults = {
+            id: "",
+            url: "",
+            columns: [],
+            uniqueId: "id",//每一行的唯一标识，一般为主键列
+            method: "post",//请求方式（*）
+            undefinedText: "-", /*为undefiend时显示的字*/
+            striped: false, //是否显示行间隔色
+            queryParams: queryInitParams,
+            responseHandler: responseHandler,
+            toolbar: '',        //工具按钮用哪个容器
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 999],
+            contentType: "application/x-www-form-urlencoded",//用post请求，这个是必须条件，必须加上，get可以不用，亲测
+            dataType: "json",
+            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true, //是否显示分页（*）
+            sortable: false, //是否启用排序
+            sortOrder: "asc", //排序方式
+            sortName: "", //排序字段
+            queryParamsType: "limit",
+            sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+            showColumns: false, //是否显示所有的列
+            showRefresh: false, //是否显示刷新按钮
+            minimumCountColumns: 2, //最少允许的列数
+            clickToSelect: true, //是否启用点击选中行
+            strictSearch: true,
+            showToggle: false, //是否显示详细视图和列表视图的切换按钮
+            cardView: false, //是否显示详细视图
+            detailView: false, //是否显示父子表
+            showExport: false, //是否显示导出
+            exportDataType: "basic", //basic', 'all', 'selected'.
+            escape: true,//html转意
+            onLoadSuccess: tableLoadSuccess,
+        };
+        defaults = $.extend(true, defaults, options);
+        defaults.onPostBody = function () {
+            //改变复选框样式
+            $(selector).find("input:checkbox").each(function (i) {
+                var $check = $(this);
+                if ($check.attr("id") && $check.next("label")) {
+                    return;
+                }
+                var name = $check.attr("name");
+                var id = name + "-" + i;
+                var $label = $('<label for="'+ id +'"></label>');
+                $check.attr("id", id).parent().addClass("bella-checkbox").append($label);
+            });
+            if ($.isFunction(options.onPostBody)) {
+                options.onPostBody();
+            }
+        };
+        $(selector).bootstrapTable(defaults);
+    }
+
+})(jQuery);
 var Core = (function () {
     var core = {};
     var coreOptions;
@@ -38,7 +105,7 @@ var Core = (function () {
             showExport: false, //是否显示导出
             exportDataType: "basic", //basic', 'all', 'selected'.
             escape: true,//html转意
-            onLoadSuccess: tableLoadSuccess
+            onLoadSuccess: tableLoadSuccess,
         }
     };
     /*ajax请求*/
@@ -60,6 +127,8 @@ var Core = (function () {
                     layer.msg("您没有权限访问，请联系管理员！")
                 }else if(XMLHttpRequest.status==500){
                     layer.msg("服务器内部错误！")
+                }else if(XMLHttpRequest.status==404){
+                    layer.msg("您访问的内容不存在！")
                 }else{
                     layer.msg("服务器未知错误！")
                 }
@@ -159,7 +228,7 @@ var Core = (function () {
                     }
                     var name = $check.attr("name");
                     var id = name + "-" + i;
-                    var $label = (i==0?$('<label for="'+ id +'"></label>'):(tableOptions.clickToSelect==true?$('<label></label>'):$('<label for="'+ id +'"></label>')));
+                    var $label = (i==0?$('<label for="'+ id +'"></label>'):$('<label></label>'));
                     $check.attr("id", id).parent().addClass("zb-checkbox").append($label);
                 });
                 $(tableOptions.id).find("input:radio").each(function (i) {
@@ -178,20 +247,7 @@ var Core = (function () {
             }
         });
     }
-    function queryInitParams(params) {
-        var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
-            limit: params.limit, //页面大小
-            offset: params.offset //页码
-        };
-        return temp;
-    }
 
-    function responseHandler(data) {
-        return data;
-    }
-
-    function tableLoadSuccess(data) {
-    }
 
     /*刷新表格 ：flag-是否跳转到当前页。默认首页*/
     core.refreshTable = function (id, flag) {
@@ -248,13 +304,10 @@ var Core = (function () {
 
     /*禁用button*/
     core.mask = function (e) {
-        var i = "<i class='icon icon-spin icon-spinner-indicator'></i>"
-        $(e).append(i);
         $(e).attr('disabled', "true");//添加disabled属性
     }
     /*启用button*/
     core.unmask = function (e) {
-        $(e).children('i').remove();
         $(e).removeAttr('disabled');//添加disabled属性
     }
 
@@ -393,6 +446,88 @@ var Core = (function () {
         return isjson;
     }
 
+    core.setCookie =  function (cname,cvalue,exdays){
+        var d = new Date();
+        d.setTime(d.getTime()+(exdays*24*60*60*1000));
+        var expires = "expires="+d.toGMTString();
+        document.cookie = cname+"="+cvalue+"; "+expires+";path=/";
+    }
+    core.getCookie =  function (cname){
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+        }
+        return "";
+    }
+
+    core.getQqInfo = function (qq,d) {
+        $.ajax({  /* 使用ajax请求 */
+            type: "get",  /* 请求方式为GET */
+            url: "http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins="+qq,  /* 发送请求的地址 */
+            dataType: "jsonp",   /* 返回JSONP格式 */
+            scriptCharset: 'gbk',
+            jsonp: "callback",    /* 重写回调函数名 */
+            jsonpCallback:"portraitCallBack",  /* 指定回调函数名 */
+            success: function(json){  /* 请求成功输出 */
+                if(json[qq]==undefined||json[qq][6].trim()==""){
+                    layer.msg("qq信息不存在！")
+                    return;
+                }
+                var qqInfo={qq:"",nickname:"",avatar:""};
+                for(var key in json){
+                    qqInfo.qq=key;
+                }
+                qqInfo.nickname=json[qq][6];
+                qqInfo.avatar=json[qq][0];
+                if (typeof d == "function") {
+                    d(qqInfo);
+                }
+            },
+            error: function(){  /* 请求失败输出 */
+                layer.msg('获取QQ信息失败');
+            }
+        });
+    }
+
+
 
     return core;
 })(Core, window);
+Date.prototype.Format = function(fmt) {
+    var o = {
+        "M+" : this.getMonth() + 1, // 月份
+        "d+" : this.getDate(), // 日
+        "h+" : this.getHours(), // 小时
+        "m+" : this.getMinutes(), // 分
+        "s+" : this.getSeconds(), // 秒
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S" : this.getMilliseconds()
+// 毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
+            .substr(4 - RegExp.$1.length));
+    for ( var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
+                : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+
+};
+
+function queryInitParams(params) {
+    var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+        limit: params.limit, //页面大小
+        offset: params.offset //页码
+    };
+    return temp;
+}
+
+function responseHandler(data) {
+    return data;
+}
+
+function tableLoadSuccess(data) {
+}

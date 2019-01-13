@@ -1,0 +1,85 @@
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">文件管理</a></li>
+        <li class="active">上传配置</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-body">
+            <form class="form-horizontal" id="cloudConfigForm">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">类型 :</label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline pr-5"><input type="radio" th:field="*{cloudStorageConfig.type}" name="type" value="1" > 七牛云</label>
+                        <label class="radio-inline pr-5"><input type="radio" th:field="*{cloudStorageConfig.type}" name="type" value="2" disabled="disabled"> 阿里云</label>
+                        <label class="radio-inline pr-5"><input type="radio" th:field="*{cloudStorageConfig.type}" name="type" value="3" disabled="disabled"> 腾讯云</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-3">
+                        <p class="form-control-static"><a href="https://portal.qiniu.com/signup?code=3l8qlu82nkh1u" target="_blank">免费申请(七牛云)10GB储存空间</a></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">域名 :</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" th:value="${cloudStorageConfig.qiniuDomain}" name="qiniuDomain" require="必填项" domain=""  placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">前缀 :</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" th:value="${cloudStorageConfig.qiniuPrefix}" name="qiniuPrefix"  placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">AccessKey :</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" th:value="${cloudStorageConfig.qiniuAccessKey}" name="qiniuAccessKey" require="必填项"  placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">SecretKey :</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" th:value="${cloudStorageConfig.qiniuSecretKey}" name="qiniuSecretKey" require="必填项"  placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">空间名 :</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" th:value="${cloudStorageConfig.qiniuBucketName}" name="qiniuBucketName" require="必填项"  placeholder="">
+                    </div>
+                </div>
+                <shiro:hasPermission name="upload:saveConfig">
+                <div class="form-group">
+                    <div class="col-sm-8  col-sm-offset-3">
+                        <button id="saveConfig" type="button" class="btn btn-info">保存</button>
+                    </div>
+                </div>
+                </shiro:hasPermission>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function () {
+        $("#saveConfig").on('click', function () {
+            Core.mask("#saveConfig");
+            if(doValidForm(cloudConfigForm)){
+                Core.postAjax("/upload/saveConfig",$("#cloudConfigForm").serialize(),function (data) {
+                    Core.unmask("#saveConfig");
+                    layer.msg(data.msg);
+                })
+            }else{
+                Core.unmask("#saveConfig");
+            }
+
+        })
+    });
+</script>
+
+

@@ -8,38 +8,67 @@ import javax.persistence.Id;
 
 public class UserRole implements Serializable {
 	
-	//主键
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Id;
-	
-	//用户Id
-	private String userId;
-	
-	//角色Id
-	private String roleId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Integer getId() {
-		return Id;
-	}
+    /**
+     * 用户id
+     */
+    private String userId;
 
-	public void setId(Integer id) {
-		Id = id;
-	}
+    /**
+     * 角色id
+     */
+    private String roleId;
 
-	public String getUserId() {
-		return userId;
-	}
+    /**
+     * @return id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId == null ? null : userId.trim();
-	}
+    /**
+     * @param id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getRoleId() {
-		return roleId;
-	}
+    /**
+     * 获取用户id
+     *
+     * @return user_id - 用户id
+     */
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId == null ? null : roleId.trim();
-	}
+    /**
+     * 设置用户id
+     *
+     * @param userId 用户id
+     */
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
+
+    /**
+     * 获取角色id
+     *
+     * @return role_id - 角色id
+     */
+    public String getRoleId() {
+        return roleId;
+    }
+
+    /**
+     * 设置角色id
+     *
+     * @param roleId 角色id
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
+    }
 }

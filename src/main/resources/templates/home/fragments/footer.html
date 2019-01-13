@@ -1,71 +1,26 @@
+<meta charset="utf-8">
 <div th:fragment="footer" class="footer-grey footer-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-3">
-                <h5>about us</h5>
-                <div  class="footer-content">
-                    <p>Lorem ipsum dolor sit amet consect etural
-                        adipisicing elit sed don eiusmod temp enim
-                        minim veniam quis notrud exercitation lore
-                        ipsum dolor sit amet.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3">
-                <h5>Sitemap</h5>
-                <div class="row footer-content">
-                    <div class="col-md-6">
-                        <ul class="footer-nav">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Portfolio</a></li>
-                            <li><a href="#">Latest News</a></li>
-                            <li><a href="#">Contact us</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="footer-nav">
-                            <li><a href="#">Get Help</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">FAQ's</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3">
-                <h5>Contact info</h5>
-                <div  class="footer-content">
-                    <ul class="contacts-list">
-                        <li>
-                            <p><i class="fa fa-map-marker"></i>68 Landsriver Street, California  USA 22036</p>
-                        </li>
-                        <li>
-                            <p><i class="fa fa-phone"></i>18721128898</p>
-                        </li>
-                        <li>
-                            <p><i class="fa fa-envelope-o"></i><a href="mailto:support@oscend.com">support@nbclass.com</a> </p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3">
-                <h5>newsletter</h5>
-                <div  class="footer-content">
-                    <p>
-                        Subscribe to our newsletter for latest updates
-                        about our creative agency
-                    </p>
-                    <div class="form-group has-feedback">
-                        <input type="email" class="form-control " placeholder="Email address ...">
-                        <i class="fa fa-envelope-o form-control-feedback"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <div th:fragment="copyrightDark"  class="copyright-dark copyright-section">
-    <p>Copyright © 2018. nbclass.com All rights reserved.</p>
+    <p>Copyright © [[${#dates.format(new java.util.Date().getTime(), 'yyyy')}]]. [[${@module.get('sysConfig').SITE_NAME}]] · Powered by <a href="https://github.com/HungKuei" target="_blank" title="在线考试系统">HungKuei</a> </p>
 </div>
 <div th:fragment="copyrightLight"  class="copyright-light copyright-section">
-    <p>Copyright © 2018. nbclass.com All rights reserved.</p>
+    <p>Copyright © [[${#dates.format(new java.util.Date().getTime(), 'yyyy')}]]. [[${@module.get('sysConfig').SITE_NAME}]] · Powered by <a href="https://github.com/HungKuei" target="_blank" title="在线考试系统">HungKuei</a> </p>
+</div>
+<div th:fragment="copyrightCommon"  class="copyright-common copyright-section">
+    <script>
+        /*加载底部前执行。ps：防止闪现
+         控制当页面内容过少时，底部仍在屏幕最下方
+         主体内容最小高度
+         */
+        var topHeight=56;//头部高度
+        var footerHeight=57;//底部高度
+        var contentMinHeight = $(window).height()-topHeight-footerHeight;
+        $(".main-content").css("min-height",contentMinHeight)
+        $(window).resize(function(){
+            var contentMinHeight = $(window).height()-topHeight-footerHeight;
+            $(".main-content").css("min-height",contentMinHeight)
+        })
+    </script>
+    <p>Copyright © [[${#dates.format(new java.util.Date().getTime(), 'yyyy')}]]. [[${@module.get('sysConfig').SITE_NAME}]] · Powered by <a href="https://github.com/HungKuei" target="_blank" title="在线考试系统">HungKuei</a> </p>
 </div>

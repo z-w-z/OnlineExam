@@ -12,7 +12,6 @@ import com.exam.mapper.SysConfigMapper;
 import com.exam.model.SysConfig;
 import com.exam.service.SysConfigService;
 
-
 @Service
 public class SysConfigServiceImpl implements SysConfigService {
     @Autowired

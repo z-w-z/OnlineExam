@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>404</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=0,user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <title>404</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-common.css}" />
+    <script th:src="@{/libs/jquery/jquery.min.js}"></script>
 </head>
 <body>
-<h1 style="font-size: 180px;font-weight:500;text-align: center;margin-top: 5%">404</h1>
-<p style="text-align: center">您访问的内容不存在！</p>
+<header id="header">
+    <div th:replace="home/fragments/navbar :: navbar"></div>
+</header>
+<div class="main-content error-content">
+        <div class="error-img-content mt-160 mb-70 text-center"><img th:src="@{/img/404.png}"></div>
+        <p class="error-text">很抱歉，页面好像去火星了~</p>
+        <div class="error-btn-content">
+            <button class="btn btn-danger" type="button">
+                <a href="/">返回主页</a>
+            </button>
+        </div>
+</div>
+<div th:replace="home/fragments/footer :: copyrightCommon"></div>
 </body>
 </html>

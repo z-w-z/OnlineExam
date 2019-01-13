@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface RedisService {
-	
     <T> void set(String key, T value);
 
     <T> void set(String key, T value, long expire, TimeUnit timeUnit);

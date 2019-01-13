@@ -16,7 +16,12 @@
     <link rel="stylesheet" th:href="@{/libs/ztree/css/ztree-bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/libs/zplayer/css/zplayer.min.css}"/>
     <link rel="stylesheet" th:href="@{/libs/upload/css/webuploader.css}"/>
-    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/libs/markdown/simplemde.min.css}">
+    <link rel="stylesheet" th:href="@{/libs/markdown/github-markdown.min.css}">
+    <link rel="stylesheet" th:href="@{/libs/markdown/highlight.min.css}">
+    <link rel="stylesheet" th:href="@{/libs/iCheck/minimal/blue.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <script th:src="@{/libs/jquery/jquery.min.js}"></script>
     <script th:src="@{/libs/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/libs/pace/pace.js}"></script>
@@ -36,6 +41,11 @@
     <script th:src="@{/libs/upload/js/jax.uploader.js}"></script>
     <script th:src="@{/libs/upload/js/uploadCall.js}"></script>
     <script th:src="@{/libs/zplayer/js/zplayer.min.js}"></script>
+    <script th:src="@{/libs/markdown/highlight.min.js}"></script>
+    <script th:src="@{/libs/markdown/simplemde.min.js}"></script>
+    <script th:src="@{/libs/iCheck/icheck.min.js}"></script>
+    <script th:src="@{/js/inline-attachment.js}"></script>
+    <script th:src="@{/js/codemirror.inline-attachment.js}"></script>
     <script th:src="@{/js/core.js}"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed" onhashchange="loadContent()">
@@ -56,5 +66,6 @@
 <script th:src="@{/libs/adminlte/js/app.js}"></script>
 <script th:src="@{/libs/adminlte/js/settings-skins.js}"></script>
 <script th:src="@{/js/init.js}"></script>
+
 </body>
 </html>

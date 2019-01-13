@@ -60,7 +60,7 @@
 	min-height: 238px;
 	padding-top: 158px;
 	text-align: center;
-	background: url(../image/image.png) center 93px no-repeat;
+	background: url(../img/image.png) center 93px no-repeat;
 	color: #cccccc;
 	font-size: 18px;
 	position: relative;
@@ -127,7 +127,7 @@
 #uploader .filelist li {
 	width: 125px;
 	height: 125px;
-	background: url(../image/bg.png) no-repeat;
+	background: url(../img/bg.png) no-repeat;
 	text-align: center;
 	margin: 0 10px 20px 0;
 	position: relative;
@@ -174,7 +174,7 @@
 	overflow: hidden;
 	width: 0;
 	height: 100%;
-	background: url("../image/progress.png") repeat-x scroll 0 0 #1483d8;
+	background: url("../img/progress.png") repeat-x scroll 0 0 #1483d8;
 	-webit-transition: width 200ms linear;
 	-moz-transition: width 200ms linear;
 	-o-transition: width 200ms linear;
@@ -250,7 +250,7 @@
 	height: 40px;
 	width: 100%;
 	z-index: 200;
-	background: url(../image/success.png) no-repeat right bottom;
+	background: url(../img/success.png) no-repeat right bottom;
 }
 
 #uploader .filelist div.file-panel {
@@ -273,7 +273,7 @@
 	float: right;
 	text-indent: -9999px;
 	overflow: hidden;
-	background: url(../image/icons.png) no-repeat;
+	background: url(../img/icons.png) no-repeat;
 	margin: 5px 1px 1px;
 	cursor: pointer;
 }
@@ -490,7 +490,7 @@
 	width: 100%;
 	height: inherit;
 	overflow: hidden;
-	background: url('../image/progress.gif') repeat-x;
+	background: url('../img/progress.gif') repeat-x;
 }
 .gt-upload-error {
 	position: absolute;

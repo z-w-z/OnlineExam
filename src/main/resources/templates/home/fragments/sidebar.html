@@ -1,0 +1,81 @@
+<div th:fragment="sidebar" class="zb-sidebar">
+    <div class="about panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">关于本站</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <div class="avatar"> <img th:src="${@module.get('sysConfig').SITE_PERSON_PIC}" alt=""></div>
+                <p th:text="${@module.get('sysConfig').SITE_PERSON_NAME}" class="abname"></p>
+                <p th:text="${@module.get('sysConfig').SITE_PERSON_DESC}" class="abtext"></p>
+            </ul>
+        </div>
+    </div>
+    <div class="tag panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签云</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li th:each="item:${@module.get('tagList')}" class="tag-li"><a class="btn btn-default btn-xs" th:href="@{${'/blog/tag/'+item.id}}" th:text="${item.name}"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="zb-sidebar-tabs">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#latest" data-toggle="tab">最新文章</a></li>
+            <li><a href="#recommend" data-toggle="tab">站长推荐</a></li>
+            <li><a href="#hot" data-toggle="tab">点击排行</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="latest">
+                <ol class="article-list">
+                    <li th:each="item,temp:${@module.get('recentList')}"  class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+            </div>
+            <div class="tab-pane" id="recommend">
+                <ol class="article-list">
+                    <li th:each="item,temp:${@module.get('recommendedList')}"  class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+            </div>
+            <div class="tab-pane" id="hot">
+                <ol class="article-list">
+                    <li th:each="item,temp:${@module.get('hotList')}"  class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="link panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">友情链接</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li th:each="item:${@module.get('linkList')}"> <a th:href="${item.url}" th:text="${item.name}" target="_blank"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="webinfo panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">网站信息</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li> <i class="fa fa-file fa-fw"></i> 文章总数：<span th:text="${@module.get('siteInfo').articleCount}"></span> 篇</li>
+                <li> <i class="fa fa-tags fa-fw"></i> 标签总数：<span th:text="${@module.get('siteInfo').tagCount}"></span> 个</li>
+                <li> <i class="fa fa-folder-open fa-fw"></i> 分类总数：<span th:text="${@module.get('siteInfo').categoryCount}"></span> 个</li>
+                <li> <i class="fa fa-comments fa-fw"></i> 留言数量：<span th:text="${@module.get('siteInfo').commentCount}"></span> 条</li>
+            </ul>
+        </div>
+    </div>
+
+</div>

@@ -24,7 +24,6 @@ public class PasswordHelper {
 		return encryptPassword;
 	}
 
-	//初始化管理员
 	public static void main(String[] args) {
 		User user = new User();
 		user.setUsername("admin	");

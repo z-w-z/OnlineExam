@@ -1,6 +1,5 @@
 package com.exam.vo;
 
-
 public class PermissionTreeListVo {
     private Integer id;
     private String permissionId;

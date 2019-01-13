@@ -100,7 +100,7 @@
                     }).on('uploadSuccess', function (file, resp) {
                         var picker = document.getElementById('rt_' + file.source.ruid).parentNode;
                         uploader.cancelFile(file);
-                        if(resp.status=="success"){
+                        if(resp.status==200){
                             if (success) success(resp.url, picker);
                         }else{/*失败*/
                             layer.msg(resp.msg, function(){

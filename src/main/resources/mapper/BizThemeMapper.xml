@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.mapper.BizThemeMapper" >
+  <resultMap id="BaseResultMap" type="com.exam.model.BizTheme" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    `name`,
+    description,
+    create_time,
+    update_time
+  </sql>
+  <update id="setInvaid">
+    UPDATE biz_theme SET status=0 WHERE status=1
+  </update>
+
+  <update id="updateStatusById" parameterType="int">
+    UPDATE biz_theme SET status=1 WHERE id=#{id}
+  </update>
+
+  <delete id="deleteBatch" parameterType="map">
+    DELETE FROM
+    biz_theme
+    where
+    id in
+    <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+</mapper>

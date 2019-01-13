@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" th:content="${article.keywords}">
+    <meta name="description" th:content="${article.description}">
+    <title th:text="${article.title}"></title>
+    <!--重置的样式-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/libs/theme/lblogone/css/style.css}">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
+    <script src="https://cdn.bootcss.com/layer/3.0.3/layer.min.js"></script>
+    <script th:src="@{/js/core.js}"></script>
+    <!-- 自定义 -->
+
+	<script>	
+		(function($) {
+			$(function() {
+				var $body = $('body'),
+					$header = $('#header');
+					$('<div id="titleBar">' + '<a href="javascript:void(0);" class="toggle" onclick="rightTab()" ></a>' + '<span class="title">' + $('#name').html() + '</span>' + '</div>').appendTo($body);
+			})
+		})(jQuery);
+		
+		function rightTab(){
+			var $body =  $("body");
+			var tab =$body.attr("class");
+			if(tab==undefined||tab==""){
+				$body.addClass("header-visible");
+			}else{
+				$body.removeClass("header-visible");
+			}
+		}
+
+	
+	</script>
+</head>
+<body>
+	<!--header Start-->
+    <div th:replace="theme/lblogone/fragments/header :: header"></div>
+   	<!--header End-->
+   <div class="main">
+        <article class="col-md-8 col-md-offset-2 view clearfix">
+            <h1 class="view-title" th:text="${article.title}"></h1>
+
+            <div class="view-meta">
+                <span>作者: [[${article.author}]]</span>
+                <span>分类: <a th:href="@{${'/blog/category/' + article.bizCategory.id}}" th:text="${article.bizCategory.name}" rel="category tag"></a></span>
+                <span>发布时间: [[${#dates.format(article.createTime,'yyyy-MM-dd')}]]</span>
+                <span></span>
+            </div>
+
+
+            <div class="view-content">
+                <div th:utext="${article.content}" class="article-body markdown-body editor-preview-active-side">
+                </div>
+            </div>
+
+
+            <section class="view-tag">
+                <div class="pull-left"><i class="fa fa-tags"></i>
+                    <a th:each="item:${article.tags}" th:href="${'/blog/tag/'+item.id}" th:text="${item.name}" rel="tag"></a>
+                </div>
+            </section>
+            <section class="support-author">
+                <p>如果觉得我的文章对您有用，请随意赞赏。您的支持将鼓励我继续创作！</p>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-cny" aria-hidden="true"></i> 赞赏支持</button>
+            </section>
+            <div th:if="${article.comment==1}" id="comment" class="comment comment-main">
+                <div class="comment-title">发表评论</div>
+                <form id="comment-form" class="form-horizontal mt-10">
+                    <input id="articleId" name="sid" type="hidden" th:value="${article.id}">
+                    <div id="user-name-content" class="user-name-content">欢迎您：<b id="user-name"></b></div>
+                    <div class="form-group" id="user-info" style="display: none">
+                        <div class="col-sm-4">
+                            <input id="nickname" type="text" class="form-control"  name="nickname" placeholder="昵称(必填)">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="qq" type="text" class="form-control"  name="qq" placeholder="QQ（可获取头像和昵称）">
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="email" type="text" class="form-control"  name="email" placeholder="邮箱">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <textarea name="content" id="comment-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div><button id="submitCommentBtn" type="button" class="btn btn-info">发表评论</button></div>
+                </form>
+                <hr class="hr0 mt-15"/>
+                <ul id="comment-ul" class="comment">
+                </ul>
+            </div>
+
+        </article>
+    </div>
+    <div th:replace="theme/lblogone/fragments/footer :: footer"></div>
+    
+    <!--模态框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog zanshang-modal" role="document">
+            <div class="modal-content single-dashang">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cny" aria-hidden="true"></i> 赞赏支持</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p><img border="0" src="/libs/theme/lblogone/img/zhifubao.jpg"><img border="0" src="/libs/theme/lblogone/img/weixin.jpg"></p>
+                    <p>扫描二维码，输入您要赞赏的金额</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var sid=[[${article.id}]];
+    </script>
+    <script  th:if="${article.comment==1}" th:src="@{/js/comment.js}"></script>
+</body>
+</html>

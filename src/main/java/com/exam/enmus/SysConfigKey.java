@@ -1,6 +1,7 @@
 package com.exam.enmus;
 
 public enum SysConfigKey {
+	
     CLOUD_STORAGE_CONFIG("CLOUD_STORAGE_CONFIG","云存储配置"),
     BAIDU_PUSH_URL("BAIDU_PUSH_URL", "百度推送地址"),
     SITE_NAME("SITE_NAME","网站名称"),

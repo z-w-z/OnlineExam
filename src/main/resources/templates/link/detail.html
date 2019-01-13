@@ -1,0 +1,77 @@
+<form class="form-horizontal" id="linkDetailForm">
+    <input name="id" type="hidden" th:value="${link.id}">
+    <div class="box-body">
+        <div class="form-group">
+            <label class="control-label col-sm-3">状态: </label>
+            <div class="col-sm-8">
+                <label class="radio-inline pr-5"><input th:field="*{link.status}" type="radio" name="status" value="1"> 启用</label>
+                <label class="radio-inline pr-5"><input th:field="*{link.status}" type="radio" name="status" value="0"> 禁用</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站点名称 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.name}" name="name" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站点链接 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.url}" name="url" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站点描述 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.description}" name="description" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站长图片:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.img}" name="img" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站长邮箱:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.email}" name="email" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">站长QQ:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.qq}" name="qq" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">备注:</label>
+            <div class="col-sm-8">
+                <input th:value="${link.remark}" name="remark" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="pull-right">
+            <button type="button" id="saveDetailLink" class="btn btn-info">确定</button>
+            <button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#saveDetailLink").on('click', function () {
+            if (doValidForm("#linkDetailForm")) {
+                Core.mask("#saveDetailLink");
+                Core.postAjax("/link/edit",$("#linkDetailForm").serialize(),function (data) {
+                    if (data.status == 200) {
+                        Core.unmask("#saveDetailLink");
+                        $("#linkDetailModal").modal("hide");
+                        Core.refreshTable("#table",true);
+                    }
+                    layer.msg(data.msg);
+                })
+            }
+        });
+    });
+</script>

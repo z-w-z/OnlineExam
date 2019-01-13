@@ -32,6 +32,7 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 @Configuration
 public class ShiroConfig {
+	
     @Autowired
     private ShiroService shiroService;
 
@@ -234,4 +235,6 @@ public class ShiroConfig {
         kickoutSessionControlFilter.setKickoutUrl("/kickout");
         return kickoutSessionControlFilter;
     }
+
+
 }

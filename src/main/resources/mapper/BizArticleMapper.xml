@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.exam.mapper.BizArticleMapper">
+	<resultMap id="rm" type="com.exam.model.BizArticle">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="title" jdbcType="VARCHAR" column="title"/>
+		<result property="userId" jdbcType="VARCHAR" column="user_id"/>
+		<result property="author" jdbcType="VARCHAR" column="author"/>
+		<result property="coverImage" jdbcType="VARCHAR" column="cover_image"/>
+		<result property="qrcodePath" jdbcType="VARCHAR" column="qrcode_path"/>
+		<result property="isMarkdown" jdbcType="BIT" column="is_markdown"/>
+		<result property="content" jdbcType="VARCHAR" column="content"/>
+		<result property="contentMd" jdbcType="VARCHAR" column="content_md"/>
+		<result property="categoryId" jdbcType="INTEGER" column="category_id"/>
+		<result property="status" jdbcType="INTEGER" column="status"/>
+		<result property="top" jdbcType="BIT" column="top"/>
+		<result property="recommended" jdbcType="BIT" column="recommended"/>
+		<result property="slider" jdbcType="BIT" column="slider"/>
+		<result property="sliderImg" jdbcType="VARCHAR" column="slider_img"/>
+		<result property="original" jdbcType="BIT" column="original"/>
+		<result property="description" jdbcType="VARCHAR" column="description"/>
+		<result property="keywords" jdbcType="VARCHAR" column="keywords"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+		<result property="comment" jdbcType="BIT" column="comment"/>
+
+		<result property="lookCount" jdbcType="INTEGER" column="look_count"/>
+		<result property="commentCount" jdbcType="INTEGER" column="comment_count"/>
+		<result property="loveCount" jdbcType="INTEGER" column="love_count"/>
+		<association property="bizCategory" javaType="com.exam.model.BizCategory">
+			<result property="id" jdbcType="INTEGER" column="b_category_id"/>
+			<result property="name" jdbcType="VARCHAR" column="b_category_name"/>
+			<result property="description" jdbcType="VARCHAR" column="b_category_description"/>
+		</association>
+		<collection property="tags" column="tag_id" javaType="ArrayList" ofType="com.exam.model.BizTags">
+			<result property="id" jdbcType="INTEGER" column="tag_id"/>
+			<result property="name" jdbcType="VARCHAR" column="tag_name"/>
+			<result property="description" jdbcType="VARCHAR" column="tag_description"/>
+			<result property="createTime" jdbcType="TIMESTAMP" column="tag_create_time"/>
+			<result property="updateTime" jdbcType="TIMESTAMP" column="tag_update_time"/>
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		title,
+		user_id,
+		author,
+		cover_image,
+		qrcode_path,
+		content,
+		top,
+		category_id,
+		status,
+		recommended,
+		slider,
+		sliderImg,
+		original,
+		description,
+		keywords,
+		create_time,
+		update_time
+	</sql>
+
+	<select id="findByCondition" parameterType="com.exam.vo.ArticleConditionVo" resultMap="rm">
+		SELECT
+		a.*,
+		category.id AS b_category_id,
+		category.`name` AS b_category_name,
+		category.description AS b_category_description,
+		l.lookCount AS look_count,
+		c.commentCount AS comment_count,
+		love.loveCount AS love_count
+		FROM
+		biz_article a
+		INNER JOIN biz_category category ON a.category_id = category.id
+		INNER JOIN biz_article_tags atag ON a.id = atag.article_id
+		LEFT JOIN (
+		SELECT
+		l.article_id,
+		IFNULL(count(1), 0) AS lookCount
+		FROM
+		biz_article_look l
+		GROUP BY
+		l.article_id
+		) l ON a.id = l.article_id
+		LEFT JOIN (
+		SELECT
+		sid,
+		IFNULL(count(1), 0) AS commentCount
+		FROM
+		biz_comment c
+		WHERE c.status = 1
+		GROUP BY
+		sid
+		) c ON a.id = c.sid
+		LEFT JOIN (
+		SELECT
+		l.biz_id,
+		IFNULL(count(1), 0) AS loveCount
+		FROM
+		biz_love l
+		WHERE l.biz_type=1 and l.status=1
+		GROUP BY
+		l.biz_id
+		) love ON a.id = love.biz_id
+		WHERE 1 = 1
+		<if test="categoryId != null">
+			AND	a.category_id = #{categoryId}
+		</if>
+		<choose>
+			<when test="tagIds != null">
+				AND atag.tag_id IN (
+				<foreach collection="tagIds" item="tagId" separator=",">
+					#{tagId}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="tagId != null">
+					AND	atag.tag_id = #{tagId}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="top != null">
+			AND	a.top = #{top}
+		</if>
+		<if test="status != null">
+			AND	a.status = #{status}
+		</if>
+		<if test="recommended != null">
+			AND	a.recommended = #{recommended}
+		</if>
+		<if test="slider != null">
+			AND	a.slider = #{slider}
+		</if>
+		<if test="keywords != null and keywords != '' ">
+			AND
+			(
+			a.title LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+			a.content LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+			a.description LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+			a.keywords LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%')
+			)
+		</if>
+		GROUP BY a.id
+		<choose>
+			<when test="random != null">
+				ORDER BY RAND()
+			</when>
+			<otherwise>
+				ORDER BY
+				<if test="sliderFlag == true">
+					a.slider DESC,
+				</if>
+				<if test="recentFlag != true">
+				a.top DESC,
+				</if>
+				a.create_time DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="listTagsByArticleId" parameterType="List" resultMap="rm">
+		SELECT
+		a.*,
+		t.id AS tag_id,
+		t.`name` AS tag_name,
+		t.description AS tag_description
+		FROM
+		biz_article a
+		INNER JOIN biz_article_tags atag ON a.id = atag.article_id
+		INNER JOIN biz_tags t ON atag.tag_id = t.id
+		WHERE
+		a.id IN (
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</select>
+
+	<select id="hotList" resultMap="rm">
+		SELECT
+		a.*, l.lookCount AS look_count
+		FROM
+		biz_article a
+		LEFT JOIN (
+		SELECT
+		l.article_id,
+		IFNULL(count(1), 0) AS lookCount
+		FROM
+		biz_article_look l
+		GROUP BY
+		l.article_id
+		) l ON a.id = l.article_id
+		WHERE a.status = 1
+		ORDER BY
+		l.lookCount DESC
+	</select>
+
+	<select id="selectById" parameterType="int" resultMap="rm">
+		SELECT
+		a.*,
+		category.id AS b_category_id,
+		category.`name` AS b_category_name,
+		category.description AS b_category_description,
+		t.id AS tag_id,
+		t.`name` AS tag_name,
+		t.description AS tag_description,
+		t.create_time AS tag_create_time,
+		t.update_time AS tag_update_time,
+		l.lookCount AS look_count,
+		c.commentCount AS comment_count,
+		love.loveCount AS love_count
+		FROM
+		biz_article a
+		INNER JOIN biz_category category ON a.category_id = category.id
+		INNER JOIN biz_article_tags atag ON a.id = atag.article_id
+		INNER JOIN biz_tags t ON atag.tag_id = t.id
+		LEFT JOIN (
+		SELECT
+		l.article_id,
+		IFNULL(count(1), 0) AS lookCount
+		FROM
+		biz_article_look l
+		GROUP BY
+		l.article_id
+		) l ON a.id = l.article_id
+		LEFT JOIN (
+		SELECT
+		sid,
+		IFNULL(count(1), 0) AS commentCount
+		FROM
+		biz_comment c
+		WHERE c.status = 1
+		GROUP BY
+		sid
+		) c ON a.id = c.sid
+		LEFT JOIN (
+		SELECT
+		l.biz_id,
+		IFNULL(count(1), 0) AS loveCount
+		FROM
+		biz_love l
+		WHERE l.biz_type=1 AND l.status=1
+		GROUP BY
+		l.biz_id
+		) love ON a.id = love.biz_id
+		WHERE
+		a.id = #{id}
+	</select>
+
+	<delete id="deleteBatch" parameterType="map">
+		DELETE FROM
+		biz_article
+		where
+		id in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="getSiteInfo" resultType="map">
+		SELECT
+		a.article_count AS articleCount,
+		t.tag_count AS tagCount,
+		category.category_count AS categoryCount,
+		c.comment_count AS commentCount
+		FROM
+		(
+		SELECT
+		COUNT(1) AS article_count
+		FROM
+		biz_article
+		WHERE `status` = 1
+		) a,
+		(
+		SELECT
+		COUNT(1) AS tag_count
+		FROM
+		biz_tags
+		) t,
+		(
+		SELECT
+		COUNT(1) AS category_count
+		FROM
+		biz_category
+		WHERE status = 1
+		) category,
+		(
+		SELECT
+		COUNT(1) AS comment_count
+		FROM
+		biz_comment
+		WHERE `status` = 1
+		) c
+	</select>
+</mapper>
+

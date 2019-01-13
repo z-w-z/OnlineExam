@@ -3,29 +3,33 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>智博科技-登录</title>
+    <title>登录</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
     <link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/libs/font-awesome/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/libs/iCheck/square/blue.css}"/>
     <link rel="stylesheet" th:href="@{/libs/validate/validate.css}"/>
-    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-common.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <script th:src="@{/libs/jquery/jquery.min.js}"></script>
 </head>
 <body>
-<div th:replace="home/fragments/top :: top"></div>
-<div class="login-content">
+<header id="header">
+    <div th:replace="home/fragments/navbar :: navbar"></div>
+</header>
+<div class="main-content login-content">
     <div class="login-bg"></div>
     <div class="login-box">
         <form id="loginForm" class="login-form">
-            <div class="login-title">用户登录</div>
+            <div class="login-title">管理员登录</div>
             <div class="form-group has-feedback">
-                <input type="text" name="username"  class="form-control" placeholder="Email"  max="14" min="3" require="必填项" >
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <input type="text" name="username"  class="form-control" placeholder="管理员账号"  max="14" min="3" require="必填项" >
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input  name="password"  type="password" class="form-control" placeholder="Password"  require="必填项" nochinese="密码不能包括中文" >
+                <input  name="password"  type="password" class="form-control" placeholder="密码"  require="必填项" nochinese="密码不能包括中文" >
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback vcode">
@@ -43,23 +47,16 @@
                         </label>
                     </div>
                 </div>
-                <!-- /.col -->
                 <div class="col-xs-4">
                     <button id="loginBtn" type="button" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
-                <!-- /.col -->
-            </div>
-            <div class="mt-20">
-                <a href="#">忘记密码？点击这里</a>
-                <a th:href="@{/register}" style="float: right;">注册</a>
             </div>
         </form>
     </div>
 
 </div>
-<div th:replace="home/fragments/footer :: copyrightLight"></div>
+<div th:replace="home/fragments/footer :: copyrightCommon"></div>
 
-<script th:src="@{/libs/jquery/jquery.min.js}"></script>
 <script th:src="@{/libs/bootstrap/bootstrap.min.js}"></script>
 <script th:src="@{/libs/layer/layer.js}"></script>
 <script th:src="@{/libs/iCheck/icheck.min.js}"></script>
@@ -117,6 +114,25 @@
             }
         });
     })
+
+    window.onload=function(){
+        var new_scroll_position = 0;
+        var last_scroll_position;
+        var header = document.getElementById("header");
+        window.addEventListener('scroll', function(e) {
+            last_scroll_position = window.scrollY;
+            if (new_scroll_position < last_scroll_position && last_scroll_position > 55) {
+                header.classList.remove("slideDown");
+                header.classList.add("slideUp");
+
+            } else if (new_scroll_position > last_scroll_position) {
+                header.classList.remove("slideUp");
+                header.classList.add("slideDown");
+            }
+            new_scroll_position = last_scroll_position;
+        });
+
+    }
 </script>
 </body>
 </html>

@@ -7,94 +7,160 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- * @描述  实体类
- * @标题 Role.java
- * @Package com.hungkuei.model
- * @版本 v1.0
- * @作者 HungKuei
- * @日期 2018年11月19日 下午13:30:31
- * @Copyright: 2018 by hungkuei All rights reserved.
- */
 public class Role implements Serializable {
-	
-	//主键
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Id;
-	
-	//角色Id
-	private String roleId;
-	
-	//角色名称
-	private String name;
-	
-	//角色描述
-	private String description;
-	
-	//状态： 1有效， 0无效
-	private Integer status;
-	
-	//创建时间
-	private Date createTime;
-	
-	//更新时间
-	private Date updateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Integer getId() {
-		return Id;
-	}
+    /**
+     * 角色id
+     */
+    private String roleId;
 
-	public void setId(Integer id) {
-		Id = id;
-	}
+    /**
+     * 角色名称
+     */
+    private String name;
 
-	public String getRoleId() {
-		return roleId;
-	}
+    /**
+     * 角色描述
+     */
+    private String description;
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    /**
+     * 状态：1有效; 0无效
+     */
+    private Integer status;
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
-	public void setName(String name) {
-		this.name = name == null ? null : name.trim();
-	}
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * @return id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @param id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    /**
+     * 获取角色id
+     *
+     * @return role_id - 角色id
+     */
+    public String getRoleId() {
+        return roleId;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    /**
+     * 设置角色id
+     *
+     * @param roleId 角色id
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    /**
+     * 获取角色名称
+     *
+     * @return name - 角色名称
+     */
+    public String getName() {
+        return name;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    /**
+     * 设置角色名称
+     *
+     * @param name 角色名称
+     */
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public Date getUpdateTime() {
-		return updateTime;
-	}
+    /**
+     * 获取角色描述
+     *
+     * @return description - 角色描述
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	
+    /**
+     * 设置角色描述
+     *
+     * @param description 角色描述
+     */
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    /**
+     * 获取状态：1有效；2删除
+     *
+     * @return status - 状态：1有效；2删除
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 设置状态：1有效；2删除
+     *
+     * @param status 状态：1有效；2删除
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * 获取创建时间
+     *
+     * @return create_time - 创建时间
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 设置创建时间
+     *
+     * @param createTime 创建时间
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * 获取更新时间
+     *
+     * @return update_time - 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 设置更新时间
+     *
+     * @param updateTime 更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

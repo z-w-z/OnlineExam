@@ -1,0 +1,24 @@
+<div th:fragment="header" class="header" id="header">
+    <div class="avatar">
+        <a href="/" th:title="${@module.get('sysConfig').SITE_PERSON_NAME}" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+            <img th:src="${@module.get('sysConfig').SITE_PERSON_PIC}"  class="img-circle" width="50%">
+        </a>
+    </div>
+    <h1 id="name" th:text="${@module.get('sysConfig').SITE_PERSON_NAME}"></h1>
+    <div class="sns">
+        <a href="#" target="_blank" rel="nofollow" title="RSS" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><i class="fa fa-rss" aria-hidden="true"></i></a>
+        <a href="#" target="_blank" rel="nofollow" title="Twitter" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a href="#" target="_blank" rel="nofollow" title="GitHub" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><i class="fa fa-github" aria-hidden="true"></i></a>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">首页</a></li>
+            <li><a href="/" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">博主介绍</a></li>
+            <li><a href="/blog/comment" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">留言板</a></li>
+        </ul>
+    </div>
+    <div class="weixin">
+        <img src="/libs/theme/lblogone/img/weixin.jpg" alt="微信" width="50%">
+        <p>博主微信</p>
+    </div>
+</div>

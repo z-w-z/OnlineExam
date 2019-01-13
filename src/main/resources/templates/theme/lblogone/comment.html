@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" th:content="${@module.get('sysConfig').SITE_KWD}">
+		<meta name="description" th:content="${@module.get('sysConfig').SITE_DESC}">
+		<title th:text="${@module.get('sysConfig').SITE_NAME}">
+		</title>
+		<!--重置的样式-->
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/libs/theme/lblogone/css/style.css}">
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
+		<script src="https://cdn.bootcss.com/layer/3.0.3/layer.min.js"></script>
+		<script th:src="@{/js/core.js}"></script>
+		<script>
+            (function($) {
+                $(function() {
+                    var $body = $('body'),
+                        $header = $('#header');
+                    $('<div id="titleBar">' + '<a href="javascript:void(0);" class="toggle" onclick="rightTab()" ></a>' + '<span class="title">' + $('#name').html() + '</span>' + '</div>').appendTo($body);
+                })
+            })(jQuery);
+
+            function rightTab(){
+                var $body =  $("body");
+                var tab =$body.attr("class");
+                if(tab==undefined||tab==""){
+                    $body.addClass("header-visible");
+                }else{
+                    $body.removeClass("header-visible");
+                }
+            }
+
+
+		</script>
+	</head>
+	<body>
+	<!--header Start-->
+		<div th:replace="theme/lblogone/fragments/header :: header"></div>
+	<div class="main">
+		<article class="col-md-8 col-md-offset-2 view clearfix">
+			<div class="zb-main comment">
+				<div class="comment-describe">
+					<h3 class="comment-describe-title">留言板</h3>
+					<div>
+						<p>此路是我开，此树是我栽，</p>
+						<p>要想从此过......还不快来一脚？</p>
+					</div>
+					<hr class="hr0">
+					<div>
+						<p>可在此处留言友链，只支持一级域名谢谢。</p>
+						<p>内容相近优先，友链格式示例如下：</p>
+						<p>博客名：智博客</p>
+						<p>链接：www.nbclass.com</p>
+						<p>邮箱：123456@qq.com</p>
+					</div>
+				</div>
+				<div id="comment" class="comment-main">
+					<div class="comment-title">发表评论</div>
+					<form id="comment-form" class="form-horizontal mt-10">
+						<input name="sid" type="hidden" value="-1">
+						<div id="user-name-content" class="user-name-content">欢迎您：<b id="user-name"></b></div>
+						<div class="form-group" id="user-info" style="display: none">
+							<div class="col-sm-4">
+								<input id="nickname" type="text" class="form-control"  name="nickname" placeholder="昵称（必填）">
+							</div>
+							<div class="col-sm-4">
+								<input id="qq" type="text" class="form-control"  name="qq" placeholder="QQ（可获取头像和昵称）">
+							</div>
+							<div class="col-sm-4">
+								<input id="email" type="text" class="form-control"  name="email" placeholder="邮箱">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<textarea name="content" id="comment-textarea"></textarea>
+							</div>
+						</div>
+						<div><button id="submitCommentBtn" type="button" class="btn btn-info">发表评论</button></div>
+					</form>
+					<hr class="hr0 mt-15"/>
+					<div class="col-xs-12">
+						<div class="row">
+							<ul id="comment-ul" class="comment">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</article>
+	</div>
+	<div th:replace="theme/lblogone/fragments/footer :: footer"></div>
+		<script>
+			var sid=-1;
+		</script>
+		<script  th:src="@{/js/comment.js}"></script>
+	</body>
+
+</html>

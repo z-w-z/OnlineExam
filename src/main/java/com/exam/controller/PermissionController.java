@@ -25,10 +25,7 @@ import com.exam.vo.base.ResponseVo;
 @Controller
 @RequestMapping("/permission")
 public class PermissionController{
-	
     private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
-    
-    
     /**1:全部资源，2：菜单资源*/
     private static final String[] MENU_FLAG ={"1","2"};
     @Autowired

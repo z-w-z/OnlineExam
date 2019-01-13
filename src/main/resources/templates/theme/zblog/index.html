@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" th:content="${@module.get('sysConfig').SITE_KWD}">
+		<meta name="description" th:content="${@module.get('sysConfig').SITE_DESC}">
+		<title th:text="${@module.get('sysConfig').SITE_NAME}"></title>
+		<link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{/libs/swiper/css/swiper.min.css}"/>
+		<link rel="stylesheet" th:href="@{/libs/font-icon/icon.css}"/>
+		<link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-common.css}" />
+		<link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-blog.css}" />
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/libs/bootstrap/bootstrap.min.js}"></script>
+		<script th:src="@{/libs/swiper/js/swiper.min.js}"></script>
+		<script th:src="@{/js/hc-sticky.js}" ></script>
+		<script th:src="@{/libs/theme/zblog/js/zb-blog.js}"></script>
+	</head>
+	<body>
+		<header id="header">
+			<div th:replace="home/fragments/navbar :: navbar"></div>
+		</header>
+		<div class="zb-container zb-content">
+			<div class="zb-main">
+				<div class="swiper-container mb-20" th:if="${not #lists.isEmpty(sliderList)}">
+					<div class="swiper-wrapper">
+						<div th:each="item:${sliderList}" class="swiper-slide">
+							<a th:href="@{${'/blog/article/'+item.id}}">
+								<img th:src="${item.sliderImg}">
+								<p class="slider-title" th:text="${item.title}"></p>
+							</a>
+						</div>
+					</div>
+					<div class="swiper-pagination"></div>
+					<div class="swiper-button-prev"><i class="fa fa-chevron-circle-left"></i></div>
+					<div class="swiper-button-next"><i class="fa fa-chevron-circle-right"></i></div>
+				</div>
+
+				<div class="no-article-content" th:if="${#lists.isEmpty(articleList)}">
+					Sorry, 暂未发现任何文章~
+				</div>
+				<div th:each="item,temp : ${articleList}" class="blogs">
+				  <span th:if="${item.top==1}" class="fa fa-superscript-top superscript superscript-top"></span>
+			      <span class="blogpic"><a><img th:src="${item.coverImage}"></a><span class="blog-type"><a th:href="@{${'/blog/category/'+item.categoryId}}" th:text="${item.bizCategory.name}"></a></span></span>
+				  <h3 class="blogtitle"><a th:href="@{${'/blog/article/'+item.id}}" th:text="${item.title}" ></a></h3>
+			      <p  th:text="${item.description}" class="blogtext"></p>
+			      <div class="bloginfo">
+			        <ul>
+			          <li><span class="fa fa-clock-o"></span><span th:text="${#dates.format(item.createTime,'yyyy-MM-dd')}"></span></li>
+			          <li><span class="fa fa-eye"></span><span th:text="${item.lookCount}? ${item.lookCount} : 0"></span></li>
+					  <li><a class="comment-link-a" th:href="@{${'/blog/article/'+item.id+'#comment'}}"><span class="fa fa-comments-o"></span><span th:text="${item.commentCount}? ${item.commentCount} : 0"></span></a></li>
+			        </ul>
+					<a class="read-more" th:href="@{${'/blog/article/'+item.id}}">阅读全文</a>
+			      </div>
+			    </div>
+				<div th:replace="home/fragments/pagebar :: pageBar"></div>
+
+			</div>
+			<div th:replace="home/fragments/sidebar :: sidebar"></div>
+		</div>
+		<div th:replace="home/fragments/footer :: copyrightDark"></div>
+		<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+	</body>
+
+</html>

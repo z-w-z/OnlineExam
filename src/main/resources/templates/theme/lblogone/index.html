@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" th:content="${@module.get('sysConfig').SITE_KWD}">
+    <meta name="description" th:content="${@module.get('sysConfig').SITE_DESC}">
+    <title th:text="${@module.get('sysConfig').SITE_NAME}">
+    </title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/libs/theme/lblogone/css/style.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>	
+		(function($) {
+			$(function() {
+				var $body = $('body'),
+					$header = $('#header');
+					$('<div id="titleBar">' + '<a href="javascript:void(0);" class="toggle" onclick="rightTab()" ></a>' + '<span class="title">' + $('#name').html() + '</span>' + '</div>').appendTo($body);
+			})
+		})(jQuery);
+		
+		function rightTab(){
+			var $body =  $("body");
+			var tab =$body.attr("class");
+			if(tab==undefined||tab==""){
+				$body.addClass("header-visible");
+			}else{
+				$body.removeClass("header-visible");
+			}
+		}
+
+	
+	</script>
+</head>
+<body>
+	<!--header Start-->
+    <div th:replace="theme/lblogone/fragments/header :: header"></div>
+   	<!--header End-->
+   <div class="main">
+        <div class="row box">
+            <div class="col-md-8">
+                <h2 class="uptop">
+                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    <a href="#" target="_blank">这是一个神奇的博客</a>
+                </h2>
+                <div class="article-list-1" th:each="item:${articleList}">
+                    <div class="article_header">
+                        <h1 class="post-title"><a th:href="@{${'/blog/article/'+item.id}}" th:text="${item.title}" ></a></h1>
+                        <div class="post-meta">
+                            <span class="meta-span"><i class="fa fa-calendar"></i> <span th:text="${#dates.format(item.createTime,'yyyy-MM-dd')}"></span></span>
+                            <span class="meta-span"><i class="fa fa-folder-open-o"></i> <a th:href="@{${'/blog/category/'+item.categoryId}}"  rel="category tag" th:text="${item.bizCategory.name}"></a></span>
+                            <span class="meta-span"><i class="fa fa-commenting-o"></i> <a  th:href="@{${'/blog/article/'+item.id+'#comment'}}" th:text="${item.commentCount}==0?'没有评论':${item.commentCount}+'条评论'"></a></span>
+                            <span class="meta-span hidden-xs">
+                                <i class="fa fa-tags" aria-hidden="true"></i>
+                                <a th:each="tagItem,tagTemp:${item.tags}" th:href="@{${'/blog/tag/'+tagItem.id}}" th:text="${tagItem.name+ (tagTemp.index==(item.tags.size()-1)?'':',')}"></a>
+                            </span>
+                        </div>
+                        <div class="post-content clearfix">
+                            <p th:text="${item.description}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div th:replace="home/fragments/pagebar :: pageBar"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="widget">
+                    <form id="searchform" action="https://tangjie.me">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="搜索…" value="" name="s">
+                            <span class="input-group-btn"><button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button></span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="widget">
+                    <h4 class="widget-title">文章分类</h4>
+                    <ul class="widget-cat">
+                        <li th:each="category:${@module.get('categoryList')}" th:if="${#lists.isEmpty(category.nodes)}"  class="cat-item cat-item-1"><a th:href="@{${'/blog/category/' + category.id}}" th:title="${category.description}" th:text="${category.name}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget">
+                <h4 class="widget-title">随机推荐</h4>
+                <ul class="widget-hot">
+                    <li  class="cat-item " th:each="item:${@module.get('randomList')}" ><a th:text="${item.title}" th:href="${'/blog/article/'+item.id}" th:title="${item.title}"></a>
+                    </li>
+                </ul>
+            </div>
+                <div class="widget">
+                    <h4 class="widget-title">标签云</h4>
+                        <ul>
+                            <li th:each="item:${@module.get('tagList')}" class="tag-li"><a class="btn btn-default btn-xs" th:href="@{${'/blog/tag/'+item.id}}" th:text="${item.name}"></a></li>
+                        </ul>
+
+                </div>
+
+                <div class="widget">
+                    <h4 class="widget-title">友情链接</h4>
+                    <ul class="widget-link">
+                        <li th:each="item:${@module.get('linkList')}"  class="cat-item"> <a th:href="${item.url}" th:text="${item.name}" target="_blank"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="theme/lblogone/fragments/footer :: footer"></div>
+</body>
+</html>

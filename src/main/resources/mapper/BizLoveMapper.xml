@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.exam.mapper.BizLoveMapper">
+	<resultMap id="rm" type="com.exam.model.BizLove">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="bizId" jdbcType="INTEGER" column="biz_id"/>
+		<result property="bizType" jdbcType="INTEGER" column="biz_type"/>
+		<result property="userId" jdbcType="VARCHAR" column="user_id"/>
+		<result property="userIp" jdbcType="VARCHAR" column="user_ip"/>
+		<result property="status" jdbcType="INTEGER" column="status"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		biz_id,
+		biz_type,
+		user_id,
+		user_ip,
+		status,
+		create_time,
+		update_time
+	</sql>
+	<select id="checkLove" resultMap="rm">
+		SELECT <include refid="Base_Column_List"/>
+		FROM biz_love
+		WHERE biz_id=#{bizId}
+		AND user_ip=#{userIp}
+	</select>
+
+</mapper>
+

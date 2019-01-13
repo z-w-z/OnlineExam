@@ -1,0 +1,44 @@
+<nav th:fragment="pageBar"  th:if="${page!=null && page.pages gt 1}" id="pageBar">
+    <ul class="pager page-btn" th:data-url="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/' + pageUrl}">
+       <li><a th:class="${page.hasPreviousPage == true ? 'pointer' : 'pointer btn disabled'}" th:data-page="${page.prePage}"><i class="fa fa-angle-double-left"></i></a></li>
+        <span id="pageNo">
+        </span>
+        <li><a th:class="${page.hasNextPage == true ? 'pointer' : 'pointer btn disabled'}" th:data-page="${page.nextPage}"><i class="fa fa-angle-double-right"></i></a></li>
+    </ul>
+
+    <script>
+        $(function () {
+            var pages=[[${page.pages}]];
+            if(pages>1){
+                var pageNos=8;//分页器展示数量
+                var startPage=1;
+                var pageNum=[[${page.pageNum}]];
+                var endPage=pages;
+                var pageHtml="";
+                if(pageNos/2 < pageNum ){
+                    if(pageNum<(pages-(pageNos/2-1))){
+                        startPage = pageNum-pageNos/2;
+                    }else{
+                        startPage = pages-(pageNos-1);
+                    }
+                }
+                if((startPage+pageNos-1) < pages){
+                    endPage=startPage+pageNos-1;
+                }
+                for(var i=startPage;i<=endPage;i++){
+                    if(pageNum==i){
+                        pageHtml+='<li><a class="pointer active" data-page="'+i+'" >'+i+'</a></li>';
+                    }else{
+                        pageHtml+='<li><a class="pointer" data-page="'+i+'" >'+i+'</a></li>';
+                    }
+                }
+                $("#pageNo").append(pageHtml);
+                $("#pageBar>ul a").click(function () {
+                    window.location.href=$("#pageBar>ul").attr("data-url")+"/"+$(this).attr("data-page");
+                })
+            }
+
+        })
+
+    </script>
+</nav>

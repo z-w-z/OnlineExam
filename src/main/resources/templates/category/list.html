@@ -1,0 +1,231 @@
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">文章管理</a></li>
+        <li class="active">分类管理</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="jax-box jax-box-table">
+        <div id="toolbar" class="btn-group grid-table-toolbar">
+            <shiro:hasPermission name="category:add">
+            <button id="btn_add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+            </shiro:hasPermission>
+        </div>
+        <table id="table"></table>
+    </div>
+    <div id="categoryLayer" style="display: none;padding: 20px;">
+        <table id="p-table"></table>
+    </div>
+</section>
+<!-- 分类新增模态框 -->
+<div id="categoryModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog"  role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增分类</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="categoryForm">
+                    <input id="pid"  name="pid" type="hidden" value="0">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">上级分类 <span class="red">*</span>:</label>
+                            <div class="col-sm-8">
+                                <input id="pname" class="form-control cursor-pointer" value="无" onclick="showCategory(1)" readonly="readonly" require="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">分类名称 <span class="red">*</span>:</label>
+                            <div class="col-sm-8">
+                                <input  name="name" class="form-control" require="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">分类描述 <span class="red">*</span>:</label>
+                            <div class="col-sm-8">
+                                <input name="description" class="form-control" require="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">排序 <span class="red">*</span>:</label>
+                            <div class="col-sm-8">
+                                <input name="sort" class="form-control" require="" plusinteger="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="saveCategory" class="btn btn-info">确定</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 分类详情模态框 -->
+<div id="categoryDetailModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">分类信息</h4>
+            </div>
+            <div class="modal-body">
+                <div id="categoryOpenWindow">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var editFlag = "[[${@perms.hasPerm('category:edit')}]]";
+    var deleteFlag = "[[${@perms.hasPerm('category:delete')}]]";
+    var Menu = {
+        id: "table",
+        table: null,
+        layerIndex: -1
+    };
+    Menu.initColumn = function () {
+        var columns = [
+            {
+                field: 'selectItem',
+                radio: true
+            },
+            {
+                field: 'name',
+                title: '分类名称',
+                align : "left"
+            },{
+                field: 'description',
+                title: '分类描述',
+                align : "left"
+            },{
+                field: 'sort',
+                title: '排序',
+                align : "center",
+            },
+            {
+                field : 'operation',
+                title : '操作',
+                align : "center",
+                formatter : function(row, index) {
+                    var edit = editFlag=="true" ? '<a class="table-btn table-btn-info" onclick="editCategory('+row.id+')">编辑</a>' : '';
+                    var del = deleteFlag=="true" ? '<a  class="table-btn table-btn-danger" onclick="deleteCategory('+row.id+')">删除</a>' : '';
+                    return edit + del;
+                }
+            }];
+        return columns;
+    };
+
+    /*加载列表*/
+    $(function () {
+        var colunms = Menu.initColumn();
+        var table = new TreeTable(Menu.id, "/category/list", colunms,"id");
+        table.setExpandColumn(1);
+        table.setIdField("id");
+        table.setCodeField("id");
+        table.setParentCodeField("pid");
+        table.setStriped(false);
+        table.init();
+        Menu.table = table;
+    });
+
+    /*编辑*/
+    function editCategory(id) {
+        Core.load("#categoryOpenWindow","/category/edit?id="+id,function(){
+            $("#categoryDetailModal").modal("show");
+        },2);
+    }
+    /*删除*/
+    function deleteCategory(id) {
+        Core.confirm("确定删除该分类？",function () {
+            Core.postAjax("/category/delete",{"id":id},function (data) {
+                if(data.status==200){
+                    Menu.table.refresh();
+                }
+                layer.msg(data.msg);
+            })
+        })
+    }
+    /*加载一级分类*/
+    function  showCategory(flag) {
+        Core.postAjax("/category/list",{isFistLevel:true},function (data) {
+            if($("#p-table").children().length>0){
+                $('#p-table').bootstrapTable('load', data);
+            }else{
+                $('#p-table').bootstrapTable({
+                    columns: [{radio: true },
+                        {
+                            field: 'name',
+                            title: '分类名称',
+                            align : "center"
+                        },{
+                            field: 'sort',
+                            title: '排序',
+                            align : "center",
+                        }],
+                    data:data,
+                    cache:false,
+                    clickToSelect:true
+                });
+            }
+
+
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择分类",
+                area: ['300px', '450px'],
+                content: jQuery("#categoryLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var result = Core.selectSingleData("#p-table");
+                    if(result){
+                        if(flag==1){
+                            $("#pid").val(result.id);
+                            $("#pname").val(result.name);
+                        }else{
+                            $("#d-pid").val(result.id);
+                            $("#d-pname").val(result.name);
+                        }
+
+                        layer.close(index);
+                    }
+                }
+            });
+        })
+        
+    }
+    $(function () {
+        /*新增*/
+        $("#btn_add").click(function(){
+            $("#categoryForm")[0].reset();
+            $("#pid").val(0);
+            Core.clearError("#categoryForm");
+        });
+        /*保存*/
+        $("#saveCategory").click(function(){
+            if(doValidForm("#categoryForm")){
+                Core.mask("#saveCategory");
+                Core.postAjax("/category/add",$("#categoryForm").serialize(),function (data) {
+                    Core.unmask("#saveCategory");
+                    if(data.status==200){
+                        $("#categoryModal").modal("hide");
+                        Menu.table.refresh();
+                    }
+                    layer.msg(data.msg);
+                })
+            };
+        });
+    });
+
+</script>

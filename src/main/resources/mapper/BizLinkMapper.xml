@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.exam.mapper.BizLinkMapper">
+	<resultMap id="rm" type="com.exam.model.BizLink">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="url" jdbcType="VARCHAR" column="url"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="description" jdbcType="VARCHAR" column="description"/>
+		<result property="img" jdbcType="VARCHAR" column="img"/>
+		<result property="email" jdbcType="VARCHAR" column="email"/>
+		<result property="qq" jdbcType="VARCHAR" column="qq"/>
+		<result property="status" jdbcType="INTEGER" column="status"/>
+		<result property="origin" jdbcType="INTEGER" column="origin"/>
+		<result property="remark" jdbcType="VARCHAR" column="remark"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,`name`, url, description, img, email, qq, status, origin, remark, create_time, update_time
+	</sql>
+
+	<select id="selectLinks" parameterType="com.exam.model.BizLink" resultMap="rm" >
+		select <include refid="Base_Column_List"/>
+		FROM biz_link
+		WHERE 1=1
+		<if test="name !=null and name != ''">
+			AND `name` like concat('%', #{name}, '%')
+		</if>
+		<if test="url !=null and url != ''">
+			AND url like concat('%', #{url}, '%')
+		</if>
+		<if test="status !=null">
+			AND status = #{status}
+		</if>
+	</select>
+
+
+	<delete id="deleteBatch" parameterType="map">
+		DELETE FROM
+		biz_link
+		where
+		id in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+</mapper>
+

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.exam.enmus.ResponseStatus;
+import com.exam.exception.ArticleNotFoundException;
 import com.exam.exception.ExamException;
 
 
@@ -28,6 +29,12 @@ public class ExceptionHandleController {
         map.put("msg", StringUtils.isNotBlank(e.getMessage())? e.getMessage() : ResponseStatus.ERROR.getMessage());
         logger.error(e.getMessage());
         request.setAttribute("ext",map);
+        return "forward:/error";
+    }
+
+    @ExceptionHandler(ArticleNotFoundException.class)
+    public String handleArticle(Exception e, HttpServletRequest request) {
+        request.setAttribute("javax.servlet.error.status_code",ResponseStatus.NOT_FOUND.getCode());
         return "forward:/error";
     }
     

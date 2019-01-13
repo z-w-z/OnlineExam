@@ -1,9 +1,13 @@
 package com.exam.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class SysConfig implements Serializable {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

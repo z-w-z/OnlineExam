@@ -33,7 +33,6 @@ public class ShiroService {
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/kickout", "anon");
         filterChainDefinitionMap.put("/error/**", "anon");
-        /*filterChainDefinitionMap.put("/logout", "logout");*/
         filterChainDefinitionMap.put("/css/**","anon");
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");

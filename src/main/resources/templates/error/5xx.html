@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>[[${status}]]</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/libs/theme/zblog/css/web-common.css}"/>
+    <script th:src="@{/libs/jquery/jquery.min.js}"></script>
 </head>
 <body>
-    <h1>status:[[${status}]]</h1>
-    <h2>timestamp:[[${timestamp}]]</h2>
+<header id="header">
+    <div th:replace="home/fragments/navbar :: navbar"></div>
+</header>
+<div class="main-content error-content">
+    <div class="error-img-content mt-160 mb-70 text-center"><img th:src="@{/img/500.png}"></div>
+    <p class="error-text">[[${error}]]</p>
+    <div class="error-btn-content">
+        <button class="btn btn-danger" type="button">
+            <a href="/">返回主页</a>
+        </button>
+    </div>
+</div>
+<div th:replace="home/fragments/footer :: copyrightCommon"></div>
 </body>
 </html>
