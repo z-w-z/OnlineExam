@@ -1,8 +1,9 @@
+<meta charset="utf-8">
 <div th:fragment="navbar" class="jax-header">
     <header class="main-header">
         <a href="/index" class="logo">
-            <span class="logo-mini"><b>NB</b></span>
-            <span class="logo-lg"><b>Nb</b>Class</span>
+            <span class="logo-mini"><b>OE</b></span>
+            <span class="logo-lg">OnlineExam</span>
         </a>
         <nav class="navbar navbar-static-top">
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -29,7 +30,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img th:src="@{/img/person.jpg}" class="user-image" alt="User Image">
-                            <span><shiro:principal property="username" /></span>
+                            <span><shiro:principal property="nickname" /></span>
                             <span id="userId" style="display: none"><shiro:principal property="userId" /></span>
                         </a>
                         <ul class="dropdown-menu dropdown-left">
