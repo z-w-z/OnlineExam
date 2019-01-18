@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.mapper.ExaminationMapper" >
+    <resultMap id="BaseResultMap" type="com.exam.model.Examination" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="total_score" property="totalScore" jdbcType="INTEGER" />
+        <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        id,title,user_id,author,total_score,subject_id,start_time,end_time,create_time,update_time,status
+    </sql>
+
+    <insert id="insertExam" parameterType="com.exam.model.Examination" >
+        insert into examination e
+        (title, user_id, author,total_score, subject_id, start_time, end_time,status)
+        values (#{e.title},#{e.user_id},#{e.author}, #{e.totalScore}, #{e.subjectId},
+        #{e.startTime}, #{e.endTime}, #{e.status})
+    </insert>
+
+    <delete id="deleteExam" parameterType="int">
+        DELETE FROM examination
+        where id = #{id}
+    </delete>
+
+    <update id="updateExamById" parameterType="com.exam.model.Examination">
+        UPDATE examination e
+        SET
+        title = #{e.title}, total_score = #{e.totalScore},
+        subject_id = #{e.subjectId}, start_time = #{e.startTime},
+        end_time = #{e.endTime}, state = #{e.state}
+        WHERE
+        id = #{e.id}
+    </update>
+
+    <select id="getExamById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM examination
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM examination
+    </select>
+
+    <select id="getExams" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM examination
+        ORDER BY start_time DESC
+    </select>
+
+    <update id="updateStateToStart">
+        UPDATE examination
+        SET
+          state = 1
+        WHERE
+        state <![CDATA[ = ]]> 0 AND start_time <![CDATA[ <= ]]> #{currentTime} AND end_time <![CDATA[ > ]]> #{currentTime}
+    </update>
+
+    <update id="updateStateToEnd">
+        UPDATE examination
+        SET
+          state = 2
+        WHERE
+        state <![CDATA[ <= ]]> 2 AND end_time <![CDATA[ <= ]]> #{currentTime}
+    </update>
+
+    <select id="getExamsByExamIds" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM examination
+        WHERE 1 = 1
+        <if test="contestIds != null and contestIds.size > 0">
+            AND id IN
+            <foreach collection="contestIds" item="contestId" open="(" separator="," close=")">
+                #{contestId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

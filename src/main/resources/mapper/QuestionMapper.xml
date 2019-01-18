@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.mapper.QuestionMapper" >
+    <resultMap id="BaseResultMap" type="com.exam.model.Question" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="question_type" property="questionType" jdbcType="INTEGER" />
+        <result column="option_a" property="optionA" jdbcType="VARCHAR" />
+        <result column="option_b" property="optionB" jdbcType="VARCHAR" />
+        <result column="option_c" property="optionC" jdbcType="VARCHAR" />
+        <result column="option_d" property="optionD" jdbcType="VARCHAR" />
+        <result column="option_e" property="optionE" jdbcType="VARCHAR" />
+        <result column="option_f" property="optionF" jdbcType="VARCHAR" />
+        <result column="answer" property="answer" jdbcType="LONGVARCHAR" />
+        <result column="parse" property="parse" jdbcType="LONGVARCHAR" />
+        <result column="score" property="score" jdbcType="INTEGER" />
+        <result column="difficulty" property="difficulty" jdbcType="INTEGER" />
+        <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+        <result column="exam_id" property="examId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,title,content,question_type,option_a,option_b,option_c,option_d,option_e,option_f,
+        answer,parse,score,difficulty,subject_id,exam_id,create_time,update_time,state
+    </sql>
+
+    <delete id="deleteQuestion" parameterType="int">
+        DELETE FROM question
+        where id = #{id}
+    </delete>
+
+    <select id="getQuestionById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM question
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCountByContent" resultType="int">
+        SELECT
+          COUNT(1)
+        FROM question
+        WHERE 1 = 1 AND state = 1
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+    </select>
+
+    <select id="getQuestionsByContent" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM question
+        WHERE 1 = 1 AND state = 1
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+    </select>
+
+    <select id="getQuestionByExamId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM question
+        WHERE
+        exam_id = #{examId}
+    </select>
+
+    <select id="getCountByProblemsetIdAndContentAndDiffculty" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM question
+        WHERE state = 1 AND subject_id = #{id}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
+
+    <select id="getQuestionsByProblemsetIdAndContentAndDiffculty" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM question
+        WHERE state = 1 AND subject_id = #{id}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
+
+</mapper>

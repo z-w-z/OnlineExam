@@ -78,6 +78,8 @@ public interface BizArticleService extends BaseService<BizArticle> {
      * @return
      */
     List<BizArticle> selectByCategoryId(Integer categoryId);
+    
+    
 
 
 }

@@ -1,0 +1,54 @@
+<meta charset="utf-8">
+<form class="form-horizontal" id="subjectDetailForm">
+    <input name="id" type="hidden" th:value="${subject.id}">
+    <div class="box-body">
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">课程名称 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${subject.name}" name="name" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">课程描述 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${subject.description}" name="description" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">课程封面<span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${subject.imgUrl}" name="imgUrl" class="form-control" require="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-3 control-label">排序 <span class="red">*</span>:</label>
+            <div class="col-sm-8">
+                <input th:value="${subject.sort}" name="sort" class="form-control" require="" plusinteger="">
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="pull-right">
+            <button type="button" id="saveDetailSubject" class="btn btn-info">确定</button>
+            <button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#saveDetailSubject").on('click', function () {
+            if (doValidForm("#subjectDetailForm")) {
+                Core.mask("#saveDetailSubject");
+                Core.postAjax("/subject/edit",$("#subjectDetailForm").serialize(),function (data) {
+                    if (data.status == 200) {
+                        Core.unmask("#saveDetailSubject");
+                        $("#subjectDetailModal").modal("hide");
+                        Menu.table.refresh();
+                        //Core.refreshTable("#table",true);
+                    }
+                    layer.msg(data.msg);
+                })
+            }
+        });
+    });
+</script>

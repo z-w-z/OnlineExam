@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.exam.vo.base.BaseVo;
 
+@SuppressWarnings("serial")
 public class Examination extends BaseVo {
 	
 	private String title;

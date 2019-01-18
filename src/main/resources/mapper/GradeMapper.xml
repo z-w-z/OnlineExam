@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.mapper.GradeMapper" >
+    <resultMap id="BaseResultMap" type="com.exam.model.Grade" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="exam_id" property="examId" jdbcType="INTEGER" />
+        <result column="result" property="result" jdbcType="INTEGER" />
+        <result column="auto_result" property="autoResult" jdbcType="INTEGER" />
+        <result column="manul_result" property="manulResult" jdbcType="INTEGER" />
+        <result column="answer_json" property="answerJson" jdbcType="LONGVARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        id,user_id,exam_id,result,auto_result,manul_result,
+        answer_json,create_time,update_time,status
+    </sql>
+
+</mapper>

@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.exam.model.BizCategory;
+import com.exam.model.Subject;
 import com.exam.service.BizCategoryService;
+import com.exam.service.SubjectService;
 import com.exam.service.SysConfigService;
 import com.exam.util.CoreConst;
 
@@ -20,6 +22,8 @@ public class AdminRenderController {
     private BizCategoryService categoryService;
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private SubjectService subjectService;
     /*网站基本信息*/
     @GetMapping("/siteinfo")
     public String siteinfo(Model model){
@@ -37,6 +41,11 @@ public class AdminRenderController {
     public String categories(){
         return "category/list";
     }
+    /*课程*/
+    @GetMapping("/subjects")
+    public String subjects() {
+    	return "subject/list";
+    }
     /*标签*/
     @GetMapping("/tags")
     public String tags(){
@@ -51,6 +60,15 @@ public class AdminRenderController {
         List<BizCategory> categories = categoryService.select(bizCategory);
         model.addAttribute("categories",categories);
         return "article/list";
+    }
+    /*题目*/
+    @GetMapping("/questions")
+    public String questions(Model model) {
+    	Subject subject = new Subject();
+    	subject.setStatus(CoreConst.STATUS_VALID);
+    	List<Subject> subjects = subjectService.select(subject);
+    	model.addAttribute("subjects", subjects);
+    	return "question/list";
     }
     /*评论*/
     @GetMapping("/comments")

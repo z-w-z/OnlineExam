@@ -2,8 +2,8 @@
 <section class="content-header">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li><a href="#">文章管理</a></li>
-        <li class="active">文章列表</li>
+        <li><a href="#">考试管理</a></li>
+        <li class="active">题库管理</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -11,18 +11,30 @@
     <div class="jax-box">
         <form id="formSearch" class="form-horizontal form-search">
             <div class="form-group">
-                <div class="col-md-4 col-sm-6">
-                    <label class="control-label  col-xs-4" for="keywords">标题:</label>
+                <div class="col-md-2 col-sm-6">
+                    <label class="control-label  col-xs-4" for="keywords">题名:</label>
                     <div class="col-xs-8">
                         <input type="text" class="form-control" id="keywords">
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <label class="control-label  col-xs-4" for="aiticle">分类:</label>
+                <div class="col-md-3 col-sm-6">
+                    <label class="control-label  col-xs-4" for="question">题目类型:</label>
                     <div class="col-xs-8">
-                        <select class="form-control"id="categoryId">
+                        <select class="form-control"id="questionId">
                             <option  value="">请选择</option>
-                            <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            <option value="0">单项选择题</option>
+                            <option value="1">多项选择题</option>
+                            <option value="2">主观问答题</option>
+                            <option value="3">编程题</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label class="control-label  col-xs-4" for="question">课程类型:</label>
+                    <div class="col-xs-8">
+                        <select class="form-control"id="subjectId">
+                            <option  value="">请选择</option>
+                            <option th:each="subject:${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
                         </select>
                     </div>
                 </div>
@@ -36,7 +48,7 @@
                         </select>
                     </div>
                 </div>
-                <shiro:hasPermission name="article:list">
+                <shiro:hasPermission name="question:list">
                     <div class="col-md-1 col-sm-6 " style="text-align:left;">
                         <button type="button" id="btn_query" class="btn btn-info">查询</button>
                     </div>
@@ -46,20 +58,15 @@
     </div>
     <div class="jax-box jax-box-table">
         <div id="toolbar" class="btn-group">
-            <shiro:hasPermission name="article:add">
+            <shiro:hasPermission name="question:add">
             <button id="btn_add" type="button" class="btn btn-primary">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>写文章
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>题目录入
             </button>
             </shiro:hasPermission>
             <shiro:hasPermission name="article:batchDelete">
             <button id="btn_batch_delete" type="button" class="btn btn-danger">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
             </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="article:batchPush">
-                <button id="btn_batch_push" type="button" class="btn btn-info">
-                    <span class="fa fa-send-o" aria-hidden="true"></span>批量推送
-                </button>
             </shiro:hasPermission>
         </div>
         <table id="table"></table>
@@ -73,63 +80,50 @@
         {checkbox: true },
         {
             field: 'title',
-            title: '标题',
+            title: '题名',
             align : "center"
         },{
-            field: 'bizCategory',
-            title: '分类',
+            field: 'subject',
+            title: '课程分类',
             align : "center",
             formatter: function (value) {
                 return value.name;
             }
         }, {
-            field: 'tags',
-            title: '标签',
-            class: 'table-tags',
+            field: 'questionType',
+            title: '题目类型',
             align : "center",
-            formatter: function (tags) {
-                var tagHtml = '';
-                if (tags) {
-                    for (var i = 0, len = tags.length; i < len; i++) {
-                        var tag = tags[i];
-                        tagHtml += '<a class="btn btn-default btn-xs"> ' + tag.name + '</a> ';
-                    }
-                }
-                return tagHtml;
+            formatter: function (questionType) {
+                var questionTypeName = '';
+                if(questionType == 0){
+                	questionTypeName = '单项选择题';
+                }else if(questionType == 1){
+                   	questionTypeName = '多项选择题';
+                }else if(questionType == 2){
+                   	questionTypeName = '主观问答题';
+                }else if(questionType == 3){
+                   	questionTypeName = '编程题';
+                }  
+                return questionTypeName;
             }
         },{
-            field: 'slider',
-            title: '轮播',
+            field: 'score',
+            title: '分值',
             align : "center",
-
-            formatter : function(value) {
-                if(value){
-                    return '是'
-                }else{
-                    return '否'
-                }
-            }
         },{
-            field: 'top',
-            title: '置顶',
+            field: 'difficulty',
+            title: '难度',
             align : "center",
-            formatter : function(value) {
-                if(value){
-                    return '是'
-                }else{
-                    return '否'
-                }
-            }
-        },{
-            field: 'recommended',
-            title: '推荐',
-            align : "center",
-            formatter : function(value) {
-                if(value){
-                    return '是'
-                }else{
-                    return '否'
-                }
+            formatter : function(difficulty) {
+                var diffHtml = '';
+                if(difficulty == 1){
+                	diffHtml = "一颗星";
+                }else if(difficulty == 2){
+                	diffHtml = "两颗星";	
+                 }else if(difficulty == 3){
+                	diffHtml = "三颗星";	
+                 }
+                return diffHtml;
             }
         },{
             field: 'status',
@@ -137,25 +131,12 @@
             align : "center",
             formatter : function(value) {
                if(value){
-                   return '已发布'
+                   return '已考过题目'
                }else{
-                   return '草稿'
+                   return '为考过题目'
                }
             }
         },{
-            field: 'lookCount',
-            title: '浏览',
-            align : "center",
-        },{
-            field: 'commentCount',
-            title: '评论',
-            align : "center",
-        },{
-            field: 'loveCount',
-            title: '喜欢',
-            align : "center",
-        },
-        {
             field : 'operation',
             title : '操作',
             align : "center",
@@ -169,7 +150,7 @@
         }];
     var options={
         id:"#table",
-        url: '/article/list',
+        url: '/question/list',
         columns:columns,
         toolbar: '#toolbar',
         showRefresh: true,
@@ -182,8 +163,7 @@
         var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
             limit : params.limit, //页面大小
             offset : params.offset, //页码
-            keywords : $("#keywords").val(),
-            categoryId : $("#categoryId").val(),
+            subjectId : $("#subjectId").val(),
             status : $("#status").val(),
         };
         return temp;
@@ -211,7 +191,7 @@
         });
         /*新增*/
         $("#btn_add").click(function(){
-            window.location.href="#article/add"
+            window.location.href="#question/add"
         });
         /*批量删除*/
         $("#btn_batch_delete").click(function(){
@@ -231,36 +211,6 @@
                 })
             }
         });
-        /*批量推送*/
-        $("#btn_batch_push").click(function(){
-            var checkedRows= Core.selectMutiData("#table");
-            if(checkedRows){
-                Core.confirm("确定推送选中的"+checkedRows.length+"条记录？",function () {
-                    var baseUrl = window.location.protocol+"//"+window.location.host+"/blog/article/";
-                    var urls=[];
-                    $.each(checkedRows, function (i, item) {
-                        urls.push(baseUrl+item.id);
-                    })
-                    Core.postAjax("/article/batch/push", {"urls": urls}, function (data) {
-                        if (data.status == 200) {
-                            layer.msg(data.msg);
-                        }else{
-                            if(null!==data.data){
-                                var msg="推送成功"+data.data.success+"条;";
-                                var notSameSiteLength = data.data.notSameSite==null?0:data.data.notSameSite.length;
-                                var notValidLength = data.data.notValid==null?0:data.data.notValid.length;
-                                msg+= ("推送失败"+(notSameSiteLength+notValidLength)+"条");
-                                layer.msg(msg);
-                            }else{
-                                layer.msg(data.msg);
-                            }
-                        }
-
-                    })
-                })
-            }
-        });
-
     });
 
 </script>

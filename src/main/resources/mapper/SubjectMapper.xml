@@ -17,7 +17,7 @@
     	id,user_id,name,description,img_url,sort,author,create_time,update_time,status
     </sql>
     
-    <select id="getSubjectById" resultMap="BaseResultMap" parameterType="int" >
+    <select id="selectById" resultMap="BaseResultMap" parameterType="int" >
         SELECT
         *
         FROM subject
@@ -30,7 +30,7 @@
         FROM subject
     </select>
 
-    <select id="getSubjects" parameterType="com.exam.model.Subject" resultMap="BaseResultMap" >
+    <select id="selectSubjects" parameterType="com.exam.model.Subject" resultMap="BaseResultMap" >
         SELECT
         s.*
         FROM subject s
