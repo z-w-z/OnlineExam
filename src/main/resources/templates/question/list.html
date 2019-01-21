@@ -11,10 +11,19 @@
     <div class="jax-box">
         <form id="formSearch" class="form-horizontal form-search">
             <div class="form-group">
-                <div class="col-md-2 col-sm-6">
-                    <label class="control-label  col-xs-4" for="keywords">题名:</label>
+                <div class="col-md-3 col-sm-6">
+                    <label class="control-label  col-xs-4" for="keywords">题目:</label>
                     <div class="col-xs-8">
                         <input type="text" class="form-control" id="keywords">
+                    </div>
+                </div>
+                 <div class="col-md-3 col-sm-6">
+                    <label class="control-label  col-xs-4" for="question">课程:</label>
+                    <div class="col-xs-8">
+                        <select class="form-control"id="subjectId">
+                            <option  value="">请选择</option>
+                            <option th:each="subject:${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -29,16 +38,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <label class="control-label  col-xs-4" for="question">课程类型:</label>
-                    <div class="col-xs-8">
-                        <select class="form-control"id="subjectId">
-                            <option  value="">请选择</option>
-                            <option th:each="subject:${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-2 col-sm-6">
                     <label class="control-label  col-xs-4">状态:</label>
                     <div class="col-xs-8">
                         <select id="status" class="form-control">

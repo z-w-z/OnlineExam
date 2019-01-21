@@ -12,12 +12,11 @@
         <div class="box-body">
             <form id="questionForm" class="form-horizontal">
                 <input id="status" type="hidden" name="status">
-                <input id="articleContent" type="hidden" name="content">
-                <input id="articleContentMd" type="hidden" name="contentMd">
+                <input id="questionContent" type="hidden" name="content">
                 <div class="col-lg-8 pl0">
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="请输入文章标题" require="">
+                            <textarea type="text" rows="3" class="form-control" id="title" name="title" placeholder="请输入题目标题" require=""></textarea>
                         </div>
                     </div>
                     <div class="form-group form-editor">
@@ -25,18 +24,23 @@
                             <textarea id="questionField"></textarea>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="col-lg-4 article-extra">
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <a class="article-btn table-btn table-btn-info" onclick="saveArticle(0)">保存草稿</a>
-                            <a class="article-btn table-btn table-btn-info ml10" onclick="saveArticle(1)">发布文章</a>
+                
+                	<div class="form-group">
+                        <div class="col-xs-12 ">
+                            <label class="control-label label-four"  for="">课程分类:</label>
+                            <div class="ml80">
+                                <select id="subject-select" class="form-control" name="subjectId" require="">
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
                             <label class="control-label label-four" for="">题目类型:</label>
-                            <div class="tags ml80 checkbox icheck">
+                            <div class="ml80">
                                 <label>
                                     <input class="minimal"  type="radio"  name="questionType" checked  value="0">单项选择题
                                 </label>
@@ -53,34 +57,43 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12 ">
-                            <label class="control-label label-four"  for="">课程分类:</label>
+                        <div class="col-xs-12">
+                            <label class="control-label label-four" for="">题目选项:</label>
+                            <div class="ml80" id="option">
+                                <label>
+                                    <input type="text"  class="form-control" name="option1" id="option1" placeholder="选项1" require="">
+                                </label>
+                                <button type="button" id="addItemBtn" class="btn btn-primary btn-sm">
+    								<span class="glyphicon glyphicon-plus-sign"></span>
+								</button> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label class="control-label label-four" for="">题目分值:</label>
+                            <div class=" ml80">
+                                <input type="text"  class="form-control" name="score" id="score" placeholder="题目分值" require="">
+                            </div>
+                        </div>
+
+                    </div>
+                 	<div class="form-group">
+                        <div class="col-xs-12">
+                            <label class="control-label label-four" for="">题目描述:</label>
                             <div class="ml80">
-                                <select id="subject-select" class="form-control" name="subjectId" require="">
-                                </select>
+                                <textarea type="text" rows="3" class="form-control" name="description" require=""></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label class="control-label label-four" for="">题目分值:</label>
-                            <div class="tags checkbox icheck ml80">
-                                <label>
-                                    <input type="text"  class="form-control" name="score" id="score" placeholder="题目分值" require="">
-                                </label>
-                            </div>
+                            <a class="btn btn-primary btn-sm" onclick="saveArticle(0)">保存草稿</a>
+                            <a class="btn btn-success btn-sm" onclick="saveArticle(1)">录入题目</a>
                         </div>
-
                     </div>
-                 <!--   <div class="form-group">
-                        <div class="col-xs-12">
-                            <label class="control-label label-four" for="">文章简介:</label>
-                            <div class="ml80">
-                                <textarea type="text" rows="3" class="form-control" name="description" require=""></textarea>
-                            </div>
-                        </div>
-                    </div>-->
-                                                   
+                </div>
                 <div class="col-lg-4 article-extra mt20">
                     <div class="form-group">
                         <div class="col-xs-12">
@@ -90,8 +103,7 @@
                             </div>
                         </div>
                     </div>
-                   
-                </div>
+                 </div>
             </form>
         </div>
     </div>
@@ -102,23 +114,46 @@
     var subjectsObj = JSON.parse(subjects.replace(/&quot;/g, '"'));
     var html='<option value="">请选择</option>';
     $.each(subjectsObj,function (i,item) {
-        if(item.nodes.length>0){
-            html+='<optgroup label="'+item.name+'" >';
-            $.each(item.nodes,function (j,jItem) {
-                html+='<option value="'+jItem.id+'">'+jItem.name+'</option>';
-            })
-            html+='</optgroup>';
-        }else if(item.parent==null){
+    	if(item!=null){
             html+='<option value="'+item.id+'">'+item.name+'</option>';
+        }else{
+        	html='<option value="">请添加课程</option>';
         }
-    })
+    });
     $("#subject-select").html(html);
-
+	
 
     $('[type="checkbox"].minimal,input[type="radio"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass: 'iradio_minimal-blue',
     });
+    var maxInput = 5;
+	var index = 1;
+	var items = ['B','C','D','E','F'];
+	var optionLength = $("#option").length;
+	
+    $("#addItemBtn").click(function(e){
+        if(optionLength <= maxInput){
+            var html = '<label><input type="text" class="form-control" ';
+			index++;
+			//for(var i=0;i<items.length;i++) {
+			//	html+='name="option'+items[i]+'" id="removeAption" placeholder="选项'+items[i]+'" require=""></label><button type="button" class="btn btn-primary btn-sm">';
+			$("#option").append('<label><input type="text" class="form-control" name="option'+index+'" id="removeAption" placeholder="选项'+index+'" require=""></label>');
+			//}
+			//html+='<span class="glyphicon glyphicon-plus-sign"></span></button></div>';
+			//$("#option").append(html);
+			optionLength++;
+        }
+        return false;
+    });
+
+    $("body").on("click","#removeAption", function(e){
+		if(optionLength > 1){
+			$(this).parent('div').remove();
+		}
+		return false;
+    });
+      
     var simplemde = new SimpleMDE({
         // textarea的DOM对象
         element: document.getElementById("questionField"),
@@ -146,7 +181,7 @@
 
     function  saveQuestion(status) {
         if(validQuestion()){
-            Core.confirm("确认保存文章？",function () {
+            Core.confirm("确认保存题目？",function () {
                 $("#status").val(status);
                 Core.postAjax("/question/add",$("#questionForm").serialize(),function (data) {
                     if(data.status=200){
@@ -157,14 +192,13 @@
                 })
             })
         }
-    }
+    };
     
     function  validQuestion() {
         if(doValidForm(questionForm)){
             var contentMd=simplemde.value();
             if(contentMd!=""){
-                $("#articleContentMd").val(contentMd);
-                $("#articleContent").val(simplemde.markdown(contentMd));
+                $("#questionContent").val(simplemde.markdown(contentMd));
                 var score = $("#score").val(score);
                 if(score.length>0){
                     return true;
@@ -176,10 +210,9 @@
             }
         }
         return false;
-    }
+    };
 
     function changeSlider(val) {
         console.log(val);
     }
-   });
 </script>

@@ -49,7 +49,7 @@ public class QuestionController {
 		subject.setStatus(CoreConst.STATUS_VALID);
 		List<Subject> subjects = subjectService.selectSubjects(subject);
 		model.addAttribute("subjects", JSON.toJSONString(subjects));
-		return "question/publish";
+		return "question/add";
 	}
 	
     @PostMapping("/add")
