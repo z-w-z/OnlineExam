@@ -20,14 +20,18 @@
                         </div>
                     </div>
                     <div class="form-group form-editor">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" >
                             <textarea id="questionField"></textarea>
                         </div>
                     </div>
-                    
                 </div>
-                <div class="col-lg-4 article-extra">
-                
+                <div class="col-lg-4 question-extra">
+                	<div class="form-group">
+                        <div class="col-xs-12">
+                            <a class="btn btn-primary btn-sm" onclick="saveQuestion(0)">保存草稿</a>
+                            <a class="btn btn-success btn-sm" onclick="saveQuestion(1)">录入题目</a>
+                        </div>
+                    </div>
                 	<div class="form-group">
                         <div class="col-xs-12 ">
                             <label class="control-label label-four"  for="">课程分类:</label>
@@ -61,15 +65,11 @@
                             <label class="control-label label-four" for="">题目选项:</label>
                             <div class="ml80" id="option">
                                 <label>
-                                    <input type="text"  class="form-control" name="option1" id="option1" placeholder="选项1" require="">
-                                </label>
-                                <button type="button" id="addItemBtn" class="btn btn-primary btn-sm">
-    								<span class="glyphicon glyphicon-plus-sign"></span>
-								</button> 
+                                    <input type="text" class="form-control" name="optionA" placeholder="选项A" require="">
+                                </label> <span style="cursor:pointer;color:#449284" id="addItemBtn" class="glyphicon glyphicon-plus-sign"></span>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="form-group">
                         <div class="col-xs-12">
                             <label class="control-label label-four" for="">题目分值:</label>
@@ -77,33 +77,39 @@
                                 <input type="text"  class="form-control" name="score" id="score" placeholder="题目分值" require="">
                             </div>
                         </div>
-
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label class="control-label label-four" for="">题目难度:</label>
+                            <div class="ml80">
+                                <select class="form-control">
+		                            <option value="">请选择</option>
+		                            <option value="1">一颗星</option>
+		                            <option value="2">两颗星</option>
+		                            <option value="3">三颗星</option>
+		                            <option value="4">四颗星</option>
+		                            <option value="5">五颗星</option>
+                        		</select>
+                            </div>
+                        </div>
                     </div>
                  	<div class="form-group">
                         <div class="col-xs-12">
-                            <label class="control-label label-four" for="">题目描述:</label>
+                            <label class="control-label label-four" for="">正确答案:</label>
                             <div class="ml80">
-                                <textarea type="text" rows="3" class="form-control" name="description" require=""></textarea>
+                                <textarea type="text" rows="3" class="form-control" name="answer" require="" placeholder="正确答案"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <a class="btn btn-primary btn-sm" onclick="saveArticle(0)">保存草稿</a>
-                            <a class="btn btn-success btn-sm" onclick="saveArticle(1)">录入题目</a>
+                            <label class="control-label label-four" for="">答案解析:</label>
+                            <div class="ml80">
+                                <textarea type="text" rows="3" class="form-control" name="parse" require="" placeholder="答案解析"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 article-extra mt20">
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <label class="control-label label-four" for="">题目描述:</label>
-                            <div class="ml80">
-                                <textarea type="text" rows="2" class="form-control" name="description" require="" placeholder="题目概要"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
             </form>
         </div>
     </div>
@@ -129,27 +135,24 @@
     });
     var maxInput = 5;
 	var index = 1;
-	var items = ['B','C','D','E','F'];
 	var optionLength = $("#option").length;
-	
     $("#addItemBtn").click(function(e){
         if(optionLength <= maxInput){
             var html = '<label><input type="text" class="form-control" ';
 			index++;
-			//for(var i=0;i<items.length;i++) {
-			//	html+='name="option'+items[i]+'" id="removeAption" placeholder="选项'+items[i]+'" require=""></label><button type="button" class="btn btn-primary btn-sm">';
-			$("#option").append('<label><input type="text" class="form-control" name="option'+index+'" id="removeAption" placeholder="选项'+index+'" require=""></label>');
-			//}
-			//html+='<span class="glyphicon glyphicon-plus-sign"></span></button></div>';
-			//$("#option").append(html);
+			var alphabet= String.fromCharCode(64 + parseInt(index));
+			$("#option").append('<div><label><input type="text" class="form-control" name="option'+alphabet+'" placeholder="选项'+alphabet+'" require=""></label>'+
+					            ' <span style="color:red;cursor:pointer" class="glyphicon glyphicon-minus-sign removeAption" aria-hidden="true"></span><div>');
 			optionLength++;
         }
         return false;
     });
 
-    $("body").on("click","#removeAption", function(e){
+    $("#option").on("click",".removeAption", function(e){
 		if(optionLength > 1){
 			$(this).parent('div').remove();
+			optionLength--;
+			index--;
 		}
 		return false;
     });
@@ -159,7 +162,7 @@
         element: document.getElementById("questionField"),
         // 自动下载FontAwesome，设为false为不下载(如果设为false则必须手动引入)
         autoDownloadFontAwesome: false,
-        placeholder: "请输入题目内容",
+        placeholder: "请输入题目附加内容，没有可不填",
         autosave: {
             // 启用自动保存功能
             enabled: true,
@@ -211,8 +214,4 @@
         }
         return false;
     };
-
-    function changeSlider(val) {
-        console.log(val);
-    }
 </script>

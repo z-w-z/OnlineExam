@@ -278,7 +278,7 @@ body .demo-class .layui-layer-btn .layui-layer-btn1{background:#f1f1f1;}
 }
 
 .CodeMirror{
-    height: 700px;
+    height: 580px;
 }
 .CodeMirror-fullscreen,.editor-toolbar.fullscreen{
    z-index: 1030;
@@ -355,7 +355,7 @@ body .demo-class .layui-layer-btn .layui-layer-btn1{background:#f1f1f1;}
 .choose-local-img .preview{
     margin-top: 10px;
 }
-.article-extra{
+.question-extra{
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;

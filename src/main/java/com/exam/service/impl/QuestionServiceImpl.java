@@ -19,8 +19,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 
 	@Override
 	public List<Question> findByCondition(QuestionConditionVo vo) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Question> list = questionMapper.findByCondition(vo);
+		return list;
 	}
 
 	@Override

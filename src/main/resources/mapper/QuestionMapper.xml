@@ -24,8 +24,27 @@
     </resultMap>
     <sql id="Base_Column_List" >
         id,title,content,question_type,option_a,option_b,option_c,option_d,option_e,option_f,
-        answer,parse,score,difficulty,subject_id,exam_id,create_time,update_time,state
+        answer,parse,score,difficulty,subject_id,exam_id,create_time,update_time,status
     </sql>
+    
+    <select id="findByCondition" parameterType="com.exam.vo.QuestionConditionVo" resultMap="BaseResultMap">
+    	SELECT
+    	a.*,
+    	subject.id AS s_subject_id,
+    	subject.`name` AS s_subject_name,
+    	subject.description AS s_subject_description
+    	FROM
+    	question a
+    	INNER JOIN subject ON a.subject_id = subject.id
+    	WHERE 1 = 1
+    	<if test="subjectId != null">
+    		AND a.subject_id = #{subjectId}
+    	</if>
+    	<if test="status != null">
+    		AND a.status = #{status}
+    	</if>
+    	GROUP BY a.id
+    </select>
 
     <delete id="deleteQuestion" parameterType="int">
         DELETE FROM question

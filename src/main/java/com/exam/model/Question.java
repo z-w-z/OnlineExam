@@ -18,7 +18,6 @@ public class Question extends BaseVo {
 	private Integer score;
 	private Integer difficulty;
 	private Integer subjectId;
-	private Integer examId;
 	private Integer status;
 	public String getTitle() {
 		return title;
@@ -103,12 +102,6 @@ public class Question extends BaseVo {
 	}
 	public void setSubjectId(Integer subjectId) {
 		this.subjectId = subjectId;
-	}
-	public Integer getExamId() {
-		return examId;
-	}
-	public void setExamId(Integer examId) {
-		this.examId = examId;
 	}
 	public Integer getStatus() {
 		return status;
