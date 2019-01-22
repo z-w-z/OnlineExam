@@ -29,7 +29,7 @@
                 <div class="col-md-3 col-sm-6">
                     <label class="control-label  col-xs-4" for="question">题目类型:</label>
                     <div class="col-xs-8">
-                        <select class="form-control"id="questionId">
+                        <select class="form-control" id="questionType">
                             <option  value="">请选择</option>
                             <option value="0">单项选择题</option>
                             <option value="1">多项选择题</option>
@@ -43,8 +43,8 @@
                     <div class="col-xs-8">
                         <select id="status" class="form-control">
                             <option value="">请选择</option>
-                            <option value="1">已发布</option>
-                            <option value="0">草稿</option>
+                            <option value="0">未考过题目</option>
+                            <option value="1">已考过题目</option>
                         </select>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>题目录入
             </button>
             </shiro:hasPermission>
-            <shiro:hasPermission name="article:batchDelete">
+            <shiro:hasPermission name="question:batchDelete">
             <button id="btn_batch_delete" type="button" class="btn btn-danger">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
             </button>
@@ -75,20 +75,20 @@
 
 <script>
     var editFlag = "[[${@perms.hasPerm('article:edit')}]]";
-    var deleteFlag = "[[${@perms.hasPerm('article:delete')}]]";
+    var deleteFlag = "[[${@perms.hasPerm('question:delete')}]]";
     var columns = [
         {checkbox: true },
         {
             field: 'title',
             title: '题名',
-            align : "center"
+            //align : "center"
         },{
-            field: 'subjectId',
+            field: 'subject',
             title: '课程分类',
             align : "center",
-            /* formatter: function (value) {
+            formatter: function (value) {
                 return value.name;
-            } */
+            }
         }, {
             field: 'questionType',
             title: '题目类型',
@@ -122,6 +122,10 @@
                 	diffHtml = "两颗星";	
                  }else if(difficulty == 3){
                 	diffHtml = "三颗星";	
+                 }else if(difficulty == 3){
+                	diffHtml = "四颗星";	
+                 }else if(difficulty == 3){
+                	diffHtml = "五颗星";	
                  }
                 return diffHtml;
             }
@@ -133,7 +137,7 @@
                if(value){
                    return '已考过题目'
                }else{
-                   return '为考过题目'
+                   return '未考过题目'
                }
             }
         },{
@@ -143,9 +147,9 @@
             class:'min-width-100',
             formatter : function(value,
                                  row, index) {
-                var edit = editFlag=="true" ? '<a class="table-btn table-btn-info" onclick="editArticle('+row.id+')">编辑</a>' : '';
-                var del = deleteFlag=="true" ? '<a  class="table-btn table-btn-danger" onclick="deleteArticle('+row.id+')">删除</a>' : '';
-                return edit + del;
+                var edit = editFlag=="true" ? '<button type="button" class="btn btn-primary btn-sm" onclick="editArticle('+row.id+')"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>' : '';
+                var del = deleteFlag=="true" ? '<button type="button" class="btn btn-danger btn-sm" onclick="deleteQuestion('+row.id+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button>' : '';
+                return edit + " " + del;
             }
         }];
     var options={
@@ -163,7 +167,9 @@
         var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
             limit : params.limit, //页面大小
             offset : params.offset, //页码
+            keywords : $("#keywords").val(),
             subjectId : $("#subjectId").val(),
+            questionType : $("#questionType").val(),
             status : $("#status").val(),
         };
         return temp;
@@ -174,9 +180,9 @@
         window.location.href="#article/edit?id="+id
     }
     /*删除*/
-    function deleteArticle(id) {
-        Core.confirm("确定删除该分类？",function () {
-            Core.postAjax("/article/delete",{"id":id},function (data) {
+    function deleteQuestion(id) {
+        Core.confirm("确定删除该题目？",function () {
+            Core.postAjax("/question/delete",{"id":id},function (data) {
                 if(data.status==200){
                     Core.refreshTable("#table");
                 }
@@ -202,7 +208,7 @@
                     $.each(checkedRows, function (i, item) {
                         ids.push(item.id);
                     })
-                    Core.postAjax("/article/batch/delete", {"ids": ids}, function (data) {
+                    Core.postAjax("/question/batch/delete", {"ids": ids}, function (data) {
                         if (data.status == 200) {
                             Core.refreshTable("#table");
                         }

@@ -24,22 +24,4 @@ public interface QuestionMapper extends MapperUtil<Question> {
 	 */
 	int deleteBatch(Integer[] ids);
 
-    int deleteQuestion(@Param("id") int id);
-
-    Question getQuestionById(@Param("id") int id);
-
-    int getCountByContent(@Param("content") String content);
-
-    List<Question> getQuestionsByContent(@Param("content") String content);
-
-    List<Question> getQuestionByExamId(@Param("examtId") int examId);
-
-    int getCountByProblemsetIdAndContentAndDiffculty(@Param("id") int id,
-                                                     @Param("content") String content,
-                                                     @Param("difficulty") int diffculty);
-
-    List<Question> getQuestionsByProblemsetIdAndContentAndDiffculty(@Param("id") int id,
-                                                                    @Param("content") String content,
-                                                                    @Param("difficulty") int diffculty);
-
 }

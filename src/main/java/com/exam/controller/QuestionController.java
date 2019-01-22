@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -61,5 +62,27 @@ public class QuestionController {
 		} catch (Exception e) {
 			return ResultUtil.error("新增题目失败！");
 		}
+    }
+    
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResponseVo delete(Integer id) {
+    	int i = questionService.deleteBatch(new Integer[]{id});
+    	if(i > 0) {
+    		return ResultUtil.success("删除题目成功");
+    	}else {
+    		return ResultUtil.error("删除题目失败");
+    	}
+    }
+    
+    @PostMapping("/batch/delete")
+    @ResponseBody
+    public ResponseVo deleteBatch(@RequestParam("ids[]") Integer[]ids) {
+    	int i = questionService.deleteBatch(ids);
+    	if(i > 0) {
+    		return ResultUtil.success("批量删除题目成功");
+    	}else {
+    		return ResultUtil.error("批量删除题目失败");
+    	}
     }
 }

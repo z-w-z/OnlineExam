@@ -27,19 +27,5 @@ public interface QuestionService extends BaseService<Question> {
 	 * @return
 	 */
 	int deleteBatch(Integer[] ids);
-	
-	/**
-	 * 根据课程Id回去问题列表
-	 * @param subjectId
-	 * @return
-	 */
-	List<Question> selectBySubjectId(Integer subjectId);
-	
-	/**
-	 * 根据考试id获取问题列表
-	 * @param examId
-	 * @return
-	 */
-	List<Question> getQuestionsByExamId(int examId);
 
 }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: OnlineExam Maven Webapp
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Administrator
+Built-By: HungKuei_PC
 Implementation-Vendor-Id: com.oe
 Build-Jdk: 1.8.0_181
 Implementation-URL: http://maven.apache.org

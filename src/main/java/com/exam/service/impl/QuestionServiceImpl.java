@@ -34,20 +34,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 
 	@Override
 	public int deleteBatch(Integer[] ids) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<Question> selectBySubjectId(Integer subjectId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Question> getQuestionsByExamId(int examId) {
-		// TODO Auto-generated method stub
-		return null;
+		return questionMapper.deleteBatch(ids);
 	}
 
 }

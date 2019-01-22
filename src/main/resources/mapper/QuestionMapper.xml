@@ -21,6 +21,11 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="status" property="status" jdbcType="INTEGER" />
+        <association property="subject" javaType="com.exam.model.Subject">
+			<result property="id" jdbcType="INTEGER" column="s_subject_id"/>
+			<result property="name" jdbcType="VARCHAR" column="s_subject_name"/>
+			<result property="description" jdbcType="VARCHAR" column="s_subject_description"/>
+		</association>
     </resultMap>
     <sql id="Base_Column_List" >
         id,title,content,question_type,option_a,option_b,option_c,option_d,option_e,option_f,
@@ -40,76 +45,27 @@
     	<if test="subjectId != null">
     		AND a.subject_id = #{subjectId}
     	</if>
+    	<if test="questionType != null">
+    		AND a.question_type = #{questionType}
+    	</if>
     	<if test="status != null">
     		AND a.status = #{status}
     	</if>
+    	<if test="keywords != null and keywords != ''">
+    		AND
+    		a.title LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%')
+    	</if>
     	GROUP BY a.id
     </select>
-
-    <delete id="deleteQuestion" parameterType="int">
-        DELETE FROM question
-        where id = #{id}
+    
+    <delete id="deleteBatch" parameterType="map">
+    	DELETE FROM
+    	question
+    	WHERE
+    	id in
+    	<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+    		#{item}
+    	</foreach>
     </delete>
-
-    <select id="getQuestionById" resultMap="BaseResultMap" parameterType="int" >
-        SELECT
-        *
-        FROM question
-        WHERE id = #{id}
-    </select>
-
-    <select id="getCountByContent" resultType="int">
-        SELECT
-          COUNT(1)
-        FROM question
-        WHERE 1 = 1 AND state = 1
-        <if test="content != null and content != ''">
-            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-    </select>
-
-    <select id="getQuestionsByContent" resultMap="BaseResultMap" >
-        SELECT
-        *
-        FROM question
-        WHERE 1 = 1 AND state = 1
-        <if test="content != null and content != ''">
-            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-    </select>
-
-    <select id="getQuestionByExamId" resultMap="BaseResultMap" >
-        SELECT
-        *
-        FROM question
-        WHERE
-        exam_id = #{examId}
-    </select>
-
-    <select id="getCountByProblemsetIdAndContentAndDiffculty" resultType="int">
-        SELECT
-        COUNT(1)
-        FROM question
-        WHERE state = 1 AND subject_id = #{id}
-        <if test="content != null and content != ''">
-            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-        <if test='difficulty != "0"'>
-            AND difficulty = #{difficulty}
-        </if>
-    </select>
-
-    <select id="getQuestionsByProblemsetIdAndContentAndDiffculty" resultMap="BaseResultMap">
-        SELECT
-        *
-        FROM question
-        WHERE state = 1 AND subject_id = #{id}
-        <if test="content != null and content != ''">
-            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-        <if test='difficulty != "0"'>
-            AND difficulty = #{difficulty}
-        </if>
-    </select>
 
 </mapper>
