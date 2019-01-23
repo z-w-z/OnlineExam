@@ -1,7 +1,29 @@
+<meta charset="utf-8">
 <div th:fragment="sidebar" class="jax-sidebar">
-    <aside class="main-sidebar">
-        <section class="sidebar">
-            <div id="menu"></div>
-        </section>
-    </aside>
+	<aside class="main-sidebar">
+		<section class="sidebar">
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img th:src="@{/img/person.jpg}" class="img-circle" alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p><shiro:principal property="nickname" /></p>
+					<span id="userId" style="display: none"><shiro:principal property="userId" /></span>
+					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+				</div>
+			</div>
+			<!-- search form -->
+	        <form action="#" method="get" class="sidebar-form">
+	        	<div class="input-group">
+		            <input type="text" name="q" class="form-control" placeholder="搜索">
+		            <span class="input-group-btn">
+		                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+		                </button>
+		            </span>
+	        	</div>
+	        </form>
+      		<!-- /.search form -->
+			<div id="menu"></div>
+		</section>
+	</aside>
 </div>

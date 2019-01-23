@@ -18,10 +18,18 @@ public interface QuestionMapper extends MapperUtil<Question> {
 	List<Question> findByCondition(QuestionConditionVo vo);
 	
 	/**
+	 * 根据id查询题目
+	 * @param id
+	 * @return
+	 */
+	Question selectById(Integer id);
+	
+	/**
 	 * 批量删除问题
 	 * @param ids
 	 * @return
 	 */
 	int deleteBatch(Integer[] ids);
+	
 
 }

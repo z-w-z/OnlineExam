@@ -58,6 +58,19 @@
     	GROUP BY a.id
     </select>
     
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+    	SELECT
+    	a.*,
+    	subject.id AS s_subject_id,
+    	subject.`name` AS s_subject_name,
+    	subject.description AS s_subject_description
+    	FROM
+    	question a
+    	INNER JOIN subject ON a.subject_id = subject.id
+    	WHERE
+    	a.id = #{id}
+    </select>
+    
     <delete id="deleteBatch" parameterType="map">
     	DELETE FROM
     	question

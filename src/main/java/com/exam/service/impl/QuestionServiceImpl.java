@@ -22,6 +22,11 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 		List<Question> list = questionMapper.findByCondition(vo);
 		return list;
 	}
+	
+	@Override
+	public Question selectById(Integer id) {
+		return questionMapper.selectById(id);
+	}
 
 	@Override
 	public Question insertQuestion(Question question) {
@@ -36,5 +41,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question> implements Qu
 	public int deleteBatch(Integer[] ids) {
 		return questionMapper.deleteBatch(ids);
 	}
+
 
 }

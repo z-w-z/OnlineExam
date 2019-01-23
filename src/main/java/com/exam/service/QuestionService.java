@@ -15,6 +15,13 @@ public interface QuestionService extends BaseService<Question> {
 	List<Question> findByCondition(QuestionConditionVo vo);
 	
 	/**
+	 * 根据id获取题目
+	 * @param id
+	 * @return
+	 */
+	Question selectById(Integer id);
+	
+	/**
 	 * 插入
 	 * @param question
 	 * @return

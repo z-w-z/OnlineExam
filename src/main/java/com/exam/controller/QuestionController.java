@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.exam.model.BizArticle;
 import com.exam.model.Question;
 import com.exam.model.Subject;
 import com.exam.service.QuestionService;
@@ -63,6 +64,25 @@ public class QuestionController {
 			return ResultUtil.error("新增题目失败！");
 		}
     }
+    
+    @GetMapping("/edit")
+    public String edit(Model model, Integer id) {
+    	Question question = questionService.selectById(id);
+    	model.addAttribute("question", question);
+    	Subject subject = new Subject();
+    	subject.setStatus(CoreConst.STATUS_VALID);
+    	List<Subject> subjects = subjectService.selectSubjects(subject);
+    	model.addAttribute("subjects", JSON.toJSONString(subjects));
+    	return "question/detail";
+    }
+    
+    @PostMapping("/edit")
+    @ResponseBody
+    public ResponseVo edit(Question question) {
+    	questionService.updateNotNull(question);
+    	return ResultUtil.success("编辑题目成功");
+    }
+    
     
     @PostMapping("/delete")
     @ResponseBody

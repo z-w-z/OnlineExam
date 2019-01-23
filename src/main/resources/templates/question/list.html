@@ -74,7 +74,7 @@
 </section>
 
 <script>
-    var editFlag = "[[${@perms.hasPerm('article:edit')}]]";
+    var editFlag = "[[${@perms.hasPerm('question:edit')}]]";
     var deleteFlag = "[[${@perms.hasPerm('question:delete')}]]";
     var columns = [
         {checkbox: true },
@@ -117,15 +117,15 @@
             formatter : function(difficulty) {
                 var diffHtml = '';
                 if(difficulty == 1){
-                	diffHtml = "一颗星";
+                	diffHtml = "★☆☆☆☆";
                 }else if(difficulty == 2){
-                	diffHtml = "两颗星";	
+                	diffHtml = "★★☆☆☆";	
                  }else if(difficulty == 3){
-                	diffHtml = "三颗星";	
-                 }else if(difficulty == 3){
-                	diffHtml = "四颗星";	
-                 }else if(difficulty == 3){
-                	diffHtml = "五颗星";	
+                	diffHtml = "★★★☆☆";	
+                 }else if(difficulty == 4){
+                	diffHtml = "★★★★☆";	
+                 }else if(difficulty == 5){
+                	diffHtml = "★★★★★";	
                  }
                 return diffHtml;
             }
@@ -147,7 +147,7 @@
             class:'min-width-100',
             formatter : function(value,
                                  row, index) {
-                var edit = editFlag=="true" ? '<button type="button" class="btn btn-primary btn-sm" onclick="editArticle('+row.id+')"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>' : '';
+                var edit = editFlag=="true" ? '<button type="button" class="btn btn-primary btn-sm" onclick="editQuestion('+row.id+')"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>' : '';
                 var del = deleteFlag=="true" ? '<button type="button" class="btn btn-danger btn-sm" onclick="deleteQuestion('+row.id+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button>' : '';
                 return edit + " " + del;
             }
@@ -176,8 +176,8 @@
     }
 
     /*编辑*/
-    function editArticle(id) {
-        window.location.href="#article/edit?id="+id
+    function editQuestion(id) {
+        window.location.href="#question/edit?id="+id
     }
     /*删除*/
     function deleteQuestion(id) {
