@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.exam.model.Examination;
 import com.exam.model.Question;
 import com.exam.util.MapperUtil;
 import com.exam.vo.QuestionConditionVo;
@@ -30,6 +31,7 @@ public interface QuestionMapper extends MapperUtil<Question> {
 	 * @return
 	 */
 	int deleteBatch(Integer[] ids);
+
 	
 
 }

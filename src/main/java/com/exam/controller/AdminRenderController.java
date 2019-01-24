@@ -51,6 +51,8 @@ public class AdminRenderController {
     public String tags(){
         return "tag/list";
     }
+    
+    
 
     /*文章*/
     @GetMapping("/articles")
@@ -61,6 +63,17 @@ public class AdminRenderController {
         model.addAttribute("categories",categories);
         return "article/list";
     }
+    
+    /*考试*/
+    @GetMapping("/exams")
+    public String exams(Model model) {
+    	Subject subject = new Subject();
+    	subject.setStatus(CoreConst.STATUS_VALID);
+    	List<Subject> subjects = subjectService.select(subject);
+    	model.addAttribute("subjects", subjects);
+    	return "exam/list";
+    }
+    
     /*题目*/
     @GetMapping("/questions")
     public String questions(Model model) {

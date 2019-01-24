@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.exam.mapper.ExamQuestionMapper">
+	<resultMap id="BaseResultMap" type="com.exam.model.ExamQuestion">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="examId" jdbcType="INTEGER" column="exam_id"/>
+		<result property="questionId" jdbcType="INTEGER" column="question_id"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		exam_id,
+		question_id,
+		create_time,
+		update_time
+	</sql>
+</mapper>

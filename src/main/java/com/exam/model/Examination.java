@@ -1,6 +1,9 @@
 package com.exam.model;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Transient;
 
 import com.exam.vo.base.BaseVo;
 
@@ -15,6 +18,12 @@ public class Examination extends BaseVo {
 	private Date startTime;
 	private Date endTime;
 	private Integer status;
+	
+	@Transient
+	List<Question> questions;
+	@Transient
+	List<Subject> subject;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -62,5 +71,17 @@ public class Examination extends BaseVo {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public List<Question> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+	public List<Subject> getSubject() {
+		return subject;
+	}
+	public void setSubject(List<Subject> subject) {
+		this.subject = subject;
 	}
 }

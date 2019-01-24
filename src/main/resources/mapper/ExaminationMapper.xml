@@ -13,80 +13,75 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="status" property="status" jdbcType="INTEGER" />
+        <association property="subject" javaType="com.exam.model.Subject" >
+        	<result property="id" jdbcType="INTEGER" column="s_subject_id"/>
+			<result property="name" jdbcType="VARCHAR" column="s_subject_name"/>
+			<result property="description" jdbcType="VARCHAR" column="s_subject_description"/>	
+        </association>
+        <collection property="questions" column="question_id" javaType="ArrayList" ofType="com.exam.model.Question">
+			<result column="question_id" property="id" jdbcType="INTEGER" />
+	        <result column="question_title" property="title" jdbcType="VARCHAR" />
+	        <result column="question_content" property="content" jdbcType="LONGVARCHAR" />
+	        <result column="q_question_type" property="questionType" jdbcType="INTEGER" />
+	        <result column="question_option_a" property="optionA" jdbcType="VARCHAR" />
+	        <result column="question_option_b" property="optionB" jdbcType="VARCHAR" />
+	        <result column="question_option_c" property="optionC" jdbcType="VARCHAR" />
+	        <result column="question_option_d" property="optionD" jdbcType="VARCHAR" />
+	        <result column="question_option_e" property="optionE" jdbcType="VARCHAR" />
+	        <result column="question_option_f" property="optionF" jdbcType="VARCHAR" />
+	        <result column="question_answer" property="answer" jdbcType="LONGVARCHAR" />
+	        <result column="question_parse" property="parse" jdbcType="LONGVARCHAR" />
+	        <result column="question_score" property="score" jdbcType="INTEGER" />
+	        <result column="question_difficulty" property="difficulty" jdbcType="INTEGER" />
+	        <result column="question_subject_id" property="subjectId" jdbcType="INTEGER" />
+	        <result column="question_create_time" property="createTime" jdbcType="TIMESTAMP" />
+	        <result column="question_update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	        <result column="question_status" property="status" jdbcType="INTEGER" />
+		</collection>
     </resultMap>
     
     <sql id="Base_Column_List" >
         id,title,user_id,author,total_score,subject_id,start_time,end_time,create_time,update_time,status
     </sql>
-
-    <insert id="insertExam" parameterType="com.exam.model.Examination" >
-        insert into examination e
-        (title, user_id, author,total_score, subject_id, start_time, end_time,status)
-        values (#{e.title},#{e.user_id},#{e.author}, #{e.totalScore}, #{e.subjectId},
-        #{e.startTime}, #{e.endTime}, #{e.status})
-    </insert>
-
-    <delete id="deleteExam" parameterType="int">
-        DELETE FROM examination
-        where id = #{id}
-    </delete>
-
-    <update id="updateExamById" parameterType="com.exam.model.Examination">
-        UPDATE examination e
-        SET
-        title = #{e.title}, total_score = #{e.totalScore},
-        subject_id = #{e.subjectId}, start_time = #{e.startTime},
-        end_time = #{e.endTime}, state = #{e.state}
-        WHERE
-        id = #{e.id}
-    </update>
-
-    <select id="getExamById" resultMap="BaseResultMap" parameterType="int" >
-        SELECT
-        *
-        FROM examination
-        WHERE id = #{id}
-    </select>
-
-    <select id="getCount" resultType="int">
-        SELECT
-        COUNT(1)
-        FROM examination
-    </select>
-
-    <select id="getExams" resultMap="BaseResultMap" >
-        SELECT
-        *
-        FROM examination
-        ORDER BY start_time DESC
-    </select>
-
-    <update id="updateStateToStart">
-        UPDATE examination
-        SET
-          state = 1
-        WHERE
-        state <![CDATA[ = ]]> 0 AND start_time <![CDATA[ <= ]]> #{currentTime} AND end_time <![CDATA[ > ]]> #{currentTime}
-    </update>
-
-    <update id="updateStateToEnd">
-        UPDATE examination
-        SET
-          state = 2
-        WHERE
-        state <![CDATA[ <= ]]> 2 AND end_time <![CDATA[ <= ]]> #{currentTime}
-    </update>
-
-    <select id="getExamsByExamIds" resultMap="BaseResultMap">
-        SELECT
-        *
-        FROM examination
-        WHERE 1 = 1
-        <if test="contestIds != null and contestIds.size > 0">
-            AND id IN
-            <foreach collection="contestIds" item="contestId" open="(" separator="," close=")">
-                #{contestId}
-            </foreach>
-        </if>
+    
+    <select id="findByCondition" parameterType="com.exam.vo.ExaminationConditionVo" resultMap="BaseResultMap">
+    	SELECT
+    	a.*,
+    	subject.id AS s_subject_id,
+    	subject.`name` AS s_subject_name,
+    	subject.description AS s_subject_description
+    	FROM
+    	examination a
+    	INNER JOIN subject ON a.subject_id = subject.id
+    	INNER JOIN exam_question eq ON a.id = eq.exam_id
+    	WHERE 1 = 1
+    	<if test="subjectId != null">
+    		AND a.subject_id = #{subjectId}
+    	</if>
+    	<choose>
+    		<when test="questionIds != null">
+    			AND eq.question_id IN (
+    			<foreach collection="questionIds" item="questionId" separator=",">
+    				#{questionId}
+    			</foreach>
+    			)
+    		</when>
+    		<otherwise>
+    			<if test="questionId != null">
+    				AND eq.question_id = #{questionId}
+    			</if>
+    		</otherwise>
+    	</choose>
+    	<if test="status != null">
+			AND	a.status = #{status}
+		</if>
+		<if test="keywords != null and keywords != '' ">
+			AND
+			(
+			a.title LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+			a.content LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+			a.keywords LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%')
+			)
+		</if>
     </select>
 </mapper>

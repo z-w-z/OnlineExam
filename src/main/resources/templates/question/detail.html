@@ -130,7 +130,12 @@
         }
     })
     $("#subject-select").html(html);
-
+    var i = $('input:radio[name="questionType"]:checked').val();
+    if(i == 2 || i == 3){
+		document.getElementById("option-group").style.display="none";//隐藏	
+	}else{
+		document.getElementById("option-group").style.display="";//显示
+		}
     $('.radioItem input').on('ifChecked',function(event){
 		if(event.type == 'ifChecked'){
 			var i = $('input:radio[name="questionType"]:checked').val();

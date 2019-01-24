@@ -1,0 +1,190 @@
+<meta charset="utf-8">
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">考试管理</a></li>
+        <li class="active">考试列表</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="jax-box">
+        <form id="formSearch" class="form-horizontal form-search">
+            <div class="form-group">
+                <div class="col-md-4 col-sm-6">
+                    <label class="control-label  col-xs-4" for="keywords">考试标题:</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="keywords">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <label class="control-label  col-xs-4" for="subject">考试课程:</label>
+                    <div class="col-xs-8">
+                        <select class="form-control"id="subjectId">
+                            <option  value="">请选择</option>
+                            <option th:each="subject:${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label class="control-label  col-xs-4">状态:</label>
+                    <div class="col-xs-8">
+                        <select id="status" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="0">未开始</option>
+                            <option value="1">进行中</option>
+                            <option value="2">已结束</option>
+                        </select>
+                    </div>
+                </div>
+                <shiro:hasPermission name="exam:list">
+                    <div class="col-md-1 col-sm-6 " style="text-align:left;">
+                        <button type="button" id="btn_query" class="btn btn-info">查询</button>
+                    </div>
+                </shiro:hasPermission>
+            </div>
+        </form>
+    </div>
+    <div class="jax-box jax-box-table">
+        <div id="toolbar" class="btn-group">
+            <shiro:hasPermission name="exam:add">
+            <button id="btn_add" type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发布考试
+            </button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="article:batchDelete">
+            <button id="btn_batch_delete" type="button" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
+            </button>
+            </shiro:hasPermission>
+        </div>
+        <table id="table"></table>
+    </div>
+</section>
+
+<script>
+    var editFlag = "[[${@perms.hasPerm('article:edit')}]]";
+    var deleteFlag = "[[${@perms.hasPerm('article:delete')}]]";
+    var columns = [
+        {checkbox: true },
+        {
+            field: 'title',
+            title: '考试标题',
+            align : "center"
+        },{
+            field: 'subject',
+            title: '考试课程',
+            align : "center",
+            formatter: function (value) {
+                return value.name;
+            }
+        },{
+            field: 'totalScore',
+            title: '分值',
+            align : "center",
+        },{
+            field: 'author',
+            title: '出题人',
+            align : "center",
+        },{
+            field: 'status',
+            title: '考试状态',
+            align : "center",
+            formatter : function(status) {
+                var statusName = '';
+               if(status == 0){
+            	   statusName = '未开始';
+               }else if(status == 1){
+            	   statusName = '进行中';
+               }else if(status == 2){
+            	   statusName = '已结束';
+               }
+               return statusName;
+            }
+        },{
+            field: 'startTime',
+            title: '开始时间',
+            align : "center",
+        },{
+            field: 'endTime',
+            title: '结束时间',
+            align : "center",
+        },{
+            field : 'operation',
+            title : '操作',
+            align : "center",
+            class:'min-width-100',
+            formatter : function(value,
+                                 row, index) {
+                var edit = editFlag=="true" ? '<a class="table-btn table-btn-info" onclick="editArticle('+row.id+')">编辑</a>' : '';
+                var del = deleteFlag=="true" ? '<a  class="table-btn table-btn-danger" onclick="deleteArticle('+row.id+')">删除</a>' : '';
+                return edit + del;
+            }
+        }];
+    var options={
+        id:"#table",
+        url: '/exam/list',
+        columns:columns,
+        toolbar: '#toolbar',
+        showRefresh: true,
+        queryParams : queryParams
+    }
+    Core.initTable(options);
+
+    /*查询参数*/
+    function queryParams(params) {
+        var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+            limit : params.limit, //页面大小
+            offset : params.offset, //页码
+            keywords : $("#keywords").val(),
+            categoryId : $("#subjectId").val(),
+            status : $("#status").val(),
+        };
+        return temp;
+    }
+
+    /*编辑*/
+    function editArticle(id) {
+        window.location.href="#article/edit?id="+id
+    }
+    /*删除*/
+    function deleteArticle(id) {
+        Core.confirm("确定删除该分类？",function () {
+            Core.postAjax("/article/delete",{"id":id},function (data) {
+                if(data.status==200){
+                    Core.refreshTable("#table");
+                }
+                layer.msg(data.msg);
+            })
+        })
+    }
+    $(function () {
+        /*查询*/
+        $("#btn_query").click(function(){
+            Core.refreshTable("#table");
+        });
+        /*新增*/
+        $("#btn_add").click(function(){
+            window.location.href="#exam/add"
+        });
+        /*批量删除*/
+        $("#btn_batch_delete").click(function(){
+            var checkedRows= Core.selectMutiData("#table");
+            if(checkedRows){
+                Core.confirm("确定删除选中的"+checkedRows.length+"条记录？",function () {
+                    var ids=[];
+                    $.each(checkedRows, function (i, item) {
+                        ids.push(item.id);
+                    })
+                    Core.postAjax("/article/batch/delete", {"ids": ids}, function (data) {
+                        if (data.status == 200) {
+                            Core.refreshTable("#table");
+                        }
+                        layer.msg(data.msg);
+                    })
+                })
+            }
+        });
+    });
+
+</script>

@@ -69,7 +69,7 @@
             </button>
             </shiro:hasPermission>
         </div>
-        <table id="table"></table>
+        <table id="table" style="table-layout:fixed"></table>
     </div>
 </section>
 
@@ -77,15 +77,28 @@
     var editFlag = "[[${@perms.hasPerm('question:edit')}]]";
     var deleteFlag = "[[${@perms.hasPerm('question:delete')}]]";
     var columns = [
-        {checkbox: true },
         {
+            checkbox: true,
+
+        },{
             field: 'title',
             title: '题名',
+            width : '33%',
+            cellStyle:{ 
+           	css:{
+           	"overflow": "hidden", 
+           	"text-overflow": "ellipsis", 
+           	"white-space": "nowrap", 
+           	"word-break": "keep-all",
+        	"white-space": "nowrap",
+           	}
+            },
             //align : "center"
         },{
             field: 'subject',
             title: '课程分类',
             align : "center",
+            width : '12%',
             formatter: function (value) {
                 return value.name;
             }
@@ -93,6 +106,7 @@
             field: 'questionType',
             title: '题目类型',
             align : "center",
+            width : '10%',
             formatter: function (questionType) {
                 var questionTypeName = '';
                 if(questionType == 0){
@@ -110,10 +124,12 @@
             field: 'score',
             title: '分值',
             align : "center",
+            width : '10%',
         },{
             field: 'difficulty',
             title: '难度',
             align : "center",
+            width : '10%',
             formatter : function(difficulty) {
                 var diffHtml = '';
                 if(difficulty == 1){
@@ -133,6 +149,7 @@
             field: 'status',
             title: '状态',
             align : "center",
+            width : '10%',
             formatter : function(value) {
                if(value){
                    return '已考过题目'
@@ -144,7 +161,8 @@
             field : 'operation',
             title : '操作',
             align : "center",
-            class:'min-width-100',
+            width : '15%',
+            //class:'min-width-100',
             formatter : function(value,
                                  row, index) {
                 var edit = editFlag=="true" ? '<button type="button" class="btn btn-primary btn-sm" onclick="editQuestion('+row.id+')"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>' : '';

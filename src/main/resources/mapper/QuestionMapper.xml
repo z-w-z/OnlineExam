@@ -17,7 +17,6 @@
         <result column="score" property="score" jdbcType="INTEGER" />
         <result column="difficulty" property="difficulty" jdbcType="INTEGER" />
         <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
-        <result column="exam_id" property="examId" jdbcType="INTEGER" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="status" property="status" jdbcType="INTEGER" />
